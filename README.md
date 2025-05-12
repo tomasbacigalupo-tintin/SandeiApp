@@ -1,35 +1,119 @@
-# My Project
+# ⚽ SandeiApp
 
-Este repositorio contiene cuatro módulos principales:
+**SandeiApp** es una plataforma full stack diseñada para la gestión de jugadores, formaciones y partidos, combinando backend robusto (NestJS), frontend moderno (React + Vite + Tailwind) e integración con un servicio de IA (FastAPI).
 
-- **backend/**: API construida con NestJS  
-- **frontend/**: SPA con React y TypeScript  
-- **ia-service/**: Servicio de IA con FastAPI (Python)  
-- **infra/**: Definición de infraestructura Docker Compose  
+---
 
-## Prerrequisitos
+## 📁 Estructura del Proyecto
 
-- Docker  
-- Docker Compose (v1.28+)
+```plaintext
+.
+├── backend/              # API REST con NestJS + TypeORM + PostgreSQL
+├── frontend/             # React + Vite + Tailwind + shadcn/ui
+├── ia-service/           # Servicio de IA con FastAPI (Python)
+├── infra/                # Infraestructura con Docker Compose
+└── .github/              # CI/CD (GitHub Actions)
+🚀 Funcionalidades
+🔐 Autenticación
+Registro y login con JWT
 
-## Levantar el entorno
+Protección de rutas (backend + frontend)
 
-1. Copia el archivo de ejemplo de variables de entorno:
-   ```bash
-   cp .env.example .env
-   ```
-2. Ajusta valores en `.env` si es necesario.
-3. Inicia todos los servicios:
-   ```bash
-   cd infra
-   docker-compose up -d
-   ```
-4. Accede a:
-   - NestJS API:  http://localhost:3000  
-   - React App:   http://localhost:3001  
-   - FastAPI:     http://localhost:8000/docs  
-   - RabbitMQ UI: http://localhost:15672  
-5. Para detener el entorno:
-   ```bash
-   docker-compose down
-   ```
+authService maneja tokens en frontend
+
+⚽ Gestión de Jugadores
+CRUD completo desde UI
+
+Campos: name, stats (JSONB), fitness, technical
+
+Backend modularizado (players.module.ts)
+
+Validaciones con class-validator
+
+Integración API → React con axios (autenticado)
+
+🧠 Servicio IA (FastAPI)
+Preparado para procesamiento y análisis inteligente de datos deportivos
+
+🐳 Levantar el proyecto (Docker)
+Desde la raíz del proyecto:
+
+bash
+Copiar
+Editar
+docker-compose up --build
+Incluye:
+
+PostgreSQL
+
+MongoDB
+
+Redis
+
+RabbitMQ
+
+Backend
+
+Frontend
+
+Servicio IA
+
+Verificá variables en .env.example y completá .env en infra/.
+
+🧪 Modo Dev (sin Docker)
+Backend
+bash
+Copiar
+Editar
+cd backend
+npm install
+npm run start:dev
+Frontend
+bash
+Copiar
+Editar
+cd frontend
+npm install
+npm run dev
+🔧 Migraciones con TypeORM
+Generar migración:
+bash
+Copiar
+Editar
+npx typeorm migration:generate src/migrations/CreatePlayersTable -d src/data-source.ts
+Ejecutar migraciones:
+bash
+Copiar
+Editar
+npx typeorm migration:run -d src/data-source.ts
+Verificá que src/data-source.ts esté apuntando a tu base PostgreSQL.
+
+🔄 CI/CD (GitHub Actions)
+Workflows definidos en .github/workflows/:
+
+backend.yml → lint, tests (Jest), build Docker
+
+frontend.yml → lint, build estático
+
+ia-service.yml → lint flake8, tests Pytest, build Docker
+
+🧙‍♂️ Tech Stack
+Frontend: React + Vite + TypeScript + TailwindCSS + shadcn/ui
+
+Backend: NestJS + TypeORM + PostgreSQL
+
+IA Service: FastAPI
+
+Infra: Docker Compose + GitHub Actions
+
+👥 Autores
+Tomás Bacigalupo — GitHub
+
+✅ Próximos pasos
+ Implementar React Query para estado global
+
+ Reemplazar alert() por toasts con shadcn/ui
+
+ CRUD de formaciones y partidos
+
+ Integración completa con IA
