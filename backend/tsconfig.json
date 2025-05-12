@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "target": "es2018",
+    "lib": ["ES2018", "DOM"],
+    "types": ["node","jest"],
+    "allowJs": true,
+    "skipDefaultLibCheck": true,
     "strict": true,
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true
   }
 }
