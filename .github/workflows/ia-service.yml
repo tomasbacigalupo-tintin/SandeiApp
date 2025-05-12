@@ -1,0 +1,33 @@
+name: IA Service CI/CD
+
+on:
+  push:
+    paths:
+      - 'ia-service/**'
+  pull_request:
+    paths:
+      - 'ia-service/**'
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ia-service
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: pip install flake8 pytest
+      - run: flake8 app
+      - run: pytest
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: lint-test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t ia-service ./ia-service
