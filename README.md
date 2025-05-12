@@ -110,7 +110,7 @@ Tecnologías utilizadas:
 
 ---
 
-Autor:
+Autores:
 
-Tomás Bacigalupo  
-GitHub: https://github.com/tomasbacigalupo-tintin
+Tomás Bacigalupo | Joaquín Romero  
+GitHub: https://github.com/tomasbacigalupo-tintin | https://github.com/JoaquinRomeroVillagra
