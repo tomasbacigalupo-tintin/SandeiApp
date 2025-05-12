@@ -3,13 +3,13 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14
-    restart: always
-    env_file:
-      - ../.env
+    container_name: infra-postgres-1
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: OjoPezGato1!
+      POSTGRES_DB: sandeidb
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -58,3 +58,4 @@ volumes:
   pgdata:
   mongodata:
   rabbitmqdata:
+
