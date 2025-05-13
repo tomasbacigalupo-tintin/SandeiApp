@@ -1,19 +1,17 @@
-<<<<<<< HEAD
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('players')
+@Entity('player')
 export class Player {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ nullable: true })
   position!: string;
 
-  @Column({ default: true })
-  isActive!: boolean;
+  @Column('int', { default: 0 })
+  score!: number;
 }
 
-=======

@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm.config';
 import { PlayersModule } from './modules/players/players.module';
-
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -12,5 +12,11 @@ import { PlayersModule } from './modules/players/players.module';
   ],
   controllers: [],
   providers: [],
+})
+@Module({
+  imports: [
+    AuthModule,
+    /* … otros módulos */
+  ],
 })
 export class AppModule {}
