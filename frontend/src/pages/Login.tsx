@@ -1,59 +1,90 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { login } from "@/services/authService"
-import { Link } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
+import axios from "axios"
+import { toast } from "sonner"
 
-function Login() {
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+export const Input: React.FC<InputProps> = (props) => {
+  return (
+    <input
+      {...props}
+      className="border rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  );
+};
+
+export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-
-    if (!email || !password) return setError("Todos los campos son obligatorios")
+    setLoading(true)
 
     try {
-      await login(email, password)
+      const res = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password,
+      })
+
+      localStorage.setItem("token", res.data.token)
+      toast.success("Inicio de sesión exitoso")
       navigate("/dashboard")
     } catch (err) {
-      setError("Credenciales inválidas")
+      toast.error("Credenciales inválidas o error del servidor")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-10 space-y-4">
-      <h1 className="text-xl font-bold">Iniciar sesión</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        className="border p-2 w-full rounded"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        className="border p-2 w-full rounded"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {error && <p className="text-red-500">{error}</p>}
-      <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
-        Ingresar
-      </button>
-
-      <p className="text-sm text-center">
-        ¿No tenés cuenta?{" "}
-        <Link to="/register" className="text-blue-600 underline">
-          Registrate acá
-        </Link>
-      </p>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <Card className="w-full max-w-md shadow-md">
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">Iniciar sesión</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Ingresando..." : "Ingresar"}
+            </Button>
+          </form>
+          <p className="text-sm text-center mt-4">
+            ¿No tenés cuenta?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Registrate acá
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
-export default Login
 
