@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import { FormationsService } from "./formations.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { CreateFormationDto } from "./dto/create-formation.dto";
 
 @Controller("formations")
 export class FormationsController {
@@ -25,7 +26,8 @@ export class FormationsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() body: any) {
+  // Create a new tactical formation
+  create(@Body() body: CreateFormationDto) {
     return this.formationsService.create(body);
   }
 

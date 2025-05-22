@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: Sandei API
+  version: "1.0"
+paths:
+  /ia/suggest_lineup:
+    post:
+      summary: Suggest an optimal lineup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineupRequest'
+      responses:
+        '200':
+          description: Suggested lineup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineupResponse'
+  /matches/{matchId}/ratings:
+    post:
+      summary: Register a player rating
+      parameters:
+        - in: path
+          name: matchId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingRequest'
+      responses:
+        '201':
+          description: Rating created
+components:
+  schemas:
+    LineupRequest:
+      type: object
+      properties:
+        players:
+          type: array
+          items:
+            type: string
+        formation:
+          type: string
+      required:
+        - players
+        - formation
+    LineupResponse:
+      type: object
+      properties:
+        lineup:
+          type: string
+    RatingRequest:
+      type: object
+      properties:
+        playerId:
+          type: string
+        score:
+          type: integer
+        comment:
+          type: string
+      required:
+        - playerId
+        - score

@@ -19,9 +19,33 @@ async def root():
     return {"message": "Hello from FastAPI"}
 
 
+class LineupRequest(BaseModel):
+    players: List[str]
+    formation: str
+
+
 @app.post("/ia/suggest_lineup")
-async def suggest_lineup():
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED)
+async def suggest_lineup(payload: LineupRequest):
+    """Suggest an optimal lineup based on the given formation."""
+    if not openai:
+        raise HTTPException(status_code=500, detail="OpenAI not available")
+    prompt = (
+        f"Suggest a lineup using formation {payload.formation} for players: "
+        + ", ".join(payload.players)
+    )
+    try:
+        resp = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a football tactical assistant."},
+                {"role": "user", "content": prompt},
+            ],
+            timeout=30,
+        )
+        suggestion = resp.choices[0].message.content
+        return {"lineup": suggestion}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
 class Rating(BaseModel):
