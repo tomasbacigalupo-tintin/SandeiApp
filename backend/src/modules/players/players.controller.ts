@@ -26,6 +26,14 @@ export class PlayersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get(":id")
+  async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
+    const player = await this.playersService.findOne(id);
+    if (!player) throw new NotFoundException("Player not found");
+    return player;
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() body: CreatePlayerDto) {
     return this.playersService.create(body);

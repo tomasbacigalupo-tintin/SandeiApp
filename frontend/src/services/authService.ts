@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/auth";
+const API_URL = `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth`;
 
 export async function login(email: string, password: string) {
   const res = await fetch(`${API_URL}/login`, {
@@ -10,7 +10,7 @@ export async function login(email: string, password: string) {
   if (!res.ok) throw new Error("Login failed");
 
   const data = await res.json();
-  localStorage.setItem("token", data.accessToken);
+  localStorage.setItem("token", data.token);
   return data;
 }
 
