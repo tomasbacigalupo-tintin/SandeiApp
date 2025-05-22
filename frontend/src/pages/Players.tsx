@@ -1,25 +1,25 @@
-import { usePlayers } from "@/hooks/usePlayers"
+import {
+  usePlayers,
+  useCreatePlayer,
+  useDeletePlayer,
+} from "@/hooks/usePlayers"
 import { useState } from "react"
-import { createPlayer, deletePlayer } from "@/services/playerService"
-
-async function handleDelete(id: string) {
-  if (!confirm("¿Estás seguro de eliminar este jugador?")) return
-
-  try {
-    await deletePlayer(id)
-    window.location.reload()
-  } catch (err) {
-    alert("Error al eliminar")
-  }
-}
 
 export default function Players() {
-  const { players, loading, error } = usePlayers()
+  const { data: players, isLoading: loading, error } = usePlayers()
+  const createPlayerMutation = useCreatePlayer()
+  const deletePlayerMutation = useDeletePlayer()
+
   const [showModal, setShowModal] = useState(false)
   const [name, setName] = useState("")
   const [stats, setStats] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
   const [editId, setEditId] = useState<number | null>(null)
+
+  const handleDelete = (id: string) => {
+    if (!confirm("¿Estás seguro de eliminar este jugador?")) return
+    deletePlayerMutation.mutate(id)
+  }
 
 
   if (loading) return <p className="text-center mt-10">Cargando jugadores...</p>
@@ -82,9 +82,11 @@ export default function Players() {
               onSubmit={async (e) => {
                 e.preventDefault()
                 try {
-                  await createPlayer({ name, stats: JSON.parse(stats) })
+                  await createPlayerMutation.mutateAsync({
+                    name,
+                    stats: JSON.parse(stats),
+                  })
                   setShowModal(false)
-                  window.location.reload()
                 } catch (err) {
                   alert("Error al crear jugador")
                 }
