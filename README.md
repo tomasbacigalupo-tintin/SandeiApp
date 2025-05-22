@@ -98,6 +98,19 @@ cd ia-service
 pip install -r requirements.txt  
 uvicorn main:app --reload
 
+Pruebas:
+
+Backend:
+
+cd backend
+npm run test
+
+Frontend:
+
+cd frontend
+npm run test
+
+
 ---
 
 Migraciones con TypeORM:
