@@ -52,7 +52,7 @@ Servicios incluidos:
 - Frontend (React)
 - Servicio IA (FastAPI)
 
-Asegurarse de completar los valores en .env a partir del archivo .env.example.
+Asegurarse de copiar `.env.example` a `.env` de forma local y completar los valores necesarios.
 
 ---
 
