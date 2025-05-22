@@ -10,7 +10,7 @@ export async function login(email: string, password: string) {
   if (!res.ok) throw new Error("Login failed");
 
   const data = await res.json();
-  localStorage.setItem("token", data.token);
+  localStorage.setItem("token", data.accessToken);
   return data;
 }
 
