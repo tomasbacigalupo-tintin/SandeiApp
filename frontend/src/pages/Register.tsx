@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { register } from "@/services/authService"
 
 export default function Register() {
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -12,10 +13,11 @@ export default function Register() {
     e.preventDefault()
     setError("")
 
-    if (!email || !password) return setError("Todos los campos son obligatorios")
+    if (!name || !email || !password)
+      return setError("Todos los campos son obligatorios")
 
     try {
-      await register(email, password)
+      await register(name, email, password)
       navigate("/login")
     } catch (err) {
       setError("No se pudo registrar el usuario")
@@ -25,6 +27,13 @@ export default function Register() {
   return (
     <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-10 space-y-4">
       <h1 className="text-xl font-bold">Registrarse</h1>
+      <input
+        type="text"
+        placeholder="Nombre"
+        className="border p-2 w-full rounded"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <input
         type="email"
         placeholder="Email"

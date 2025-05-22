@@ -2,9 +2,15 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { toast } from "sonner"
 
+export interface Player {
+  id: string
+  name: string
+  stats?: any
+}
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
-const fetchPlayers = async () => {
+const fetchPlayers = async (): Promise<Player[]> => {
   const token = localStorage.getItem("token")
   const res = await axios.get(`${API_URL}/players`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -13,7 +19,7 @@ const fetchPlayers = async () => {
 }
 
 export const usePlayers = () => {
-  return useQuery({
+  return useQuery<Player[]>({
     queryKey: ["players"],
     queryFn: fetchPlayers,
   })
