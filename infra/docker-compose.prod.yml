@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: infra-postgres-1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: sandeidb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  mongo:
+    image: mongo:6
+    restart: always
+    env_file:
+      - ../.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - backend-net
+
+  redis:
+    image: redis:7
+    restart: always
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    networks:
+      - backend-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    env_file:
+      - ../.env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    networks:
+      - backend-net
+
+  backend:
+    image: ${REGISTRY_USER}/backend:${TAG:-latest}
+    env_file:
+      - ../backend/.env.example
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_PORT}:3000"
+    networks:
+      - backend-net
+
+  ia-service:
+    image: ${REGISTRY_USER}/ia-service:${TAG:-latest}
+    env_file:
+      - ../ia-service/.env.example
+    depends_on:
+      - mongo
+    ports:
+      - "${FASTAPI_PORT}:8000"
+    networks:
+      - backend-net
+
+  frontend:
+    image: ${REGISTRY_USER}/frontend:${TAG:-latest}
+    env_file:
+      - ../frontend/.env.example
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  mongodata:
+  rabbitmqdata:
+
