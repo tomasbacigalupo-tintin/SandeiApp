@@ -35,7 +35,8 @@ export default function Login() {
         password,
       })
 
-      localStorage.setItem("token", res.data.token)
+      // Store the JWT from `accessToken` returned by the backend
+      localStorage.setItem("token", res.data.accessToken)
       toast.success("Inicio de sesión exitoso")
       navigate("/dashboard")
     } catch (err) {

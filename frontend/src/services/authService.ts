@@ -10,7 +10,8 @@ export async function login(email: string, password: string) {
   if (!res.ok) throw new Error("Login failed");
 
   const data = await res.json();
-  localStorage.setItem("token", data.token);
+  // The backend returns the JWT as `accessToken`
+  localStorage.setItem("token", data.accessToken);
   return data;
 }
 
