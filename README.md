@@ -46,6 +46,14 @@ Desde la raíz del proyecto:
 
 docker-compose up --build
 
+Para desplegar las imágenes ya publicadas en un registro se incluye
+`infra/docker-compose.prod.yml`.  Ajusta la variable `REGISTRY_USER` con tu
+nombre de usuario en el registro y ejecuta:
+
+```bash
+REGISTRY_USER=<usuario> docker-compose -f infra/docker-compose.prod.yml up -d
+```
+
 Servicios incluidos:
 
 - PostgreSQL
@@ -103,11 +111,16 @@ npx typeorm migration:run -d src/data-source.ts
 
 CI/CD:
 
-Los flujos de integración continua están definidos en .github/workflows/
+Los flujos de integración continua están definidos en `.github/workflows/` y
+construyen y publican las imágenes de Docker de cada servicio:
 
-- backend.yml → lint, test y build Docker del backend
-- frontend.yml → lint y build estático del frontend
-- ia-service.yml → lint y test del servicio IA
+- `backend.yml` → lint, test y push del backend
+- `frontend.yml` → lint, build estático y push del frontend
+- `ia-service.yml` → lint, test y push del servicio IA
+
+Para autenticarse en el registro, configura en el repositorio los secretos
+`DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN` con tus credenciales de Docker Hub (o
+registro compatible).
 
 ---
 
