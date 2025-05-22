@@ -6,11 +6,12 @@ import {
   Delete,
   Body,
   Param,
-  BadRequestException,
   NotFoundException,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { PlayersService } from './players.service';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @Controller('players')
 export class PlayersController {
@@ -22,17 +23,14 @@ export class PlayersController {
   }
 
   @Post()
-  create(
-    @Body() body: { name: string; position?: string; score?: number },
-  ) {
-    if (!body.name) throw new BadRequestException('name is required');
+  create(@Body() body: CreatePlayerDto) {
     return this.playersService.create(body);
   }
 
   @Put(':id')
   async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Body() body: { name?: string; position?: string; score?: number },
+    @Body() body: UpdatePlayerDto,
   ) {
     const player = await this.playersService.update(id, body);
     if (!player) throw new NotFoundException('Player not found');
