@@ -30,11 +30,13 @@ Gestión de jugadores:
 - Validaciones con class-validator
 - Hook usePlayers() en frontend con integración a la API
 - Gestión de formaciones con endpoints protegidos
+- Registro de calificaciones por jugador
 
 Servicio de IA:
 
 - Servicio REST en FastAPI preparado para integrar funcionalidades de análisis inteligente
 - Módulo IA en el backend para futuras integraciones
+- Endpoint `/ia/analyze_performance` para evaluar el rendimiento según las calificaciones
 
 ---
 
