@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '20'
       - run: npm ci
-      - run: npx eslint .
+      - run: npm run lint
       - run: npx prettier --check .
 
   test:
