@@ -18,6 +18,10 @@ export class PlayersService {
     return this.playersRepo.find();
   }
 
+  findOne(id: string) {
+    return this.playersRepo.findOne({ where: { id } });
+  }
+
   async update(id: string, data: Partial<Player>) {
     await this.playersRepo.update(id, data);
     return this.playersRepo.findOne({ where: { id } });

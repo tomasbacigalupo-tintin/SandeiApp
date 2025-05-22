@@ -20,7 +20,7 @@ export class AuthService {
     const user = this.usersRepo.create({ name, email, passwordHash, role: UserRole.USER });
     await this.usersRepo.save(user);
     const payload = { sub: user.id, email: user.email, role: user.role };
-    return { accessToken: this.jwtService.sign(payload) };
+    return { token: this.jwtService.sign(payload) };
   }
 
   async login(email: string, password: string) {
@@ -29,6 +29,6 @@ export class AuthService {
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) throw new UnauthorizedException('Credenciales inválidas');
     const payload = { sub: user.id, email: user.email, role: user.role };
-    return { accessToken: this.jwtService.sign(payload) };
+    return { token: this.jwtService.sign(payload) };
   }
 }

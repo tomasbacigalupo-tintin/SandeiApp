@@ -58,6 +58,9 @@ Servicios incluidos:
 
 Asegurarse de copiar `.env.example` a `.env` de forma local y completar los valores necesarios.
 
+El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
+Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
+
 ---
 
 Uso sin Docker (modo desarrollo):
