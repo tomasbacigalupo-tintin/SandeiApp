@@ -6,7 +6,7 @@ services:
     container_name: infra-postgres-1
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: OjoPezGato1!
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: sandeidb
     ports:
       - "5432:5432"
