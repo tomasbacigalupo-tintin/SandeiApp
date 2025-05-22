@@ -50,6 +50,39 @@ services:
     networks:
       - backend-net
 
+  backend:
+    build: ../backend
+    env_file:
+      - ../backend/.env.example
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_PORT}:3000"
+    networks:
+      - backend-net
+
+  ia-service:
+    build: ../ia-service
+    env_file:
+      - ../ia-service/.env.example
+    depends_on:
+      - mongo
+    ports:
+      - "${FASTAPI_PORT}:8000"
+    networks:
+      - backend-net
+
+  frontend:
+    build: ../frontend
+    env_file:
+      - ../frontend/.env.example
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+    networks:
+      - backend-net
+
 networks:
   backend-net:
     driver: bridge

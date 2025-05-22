@@ -56,7 +56,11 @@ Servicios incluidos:
 - Frontend (React)
 - Servicio IA (FastAPI)
 
-Asegurarse de copiar `.env.example` a `.env` de forma local y completar los valores necesarios.
+El archivo `infra/swagger.yaml` describe los endpoints principales como
+`/ia/suggest_lineup` y el registro de calificaciones.
+
+Asegurarse de copiar `.env.example` a `.env` en cada servicio (`backend/`,
+`frontend/` e `ia-service/`) y completar los valores necesarios.
 
 El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
 Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
