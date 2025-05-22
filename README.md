@@ -70,6 +70,9 @@ El archivo `infra/swagger.yaml` describe los endpoints principales como
 Asegurarse de copiar `.env.example` a `.env` en cada servicio (`backend/`,
 `frontend/` e `ia-service/`) y completar los valores necesarios.
 
+La conexión a la base de datos se configura mediante la variable
+`DATABASE_URL` incluida en dichos archivos.
+
 El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
 Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
 
@@ -98,6 +101,9 @@ uvicorn main:app --reload
 ---
 
 Migraciones con TypeORM:
+
+Las migraciones utilizan la URL definida en `DATABASE_URL` para conectarse a
+la base de datos.
 
 Generar migración:
 
