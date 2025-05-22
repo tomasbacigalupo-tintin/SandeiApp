@@ -35,7 +35,7 @@ export default function Login() {
         password,
       })
 
-      localStorage.setItem("token", res.data.token)
+      localStorage.setItem("token", res.data.accessToken)
       toast.success("Inicio de sesión exitoso")
       navigate("/dashboard")
     } catch (err) {

@@ -18,7 +18,7 @@ export async function createPlayer(data: { name: string; stats: object }) {
 
   return res.json()
 }
-export async function deletePlayer(id: number) {
+export async function deletePlayer(id: string) {
   const token = localStorage.getItem("token")
   const res = await fetch(`${API_URL}/players/${id}`, {
     method: "DELETE",
@@ -31,7 +31,7 @@ export async function deletePlayer(id: number) {
     throw new Error("Error al eliminar el jugador")
   }
 }
-export async function updatePlayer(id: number, data: { name: string; stats: object }) {
+export async function updatePlayer(id: string, data: { name: string; stats: object }) {
   const token = localStorage.getItem("token")
   const res = await fetch(`${API_URL}/players/${id}`, {
     method: "PUT",

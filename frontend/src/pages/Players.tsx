@@ -2,7 +2,7 @@ import { usePlayers } from "@/hooks/usePlayers"
 import { useState } from "react"
 import { createPlayer, deletePlayer } from "@/services/playerService"
 
-async function handleDelete(id: number) {
+async function handleDelete(id: string) {
   if (!confirm("¿Estás seguro de eliminar este jugador?")) return
 
   try {
@@ -45,31 +45,31 @@ export default function Players() {
         </thead>
         <tbody>
           {players.map((player) => (
-  <tr key={player.id} className="border-t">
-    <td className="p-2">
-      {player.name}
-      <button
-        onClick={() => {
-          setName(player.name)
-          setStats(JSON.stringify(player.stats, null, 2))
-          setEditId(player.id)
-          setIsEditMode(true)
-          setShowModal(true)
-        }}
-        className="ml-2 text-blue-600 underline text-sm"
-      >
-        Editar
-      </button>
-      <button
-        onClick={() => handleDelete(player.id)}
-        className="ml-2 text-red-600 underline text-sm"
-      >
-        Eliminar
-      </button>
-    </td>
-    <td className="p-2">{JSON.stringify(player.stats)}</td>
-  </tr>
-))}
+            <tr key={player.id} className="border-t">
+              <td className="p-2">
+                {player.name}
+                <button
+                  onClick={() => {
+                    setName(player.name)
+                    setStats(JSON.stringify(player.stats, null, 2))
+                    setEditId(player.id)
+                    setIsEditMode(true)
+                    setShowModal(true)
+                  }}
+                  className="ml-2 text-blue-600 underline text-sm"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(player.id)}
+                  className="ml-2 text-red-600 underline text-sm"
+                >
+                  Eliminar
+                </button>
+              </td>
+              <td className="p-2">{JSON.stringify(player.stats)}</td>
+            </tr>
+          ))}
 
         </tbody>
       </table>
