@@ -6,11 +6,11 @@ SandeiApp es una aplicación full stack para la gestión de jugadores, formacion
 
 Estructura del proyecto:
 
-- backend/          → API REST con NestJS + TypeORM  
-- frontend/         → Interfaz de usuario en React + Vite + Tailwind  
-- ia-service/       → Servicio de IA con FastAPI  
-- infra/            → Infraestructura y orquestación con Docker Compose  
-- .github/          → Workflows de CI/CD con GitHub Actions  
+- backend/ → API REST con NestJS + TypeORM
+- frontend/ → Interfaz de usuario en React + Vite + Tailwind
+- ia-service/ → Servicio de IA con FastAPI
+- infra/ → Infraestructura y orquestación con Docker Compose
+- .github/ → Workflows de CI/CD con GitHub Actions
 - README.md
 
 ---
@@ -29,10 +29,12 @@ Gestión de jugadores:
 - Campos: id, name, stats (JSONB), fitness, technical
 - Validaciones con class-validator
 - Hook usePlayers() en frontend con integración a la API
+- Gestión de formaciones con endpoints protegidos
 
 Servicio de IA:
 
 - Servicio REST en FastAPI preparado para integrar funcionalidades de análisis inteligente
+- Módulo IA en el backend para futuras integraciones
 
 ---
 
