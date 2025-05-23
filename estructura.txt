@@ -1,98 +1,14 @@
 .
-├── .env
-├── .env.example
-├── .github
-│   └── workflows
-│       ├── backend.yml
-│       ├── frontend.yml
-│       └── ia-service.yml
 ├── README.md
-├── backend
-│   ├── .gitignore
-│   ├── dist
-│   │   ├── app.module.js
-│   │   ├── main.js
-│   │   └── modules
-│   │       └── players
-│   │           ├── player.entity.js
-│   │           ├── players.controller.js
-│   │           ├── players.controller.spec.js
-│   │           ├── players.module.js
-│   │           ├── players.service.js
-│   │           └── players.service.spec.js
-│   ├── docker
-│   ├── notepad
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── src
-│   │   ├── app.module.ts
-│   │   ├── check-env.ts
-│   │   ├── config
-│   │   │   └── typeorm.config.ts
-│   │   ├── data-source.ts
-│   │   ├── main.ts
-│   │   ├── migrations
-│   │   │   └── 1747088295096-CreatePlayersTable.ts
-│   │   └── modules
-│   │       └── players
-│   │           ├── player.entity.ts
-│   │           ├── players.controller.ts
-│   │           ├── players.module.ts
-│   │           └── players.service.ts
-│   ├── test
-│   ├── tsconfig.build.json
-│   └── tsconfig.json
-├── estructura.txt
-├── frontend
-│   ├── .gitignore
-│   ├── README.md
-│   ├── components.json
-│   ├── eslint.config.js
-│   ├── index.html
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── public
-│   │   └── vite.svg
-│   ├── src
-│   │   ├── App.css
-│   │   ├── App.tsx
-│   │   ├── assets
-│   │   │   └── react.svg
-│   │   ├── components
-│   │   │   ├── PrivateRoute.tsx
-│   │   │   └── ui
-│   │   │       └── button.tsx
-│   │   ├── hooks
-│   │   │   └── usePlayers.ts
-│   │   ├── index.css
-│   │   ├── lib
-│   │   │   └── utils.ts
-│   │   ├── main.tsx
-│   │   ├── pages
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── Login.tsx
-│   │   │   ├── Players.tsx
-│   │   │   └── Register.tsx
-│   │   ├── services
-│   │   │   ├── authService.ts
-│   │   │   └── playerService.ts
-│   │   ├── styles
-│   │   └── vite-env.d.ts
-│   ├── tailwind.config.js
-│   ├── tsconfig.app.json
-│   ├── tsconfig.json
-│   ├── tsconfig.node.json
-│   └── vite.config.ts
-├── ia-service
-│   ├── Dockerfile
-│   ├── app
-│   │   └── main.py
-│   └── requirements.txt
-└── infra
-    ├── .env
-    ├── docker
+├── backend/
+│   ├── Dockerfile
+│   └── src/
+├── frontend/
+│   ├── Dockerfile
+│   └── src/
+├── ia-service/
+│   ├── Dockerfile
+│   └── app/
+└── infra/
     ├── docker-compose.yml
-    └── notepad
-
-27 directories, 69 files
+    └── docker-compose.prod.yml
