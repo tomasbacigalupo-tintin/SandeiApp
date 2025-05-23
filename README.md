@@ -1,6 +1,6 @@
-SandeiApp
+# SandeiApp v1.0
 
-SandeiApp es una aplicación full stack para la gestión de jugadores, formaciones tácticas y partidos. El sistema combina un backend en NestJS con una base de datos PostgreSQL, un frontend moderno basado en React y Vite, y un servicio de inteligencia artificial desarrollado con FastAPI.
+SandeiApp es una aplicación full stack para la gestión de jugadores, formaciones tácticas y partidos. El sistema combina un backend en NestJS con una base de datos PostgreSQL, un frontend moderno basado en React y Vite, y un servicio de inteligencia artificial desarrollado con FastAPI. **Esta versión está lista para su presentación final al Product Owner.**
 
 ---
 
