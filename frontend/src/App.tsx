@@ -6,6 +6,7 @@ import PrivateRoute from "@/components/PrivateRoute"
 import Players from "@/pages/Players"
 import { Toaster } from "sonner"
 import { Navigate } from "react-router-dom"
+import BottomNav from "@/components/BottomNav"
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
+        <BottomNav />
       </BrowserRouter>
       <Toaster />
     </>

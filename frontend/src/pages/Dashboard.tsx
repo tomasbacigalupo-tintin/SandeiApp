@@ -1,5 +1,6 @@
 import { logout } from "@/services/authService"
 import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -10,7 +11,11 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-6 space-y-4">
+    <motion.div
+      className="p-6 space-y-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
       <h1 className="text-2xl font-bold">Bienvenido al Dashboard</h1>
       <p>Estás autenticado correctamente.</p>
       <button
@@ -19,6 +24,6 @@ export default function Dashboard() {
       >
         Cerrar sesión
       </button>
-    </div>
+    </motion.div>
   )
 }
