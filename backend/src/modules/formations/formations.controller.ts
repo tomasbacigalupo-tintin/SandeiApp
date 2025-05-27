@@ -13,6 +13,7 @@ import {
 import { FormationsService } from "./formations.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CreateFormationDto } from "./dto/create-formation.dto";
+import { UpdateFormationDto } from "./dto/update-formation.dto";
 
 @Controller("formations")
 export class FormationsController {
@@ -35,7 +36,7 @@ export class FormationsController {
   @Put(":id")
   async update(
     @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
-    @Body() body: any,
+    @Body() body: UpdateFormationDto,
   ) {
     const formation = await this.formationsService.update(id, body);
     if (!formation) throw new NotFoundException("Formation not found");

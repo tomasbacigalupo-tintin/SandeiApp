@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Rating } from './rating.entity';
@@ -18,6 +22,15 @@ export class RatingsService {
     if (!match) throw new NotFoundException('Match not found');
     const player = await this.playersRepo.findOne({ where: { id: playerId } });
     if (!player) throw new NotFoundException('Player not found');
+    if (score < 0 || score > 10) {
+      throw new BadRequestException('Score must be between 0 and 10');
+    }
+    const existing = await this.ratingsRepo.findOne({
+      where: { match: { id: matchId }, player: { id: playerId } },
+    });
+    if (existing) {
+      throw new BadRequestException('Rating already exists for this player and match');
+    }
     const rating = this.ratingsRepo.create({ score, comment, match, player });
     return this.ratingsRepo.save(rating);
   }
