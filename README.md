@@ -79,6 +79,25 @@ La conexión a la base de datos se configura mediante la variable
 El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
 Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
 
+### Variables de entorno
+
+El archivo `.env.example` ubicado en la raíz define las credenciales y puertos
+que utiliza Docker Compose. Copia este archivo a `.env` y ajusta los valores
+según tu entorno. Las principales variables son:
+
+- `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`: credenciales de PostgreSQL.
+- `MONGO_USER`, `MONGO_PASSWORD`: credenciales de MongoDB.
+- `REDIS_PASSWORD`: contraseña utilizada por Redis.
+- `RABBITMQ_USER`, `RABBITMQ_PASSWORD`: usuario y contraseña de RabbitMQ.
+- `BACKEND_PORT`: puerto expuesto por el servicio backend.
+- `FASTAPI_PORT`: puerto del servicio de IA.
+- `REGISTRY_USER` y `TAG`: usados por `docker-compose.prod.yml` para indicar el
+  repositorio y la etiqueta de las imágenes.
+
+Cada servicio cuenta además con su propio `.env.example` donde se incluyen
+variables específicas como `JWT_SECRET`, `IA_SERVICE_URL`, `VITE_API_URL` u
+`OPENAI_API_KEY`.
+
 ---
 
 Uso sin Docker (modo desarrollo):
