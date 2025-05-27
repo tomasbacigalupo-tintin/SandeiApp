@@ -1,12 +1,10 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
+import api from "../services/api"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -30,7 +28,7 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, {
+      const res = await api.post("/auth/login", {
         email,
         password,
       })

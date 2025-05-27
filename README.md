@@ -69,6 +69,9 @@ El archivo `infra/swagger.yaml` describe los endpoints principales como
 
 Asegurarse de copiar `.env.example` a `.env` en cada servicio (`backend/`,
 `frontend/` e `ia-service/`) y completar los valores necesarios.
+Para levantar la infraestructura con Docker Compose también se incluye un
+archivo `.env.example` en la raíz del proyecto. Cópialo a `.env` y ajusta las
+variables según tu entorno.
 
 La conexión a la base de datos se configura mediante la variable
 `DATABASE_URL` incluida en dichos archivos.

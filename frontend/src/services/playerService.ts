@@ -1,66 +1,19 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
-
+import api from "./api"
 
 export async function createPlayer(data: { name: string; stats: object }) {
-  const token = localStorage.getItem("token")
-  const res = await fetch(`${API_URL}/players`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  })
-
-  if (!res.ok) {
-    throw new Error("Error al crear el jugador")
-  }
-
-  return res.json()
+  const res = await api.post("/players", data)
+  return res.data
 }
 export async function deletePlayer(id: string) {
-  const token = localStorage.getItem("token")
-  const res = await fetch(`${API_URL}/players/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  if (!res.ok) {
-    throw new Error("Error al eliminar el jugador")
-  }
+  await api.delete(`/players/${id}`)
 }
 export async function updatePlayer(id: string, data: { name: string; stats: object }) {
-  const token = localStorage.getItem("token")
-  const res = await fetch(`${API_URL}/players/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  })
-
-  if (!res.ok) {
-    throw new Error("Error al actualizar el jugador")
-  }
-
-  return res.json()
+  const res = await api.put(`/players/${id}`, data)
+  return res.data
 }
 export async function getPlayers() {
-  const token = localStorage.getItem("token")
-  const res = await fetch(`${API_URL}/players`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  if (!res.ok) {
-    throw new Error("Error al obtener jugadores")
-  }
-
-  return res.json()
+  const res = await api.get("/players")
+  return res.data
 }
 
 

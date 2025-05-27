@@ -18,7 +18,7 @@ describe('RatingsService', () => {
         RatingsService,
         {
           provide: getRepositoryToken(Rating),
-          useValue: { create: jest.fn(), save: jest.fn() },
+          useValue: { create: jest.fn(), save: jest.fn(), findOne: jest.fn() },
         },
         {
           provide: getRepositoryToken(Match),
@@ -49,5 +49,18 @@ describe('RatingsService', () => {
     expect(ratingsRepo.create).toHaveBeenCalledWith({ score: 8, comment: 'good', match, player });
     expect(ratingsRepo.save).toHaveBeenCalled();
     expect(result).toEqual({ id: 'r1' });
+  });
+
+  it('throws if score out of range', async () => {
+    await expect(service.create('m1', 'p1', 11)).rejects.toThrow();
+  });
+
+  it('throws on duplicate rating', async () => {
+    const match = { id: 'm1' } as Match;
+    const player = { id: 'p1' } as Player;
+    (matchesRepo.findOne as jest.Mock).mockResolvedValue(match);
+    (playersRepo.findOne as jest.Mock).mockResolvedValue(player);
+    (ratingsRepo.findOne as jest.Mock).mockResolvedValue({ id: 'r1' });
+    await expect(service.create('m1', 'p1', 5)).rejects.toThrow();
   });
 });

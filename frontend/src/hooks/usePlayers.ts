@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
+import api from "../services/api"
 import { toast } from "sonner"
 
 export interface Player {
@@ -8,13 +8,8 @@ export interface Player {
   stats?: any
 }
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
-
 const fetchPlayers = async (): Promise<Player[]> => {
-  const token = localStorage.getItem("token")
-  const res = await axios.get(`${API_URL}/players`, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
+  const res = await api.get("/players")
   return res.data
 }
 
@@ -29,10 +24,7 @@ export const useCreatePlayer = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (playerData: any) => {
-      const token = localStorage.getItem("token")
-      const res = await axios.post(`${API_URL}/players`, playerData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const res = await api.post("/players", playerData)
       return res.data
     },
     onSuccess: () => {
@@ -49,10 +41,7 @@ export const useUpdatePlayer = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: any }) => {
-      const token = localStorage.getItem("token")
-      const res = await axios.put(`${API_URL}/players/${id}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const res = await api.put(`/players/${id}`, data)
       return res.data
     },
     onSuccess: () => {
@@ -69,10 +58,7 @@ export const useDeletePlayer = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: string) => {
-      const token = localStorage.getItem("token")
-      await axios.delete(`${API_URL}/players/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      await api.delete(`/players/${id}`)
     },
     onSuccess: () => {
       toast.success("Jugador eliminado")
