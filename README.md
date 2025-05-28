@@ -4,6 +4,11 @@ SandeiApp es una aplicación full stack para la gestión de jugadores, formacion
 
 ---
 
+## Requisitos
+
+- Node.js 20 o superior
+
+
 Estructura del proyecto:
 
 - backend/ → API REST con NestJS + TypeORM
