@@ -13,6 +13,7 @@ import {
 import { MatchesService } from "./matches.service";
 import { CreateMatchDto } from "./dto/create-match.dto";
 import { UpdateMatchDto } from "./dto/update-match.dto";
+import { Match } from "./match.entity";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("matches")
@@ -36,7 +37,11 @@ export class MatchesController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() body: CreateMatchDto) {
-    return this.matchesService.create(body);
+    const data = {
+      ...body,
+      date: new Date(body.date),
+    } as Partial<Match>;
+    return this.matchesService.create(data);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -45,7 +50,10 @@ export class MatchesController {
     @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
     @Body() body: UpdateMatchDto,
   ) {
-    const match = await this.matchesService.update(id, body);
+    const data: Partial<Match> = body.date
+      ? { ...body, date: new Date(body.date) }
+      : body;
+    const match = await this.matchesService.update(id, data);
     if (!match) throw new NotFoundException("Match not found");
     return match;
   }
