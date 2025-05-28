@@ -6,7 +6,6 @@ import {
   Delete,
   Body,
   Param,
-  NotFoundException,
   ParseUUIDPipe,
   UseGuards,
 } from "@nestjs/common";
@@ -28,9 +27,7 @@ export class PlayersController {
   @UseGuards(JwtAuthGuard)
   @Get(":id")
   async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    const player = await this.playersService.findOne(id);
-    if (!player) throw new NotFoundException("Player not found");
-    return player;
+    return this.playersService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -45,16 +42,13 @@ export class PlayersController {
     @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
     @Body() body: UpdatePlayerDto,
   ) {
-    const player = await this.playersService.update(id, body);
-    if (!player) throw new NotFoundException("Player not found");
-    return player;
+    return this.playersService.update(id, body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async remove(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    const deleted = await this.playersService.remove(id);
-    if (!deleted) throw new NotFoundException("Player not found");
+    await this.playersService.remove(id);
     return { success: true };
   }
 }

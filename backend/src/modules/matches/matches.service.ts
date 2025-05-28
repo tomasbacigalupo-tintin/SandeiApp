@@ -19,19 +19,17 @@ export class MatchesService {
   }
 
   findById(id: string) {
-    return this.matchesRepo.findOne({ where: { id } });
+    return this.matchesRepo.findOneByOrFail({ id });
   }
 
   async update(id: string, data: Partial<Match>) {
     await this.matchesRepo.update(id, data);
-    return this.matchesRepo.findOne({ where: { id } });
+    return this.matchesRepo.findOneByOrFail({ id });
   }
 
   async remove(id: string) {
-    const match = await this.matchesRepo.findOne({ where: { id } });
-    if (match) {
-      await this.matchesRepo.remove(match);
-    }
+    const match = await this.matchesRepo.findOneByOrFail({ id });
+    await this.matchesRepo.remove(match);
     return match;
   }
 }
