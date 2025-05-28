@@ -1,16 +1,44 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import List, Optional
 import os
-
 try:
-    import openai
-except Exception:  # pragma: no cover - openai may not be installed
-    openai = None
+    import httpx
+except Exception:  # pragma: no cover - httpx may not be installed
+    httpx = None
+import asyncio
+from contextlib import asynccontextmanager
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if openai and OPENAI_API_KEY:
-    openai.api_key = OPENAI_API_KEY
+
+
+async def fetch_chat_completion(
+    messages: List[dict],
+    client: httpx.AsyncClient,
+    max_retries: int = 3,
+    backoff: float = 1.0,
+) -> str:
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
+    payload = {"model": "gpt-3.5-turbo", "messages": messages}
+    for attempt in range(max_retries):
+        try:
+            response = await client.post(url, json=payload, headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            return data["choices"][0]["message"]["content"]
+        except Exception:
+            if attempt == max_retries - 1:
+                raise
+            await asyncio.sleep(backoff)
+            backoff *= 2
+
+@asynccontextmanager
+async def get_http_client():
+    if not httpx:
+        raise HTTPException(status_code=500, detail="httpx not available")
+    async with httpx.AsyncClient() as client:
+        yield client
 
 app = FastAPI()
 
@@ -25,24 +53,22 @@ class LineupRequest(BaseModel):
 
 
 @app.post("/ia/suggest_lineup")
-async def suggest_lineup(payload: LineupRequest):
+async def suggest_lineup(
+    payload: LineupRequest, client: httpx.AsyncClient = Depends(get_http_client)
+):
     """Suggest an optimal lineup based on the given formation."""
-    if not openai:
+    if not OPENAI_API_KEY:
         raise HTTPException(status_code=500, detail="OpenAI not available")
     prompt = (
         f"Suggest a lineup using formation {payload.formation} for players: "
         + ", ".join(payload.players)
     )
+    messages = [
+        {"role": "system", "content": "You are a football tactical assistant."},
+        {"role": "user", "content": prompt},
+    ]
     try:
-        resp = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a football tactical assistant."},
-                {"role": "user", "content": prompt},
-            ],
-            timeout=30,
-        )
-        suggestion = resp.choices[0].message.content
+        suggestion = await fetch_chat_completion(messages, client)
         return {"lineup": suggestion}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
@@ -59,24 +85,22 @@ class PerformanceRequest(BaseModel):
 
 
 @app.post("/ia/analyze_performance")
-async def analyze_performance(payload: PerformanceRequest):
-    if not openai:
+async def analyze_performance(
+    payload: PerformanceRequest, client: httpx.AsyncClient = Depends(get_http_client)
+):
+    if not OPENAI_API_KEY:
         raise HTTPException(status_code=500, detail="OpenAI not available")
 
     prompt = "\n".join(
         [f'{r.player}: {r.score} - {r.comment or ""}' for r in payload.ratings]
     )
 
+    messages = [
+        {"role": "system", "content": "Analyze team performance"},
+        {"role": "user", "content": prompt},
+    ]
     try:
-        resp = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "Analyze team performance"},
-                {"role": "user", "content": prompt},
-            ],
-            timeout=30,
-        )
-        analysis = resp.choices[0].message.content
+        analysis = await fetch_chat_completion(messages, client)
         return {"analysis": analysis}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
