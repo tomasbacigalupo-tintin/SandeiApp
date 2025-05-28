@@ -1,5 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
+export enum PlayerPosition {
+  GOALKEEPER = 'goalkeeper',
+  DEFENDER = 'defender',
+  MIDFIELDER = 'midfielder',
+  FORWARD = 'forward',
+}
+
 @Entity('players')
 export class Player {
   @PrimaryGeneratedColumn('uuid')
@@ -8,8 +15,8 @@ export class Player {
   @Column()
   name!: string;
 
-  @Column({ nullable: true })
-  position!: string;
+  @Column({ type: 'enum', enum: PlayerPosition, nullable: true })
+  position!: PlayerPosition;
 
   @Column('int', { default: 0 })
   score!: number;

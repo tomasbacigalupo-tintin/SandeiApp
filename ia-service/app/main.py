@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, conint, conlist
 from typing import List, Optional
 import os
 
@@ -20,7 +20,7 @@ async def root():
 
 
 class LineupRequest(BaseModel):
-    players: List[str]
+    players: conlist(str, min_items=1, max_items=11)
     formation: str
 
 
@@ -50,12 +50,12 @@ async def suggest_lineup(payload: LineupRequest):
 
 class Rating(BaseModel):
     player: str
-    score: int
+    score: conint(ge=0, le=10)
     comment: Optional[str] = None
 
 
 class PerformanceRequest(BaseModel):
-    ratings: List[Rating]
+    ratings: conlist(Rating, min_items=1)
 
 
 @app.post("/ia/analyze_performance")

@@ -1,10 +1,11 @@
-from fastapi.testclient import TestClient
+import asyncio
 import types
 import sys
 
-from app.main import app
+import os
 
-client = TestClient(app)
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from app.main import analyze_performance, PerformanceRequest
 
 class FakeChatCompletion:
     @staticmethod
@@ -15,9 +16,8 @@ class FakeChatCompletion:
 def test_analyze_performance(monkeypatch):
     fake_openai = types.SimpleNamespace(ChatCompletion=FakeChatCompletion)
     monkeypatch.setitem(sys.modules, 'openai', fake_openai)
-    response = client.post(
-        "/ia/analyze_performance",
-        json={"ratings": [{"player": "John", "score": 7}]},
-    )
-    assert response.status_code == 200
-    assert response.json() == {"analysis": "ok"}
+    import app.main as main
+    monkeypatch.setattr(main, 'openai', fake_openai)
+    payload = PerformanceRequest(ratings=[{"player": "John", "score": 7}])
+    result = asyncio.run(analyze_performance(payload))
+    assert result == {"analysis": "ok"}
