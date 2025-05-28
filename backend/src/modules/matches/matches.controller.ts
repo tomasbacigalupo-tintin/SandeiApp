@@ -34,11 +34,7 @@ export class MatchesController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() body: CreateMatchDto) {
-    const data = {
-      ...body,
-      date: new Date(body.date),
-    } as Partial<Match>;
-    return this.matchesService.create(data);
+    return this.matchesService.create(body);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -47,10 +43,7 @@ export class MatchesController {
     @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
     @Body() body: UpdateMatchDto,
   ) {
-    const data: Partial<Match> = body.date
-      ? { ...body, date: new Date(body.date) }
-      : body;
-    return this.matchesService.update(id, data);
+    return this.matchesService.update(id, body);
   }
 
   @UseGuards(JwtAuthGuard)

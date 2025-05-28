@@ -1,6 +1,8 @@
 import { IsDateString } from "class-validator";
+import { Transform, TransformFnParams } from "class-transformer";
 
 export class CreateMatchDto {
   @IsDateString()
-  date!: string;
+  @Transform(({ value }: TransformFnParams) => new Date(value))
+  date!: Date;
 }
