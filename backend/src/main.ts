@@ -6,7 +6,7 @@ import { env } from './config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new EntityNotFoundFilter());
   await app.listen(env.backendPort);
   console.log(`🚀 Backend listening on port ${env.backendPort}`);
