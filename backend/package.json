@@ -21,6 +21,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@nestjs/common": "^11.1.0",
     "@nestjs/config": "^4.0.2",
