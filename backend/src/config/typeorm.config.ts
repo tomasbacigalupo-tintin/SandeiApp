@@ -1,11 +1,9 @@
-import * as dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
-dotenv.config();
+import { env } from './env';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url: env.databaseUrl,
   autoLoadEntities: true,
   synchronize: false,
   migrationsRun: true,

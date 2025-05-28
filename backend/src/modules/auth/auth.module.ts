@@ -6,19 +6,14 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { User } from './user.entity';
 import { JwtStrategy } from './jwt.strategy';
+import { env } from '../../config/env';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     PassportModule,
     JwtModule.register({
-      secret: (() => {
-        const jwtSecret = process.env.JWT_SECRET;
-        if (!jwtSecret) {
-          throw new Error('JWT_SECRET environment variable is required');
-        }
-        return jwtSecret;
-      })(),
+      secret: env.jwtSecret,
       signOptions: { expiresIn: '1h' },
     }),
   ],
