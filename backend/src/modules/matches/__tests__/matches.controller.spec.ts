@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotFoundException } from '@nestjs/common';
+import { EntityNotFoundError } from 'typeorm';
+import { Match } from '../match.entity';
 import { MatchesController } from '../matches.controller';
 import { MatchesService } from '../matches.service';
 
@@ -28,9 +29,9 @@ describe('MatchesController', () => {
     service = module.get<MatchesService>(MatchesService);
   });
 
-  it('throws NotFoundException when match not found', async () => {
-    (service.findById as jest.Mock).mockResolvedValue(null);
-    await expect(controller.findOne('x')).rejects.toBeInstanceOf(NotFoundException);
+  it('throws EntityNotFoundError when match not found', async () => {
+    (service.findById as jest.Mock).mockRejectedValue(new EntityNotFoundError(Match, 'test'));
+    await expect(controller.findOne('x')).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 
   it('calls service to create a match', () => {

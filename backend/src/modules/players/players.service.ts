@@ -19,19 +19,17 @@ export class PlayersService {
   }
 
   findOne(id: string) {
-    return this.playersRepo.findOne({ where: { id } });
+    return this.playersRepo.findOneByOrFail({ id });
   }
 
   async update(id: string, data: Partial<Player>) {
     await this.playersRepo.update(id, data);
-    return this.playersRepo.findOne({ where: { id } });
+    return this.playersRepo.findOneByOrFail({ id });
   }
 
   async remove(id: string) {
-    const player = await this.playersRepo.findOne({ where: { id } });
-    if (player) {
-      await this.playersRepo.remove(player);
-    }
+    const player = await this.playersRepo.findOneByOrFail({ id });
+    await this.playersRepo.remove(player);
     return player;
   }
 }

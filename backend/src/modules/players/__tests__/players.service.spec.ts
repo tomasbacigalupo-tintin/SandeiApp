@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, EntityNotFoundError } from 'typeorm';
 import { PlayersService } from '../players.service';
 import { Player } from '../player.entity';
 
@@ -19,6 +19,7 @@ describe('PlayersService', () => {
             save: jest.fn(),
             find: jest.fn(),
             findOne: jest.fn(),
+            findOneByOrFail: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
           },
@@ -43,14 +44,13 @@ describe('PlayersService', () => {
 
   it('removes a player if found', async () => {
     const player = { id: '1' } as Player;
-    (repo.findOne as jest.Mock).mockResolvedValue(player);
+    (repo.findOneByOrFail as jest.Mock).mockResolvedValue(player);
     await service.remove('1');
     expect(repo.remove).toHaveBeenCalledWith(player);
   });
 
-  it('returns null when removing missing player', async () => {
-    (repo.findOne as jest.Mock).mockResolvedValue(null);
-    const result = await service.remove('nope');
-    expect(result).toBeNull();
+  it('throws EntityNotFoundError when removing missing player', async () => {
+    (repo.findOneByOrFail as jest.Mock).mockRejectedValue(new EntityNotFoundError(Player, 'test'));
+    await expect(service.remove('nope')).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 });

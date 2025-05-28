@@ -7,7 +7,6 @@ import {
   Param,
   Body,
   ParseUUIDPipe,
-  NotFoundException,
   UseGuards,
 } from "@nestjs/common";
 import { MatchesService } from "./matches.service";
@@ -29,9 +28,7 @@ export class MatchesController {
   @UseGuards(JwtAuthGuard)
   @Get(":id")
   async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    const match = await this.matchesService.findById(id);
-    if (!match) throw new NotFoundException("Match not found");
-    return match;
+    return this.matchesService.findById(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -53,16 +50,13 @@ export class MatchesController {
     const data: Partial<Match> = body.date
       ? { ...body, date: new Date(body.date) }
       : body;
-    const match = await this.matchesService.update(id, data);
-    if (!match) throw new NotFoundException("Match not found");
-    return match;
+    return this.matchesService.update(id, data);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
   async remove(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    const match = await this.matchesService.remove(id);
-    if (!match) throw new NotFoundException("Match not found");
+    await this.matchesService.remove(id);
     return { success: true };
   }
 }
