@@ -15,6 +15,7 @@ export default function Players() {
   const [stats, setStats] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
   const [editId, setEditId] = useState<number | null>(null)
+  const [statsError, setStatsError] = useState("")
 
   const handleDelete = (id: string) => {
     if (!confirm("¿Estás seguro de eliminar este jugador?")) return
@@ -81,10 +82,18 @@ export default function Players() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault()
+                let parsedStats
+                try {
+                  parsedStats = stats ? JSON.parse(stats) : {}
+                  setStatsError("")
+                } catch {
+                  setStatsError("JSON inválido")
+                  return
+                }
                 try {
                   await createPlayerMutation.mutateAsync({
                     name,
-                    stats: JSON.parse(stats),
+                    stats: parsedStats,
                   })
                   setShowModal(false)
                 } catch (err) {
@@ -105,9 +114,20 @@ export default function Players() {
                   placeholder='Stats (ej: {"goals": 3})'
                   className="border p-2 w-full rounded"
                   value={stats}
-                  onChange={(e) => setStats(e.target.value)}
+                  onChange={(e) => {
+                    setStats(e.target.value)
+                    try {
+                      JSON.parse(e.target.value)
+                      setStatsError("")
+                    } catch {
+                      setStatsError("JSON inválido")
+                    }
+                  }}
                   required
                 />
+                {statsError && (
+                  <p className="text-red-500 text-sm mt-1">{statsError}</p>
+                )}
                 <div className="flex justify-between">
                   <button
                     type="submit"
