@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { RatingsService } from './ratings.service';
 import { Rating } from './rating.entity';
 import { Match } from '../matches/match.entity';
@@ -8,10 +8,6 @@ import { Player } from '../players/player.entity';
 
 describe('RatingsService', () => {
   let service: RatingsService;
-  let ratingsRepo: Repository<Rating>;
-  let matchesRepo: Repository<Match>;
-  let playersRepo: Repository<Player>;
-  let dataSource: DataSource;
   let manager: {
     findOne: jest.Mock;
     create: jest.Mock;
@@ -47,10 +43,6 @@ describe('RatingsService', () => {
     }).compile();
 
     service = module.get<RatingsService>(RatingsService);
-    ratingsRepo = module.get(getRepositoryToken(Rating));
-    matchesRepo = module.get(getRepositoryToken(Match));
-    playersRepo = module.get(getRepositoryToken(Player));
-    dataSource = module.get(DataSource);
   });
 
   it('creates a rating', async () => {
