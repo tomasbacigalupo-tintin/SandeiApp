@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { RatingsService } from './ratings.service';
 import { Rating } from './rating.entity';
 import { Match } from '../matches/match.entity';
@@ -11,8 +11,19 @@ describe('RatingsService', () => {
   let ratingsRepo: Repository<Rating>;
   let matchesRepo: Repository<Match>;
   let playersRepo: Repository<Player>;
+  let dataSource: DataSource;
+  let manager: {
+    findOne: jest.Mock;
+    create: jest.Mock;
+    save: jest.Mock;
+  };
 
   beforeEach(async () => {
+    manager = {
+      findOne: jest.fn(),
+      create: jest.fn(),
+      save: jest.fn(),
+    };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RatingsService,
@@ -28,6 +39,10 @@ describe('RatingsService', () => {
           provide: getRepositoryToken(Player),
           useValue: { findOne: jest.fn() },
         },
+        {
+          provide: DataSource,
+          useValue: { transaction: jest.fn(fn => fn(manager)) },
+        },
       ],
     }).compile();
 
@@ -35,19 +50,21 @@ describe('RatingsService', () => {
     ratingsRepo = module.get(getRepositoryToken(Rating));
     matchesRepo = module.get(getRepositoryToken(Match));
     playersRepo = module.get(getRepositoryToken(Player));
+    dataSource = module.get(DataSource);
   });
 
   it('creates a rating', async () => {
     const match = { id: 'm1' } as Match;
     const player = { id: 'p1' } as Player;
-    (matchesRepo.findOne as jest.Mock).mockResolvedValue(match);
-    (playersRepo.findOne as jest.Mock).mockResolvedValue(player);
-    (ratingsRepo.create as jest.Mock).mockReturnValue({ score: 8, match, player });
-    (ratingsRepo.save as jest.Mock).mockResolvedValue({ id: 'r1' });
+    manager.findOne.mockResolvedValueOnce(match);
+    manager.findOne.mockResolvedValueOnce(player);
+    manager.findOne.mockResolvedValueOnce(null);
+    manager.create.mockReturnValue({ score: 8, match, player });
+    manager.save.mockResolvedValue({ id: 'r1' });
 
     const result = await service.create('m1', 'p1', 8, 'good');
-    expect(ratingsRepo.create).toHaveBeenCalledWith({ score: 8, comment: 'good', match, player });
-    expect(ratingsRepo.save).toHaveBeenCalled();
+    expect(manager.create).toHaveBeenCalledWith(Rating, { score: 8, comment: 'good', match, player });
+    expect(manager.save).toHaveBeenCalled();
     expect(result).toEqual({ id: 'r1' });
   });
 
@@ -58,9 +75,9 @@ describe('RatingsService', () => {
   it('throws on duplicate rating', async () => {
     const match = { id: 'm1' } as Match;
     const player = { id: 'p1' } as Player;
-    (matchesRepo.findOne as jest.Mock).mockResolvedValue(match);
-    (playersRepo.findOne as jest.Mock).mockResolvedValue(player);
-    (ratingsRepo.findOne as jest.Mock).mockResolvedValue({ id: 'r1' });
+    manager.findOne.mockResolvedValueOnce(match);
+    manager.findOne.mockResolvedValueOnce(player);
+    manager.findOne.mockResolvedValueOnce({ id: 'r1' });
     await expect(service.create('m1', 'p1', 5)).rejects.toThrow();
   });
 });
