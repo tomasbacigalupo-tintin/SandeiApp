@@ -12,7 +12,6 @@ import {
 import { MatchesService } from "./matches.service";
 import { CreateMatchDto } from "./dto/create-match.dto";
 import { UpdateMatchDto } from "./dto/update-match.dto";
-import { Match } from "./match.entity";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("matches")
