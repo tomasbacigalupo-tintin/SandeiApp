@@ -9,6 +9,7 @@ cd "$ROOT_DIR"
 if [ ! -f .env ]; then
   echo "[run_local] .env not found. Creating from .env.example"
   cp .env.example .env
+  echo "[run_local] Review the generated .env file and update values as needed"
 fi
 
 if command -v docker compose >/dev/null 2>&1; then

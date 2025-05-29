@@ -2,10 +2,7 @@ from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import List, Optional
 import os
-try:
-    import httpx
-except Exception:  # pragma: no cover - httpx may not be installed
-    httpx = None
+import httpx
 import asyncio
 from contextlib import asynccontextmanager
 
@@ -35,8 +32,6 @@ async def fetch_chat_completion(
 
 @asynccontextmanager
 async def get_http_client():
-    if not httpx:
-        raise HTTPException(status_code=500, detail="httpx not available")
     async with httpx.AsyncClient() as client:
         yield client
 
