@@ -3,6 +3,8 @@ import { IaService } from './ia.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LineupRequestDto } from './dto/lineup-request.dto';
 import { LineupResponseDto } from './dto/lineup-response.dto';
+import { TacticsRequestDto } from './dto/tactics-request.dto';
+import { TacticsResponseDto } from './dto/tactics-response.dto';
 
 @Controller('ia')
 export class IaController {
@@ -12,5 +14,11 @@ export class IaController {
   @Post('suggest_lineup')
   suggestLineup(@Body() body: LineupRequestDto): Promise<LineupResponseDto> {
     return this.iaService.suggestLineup(body.players, body.formation);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('suggest_tactics')
+  suggestTactics(@Body() body: TacticsRequestDto): Promise<TacticsResponseDto> {
+    return this.iaService.suggestTactics(body.players, body.style);
   }
 }

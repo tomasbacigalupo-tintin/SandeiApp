@@ -1,3 +1,6 @@
+process.env.DATABASE_URL = 'postgres://dummy';
+process.env.JWT_SECRET = 'dummysecret';
+process.env.IA_SERVICE_URL = 'http://dummy';
 import { Test } from '@nestjs/testing';
 import { INestApplication, HttpStatus } from '@nestjs/common';
 import { IaModule } from './ia.module';
@@ -39,6 +42,18 @@ describe('IaController', () => {
     return request(app.getHttpServer())
       .post('/ia/suggest_lineup')
       .send({ players: ['x'], formation: '4-4-2' })
+      .expect(HttpStatus.CREATED)
+      .expect(data);
+  });
+
+  it('POST /ia/suggest_tactics', () => {
+    const data = { tactics: 'ok' };
+    (httpService.post as jest.Mock).mockReturnValue(
+      of({ data } as AxiosResponse),
+    );
+    return request(app.getHttpServer())
+      .post('/ia/suggest_tactics')
+      .send({ players: ['x'] })
       .expect(HttpStatus.CREATED)
       .expect(data);
   });

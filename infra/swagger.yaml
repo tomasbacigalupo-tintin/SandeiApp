@@ -19,6 +19,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LineupResponse'
+  /ia/suggest_tactics:
+    post:
+      summary: Suggest match tactics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TacticsRequest'
+      responses:
+        '200':
+          description: Suggested tactics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TacticsResponse'
   /matches/{matchId}/ratings:
     post:
       summary: Register a player rating
@@ -55,6 +71,22 @@ components:
       type: object
       properties:
         lineup:
+          type: string
+    TacticsRequest:
+      type: object
+      properties:
+        players:
+          type: array
+          items:
+            type: string
+        style:
+          type: string
+      required:
+        - players
+    TacticsResponse:
+      type: object
+      properties:
+        tactics:
           type: string
     RatingRequest:
       type: object
