@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { IaService } from './ia.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AxiosResponse } from 'axios';
 
 describe('IaService', () => {
@@ -30,5 +30,14 @@ describe('IaService', () => {
       formation: '4-4-2',
     });
     expect(result).toEqual(data);
+  });
+
+  it('logs and rethrows errors from http service', async () => {
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(throwError(() => new Error('fail')));
+    const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
+    await expect(service.suggestLineup(['x'], '4-4-2')).rejects.toThrow('fail');
+    expect(logSpy).toHaveBeenCalled();
   });
 });

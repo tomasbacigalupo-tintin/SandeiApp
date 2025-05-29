@@ -2,10 +2,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import api from "../services/api"
 import { toast } from "sonner"
 
+export interface PlayerStats {
+  [key: string]: number
+}
+
 export interface Player {
   id: string
   name: string
-  stats?: any
+  position?: string
+  score?: number
+  stats?: PlayerStats
 }
 
 const fetchPlayers = async (): Promise<Player[]> => {
@@ -20,10 +26,17 @@ export const usePlayers = () => {
   })
 }
 
+export interface CreatePlayerInput {
+  name: string
+  position?: string
+  score?: number
+  stats?: PlayerStats
+}
+
 export const useCreatePlayer = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (playerData: any) => {
+    mutationFn: async (playerData: CreatePlayerInput) => {
       const res = await api.post("/players", playerData)
       return res.data
     },
@@ -40,7 +53,7 @@ export const useCreatePlayer = () => {
 export const useUpdatePlayer = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+    mutationFn: async ({ id, data }: { id: string; data: Partial<CreatePlayerInput> }) => {
       const res = await api.put(`/players/${id}`, data)
       return res.data
     },

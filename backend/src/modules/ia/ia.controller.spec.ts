@@ -5,7 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { of } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import * as request from 'supertest';
+import request from 'supertest';
 
 describe('IaController', () => {
   let app: INestApplication;
