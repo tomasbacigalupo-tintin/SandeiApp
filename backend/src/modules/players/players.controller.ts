@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   ParseUUIDPipe,
   UseGuards,
 } from "@nestjs/common";
@@ -22,6 +23,12 @@ export class PlayersController {
   @Get()
   findAll() {
     return this.playersService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('search')
+  search(@Query('name') name: string) {
+    return this.playersService.searchByName(name);
   }
 
   @UseGuards(JwtAuthGuard)
