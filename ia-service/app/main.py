@@ -58,6 +58,11 @@ class LineupRequest(BaseModel):
     formation: str
 
 
+class TacticsRequest(BaseModel):
+    players: List[str]
+    style: Optional[str] = None
+
+
 @app.post("/ia/suggest_lineup")
 async def suggest_lineup(
     payload: LineupRequest, client: httpx.AsyncClient = Depends(get_http_client)
@@ -76,6 +81,29 @@ async def suggest_lineup(
     try:
         suggestion = await fetch_chat_completion(messages, client)
         return {"lineup": suggestion}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post("/ia/suggest_tactics")
+async def suggest_tactics(
+    payload: TacticsRequest, client: httpx.AsyncClient = Depends(get_http_client)
+):
+    """Suggest tactical instructions based on the given players."""
+    if not OPENAI_API_KEY:
+        raise HTTPException(status_code=500, detail="OpenAI not available")
+    style_part = f" with style {payload.style}" if payload.style else ""
+    prompt = (
+        "Suggest tactical instructions" + style_part + " for players: "
+        + ", ".join(payload.players)
+    )
+    messages = [
+        {"role": "system", "content": "You are a football tactical assistant."},
+        {"role": "user", "content": prompt},
+    ]
+    try:
+        tactics = await fetch_chat_completion(messages, client)
+        return {"tactics": tactics}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 

@@ -32,12 +32,35 @@ describe('IaService', () => {
     expect(result).toEqual(data);
   });
 
+  it('should request tactics to ia-service', async () => {
+    const data = { tactics: 'ok' };
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(of({ data } as AxiosResponse));
+
+    const result = await service.suggestTactics(['a'], undefined);
+    expect(httpService.post).toHaveBeenCalledWith('/ia/suggest_tactics', {
+      players: ['a'],
+      style: undefined,
+    });
+    expect(result).toEqual(data);
+  });
+
   it('logs and rethrows errors from http service', async () => {
     jest
       .spyOn(httpService, 'post')
       .mockReturnValue(throwError(() => new Error('fail')));
     const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
     await expect(service.suggestLineup(['x'], '4-4-2')).rejects.toThrow('fail');
+    expect(logSpy).toHaveBeenCalled();
+  });
+
+  it('logs and rethrows errors when suggesting tactics', async () => {
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(throwError(() => new Error('fail')));
+    const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
+    await expect(service.suggestTactics(['p'])).rejects.toThrow('fail');
     expect(logSpy).toHaveBeenCalled();
   });
 });
