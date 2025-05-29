@@ -21,11 +21,11 @@ describe('PlayersService', () => {
             findOne: jest.fn(),
             findOneByOrFail: jest.fn(),
             update: jest.fn(),
-            remove: jest.fn(),
-          },
-        },
-      ],
-    }).compile();
+        remove: jest.fn(),
+      },
+    },
+  ],
+  }).compile();
 
     service = module.get<PlayersService>(PlayersService);
     repo = module.get(getRepositoryToken(Player));
@@ -47,6 +47,14 @@ describe('PlayersService', () => {
     (repo.findOneByOrFail as jest.Mock).mockResolvedValue(player);
     await service.remove('1');
     expect(repo.remove).toHaveBeenCalledWith(player);
+  });
+
+  it('searches players by name', async () => {
+    const players = [{ id: '1', name: 'John' }] as Player[];
+    (repo.find as jest.Mock).mockResolvedValue(players);
+    const result = await service.searchByName('jo');
+    expect(repo.find).toHaveBeenCalledWith({ where: { name: expect.anything() } });
+    expect(result).toEqual(players);
   });
 
   it('throws EntityNotFoundError when removing missing player', async () => {

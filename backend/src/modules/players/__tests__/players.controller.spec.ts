@@ -16,6 +16,7 @@ describe('PlayersController', () => {
           provide: PlayersService,
           useValue: {
             findAll: jest.fn(),
+            searchByName: jest.fn(),
             findOne: jest.fn(),
             create: jest.fn(),
             update: jest.fn(),
@@ -37,5 +38,10 @@ describe('PlayersController', () => {
   it('calls service to create a player', () => {
     controller.create({ name: 'test' } as any);
     expect(service.create).toHaveBeenCalled();
+  });
+
+  it('searches players', () => {
+    controller.search('john');
+    expect(service.searchByName).toHaveBeenCalledWith('john');
   });
 });

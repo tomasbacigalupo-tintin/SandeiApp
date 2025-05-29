@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { Player } from './player.entity';
 
 @Injectable()
@@ -20,6 +20,10 @@ export class PlayersService {
 
   findOne(id: string): Promise<Player> {
     return this.playersRepo.findOneByOrFail({ id });
+  }
+
+  searchByName(name: string): Promise<Player[]> {
+    return this.playersRepo.find({ where: { name: ILike(`%${name}%`) } });
   }
 
   async update(id: string, data: Partial<Player>): Promise<Player> {
