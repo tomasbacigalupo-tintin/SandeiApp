@@ -26,6 +26,10 @@ export class PlayersService {
     return this.playersRepo.find({ where: { name: ILike(`%${name}%`) } });
   }
 
+  searchByPosition(position: string): Promise<Player[]> {
+    return this.playersRepo.find({ where: { position: ILike(`%${position}%`) } });
+  }
+
   async update(id: string, data: Partial<Player>): Promise<Player> {
     await this.playersRepo.update(id, data);
     return this.playersRepo.findOneByOrFail({ id });
