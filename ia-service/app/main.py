@@ -4,7 +4,6 @@ from typing import List, Optional
 import os
 import httpx
 import asyncio
-from contextlib import asynccontextmanager
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -30,12 +29,24 @@ async def fetch_chat_completion(
             await asyncio.sleep(backoff)
             backoff *= 2
 
-@asynccontextmanager
-async def get_http_client():
-    async with httpx.AsyncClient() as client:
-        yield client
+
+client: httpx.AsyncClient | None = None
+
+async def get_http_client() -> httpx.AsyncClient:
+    assert client is not None
+    return client
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup() -> None:
+    global client
+    client = httpx.AsyncClient()
+
+@app.on_event("shutdown")
+async def shutdown() -> None:
+    assert client is not None
+    await client.aclose()
 
 @app.get("/")
 async def root():
