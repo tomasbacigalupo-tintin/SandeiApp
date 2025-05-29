@@ -37,4 +37,11 @@ describe('FormationsController', () => {
     controller.create({ name: 'test' } as any);
     expect(service.create).toHaveBeenCalled();
   });
+
+  it('returns formation by id', async () => {
+    (service.findById as jest.Mock).mockResolvedValue({ id: '1' });
+    const result = await controller.findOne('1');
+    expect(service.findById).toHaveBeenCalledWith('1');
+    expect(result).toEqual({ id: '1' });
+  });
 });

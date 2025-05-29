@@ -26,6 +26,14 @@ export class FormationsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get(":id")
+  async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
+    const formation = await this.formationsService.findById(id);
+    if (!formation) throw new NotFoundException("Formation not found");
+    return formation;
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   // Create a new tactical formation
   create(@Body() body: CreateFormationDto) {
