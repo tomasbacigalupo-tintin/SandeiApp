@@ -21,8 +21,8 @@ describe('PlayersService', () => {
             findOne: jest.fn(),
             findOneByOrFail: jest.fn(),
             update: jest.fn(),
-        remove: jest.fn(),
-      },
+            remove: jest.fn(),
+          },
     },
   ],
   }).compile();
@@ -54,6 +54,14 @@ describe('PlayersService', () => {
     (repo.find as jest.Mock).mockResolvedValue(players);
     const result = await service.searchByName('jo');
     expect(repo.find).toHaveBeenCalledWith({ where: { name: expect.anything() } });
+    expect(result).toEqual(players);
+  });
+
+  it('searches players by position', async () => {
+    const players = [{ id: '1', position: 'Forward' }] as Player[];
+    (repo.find as jest.Mock).mockResolvedValue(players);
+    const result = await service.searchByPosition('for');
+    expect(repo.find).toHaveBeenCalledWith({ where: { position: expect.anything() } });
     expect(result).toEqual(players);
   });
 

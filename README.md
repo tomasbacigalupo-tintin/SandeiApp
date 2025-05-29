@@ -32,6 +32,8 @@ Gestión de jugadores:
 
 - CRUD completo de jugadores
 - Búsqueda de jugadores por nombre
+- Búsqueda de jugadores por posición
+- Nuevo endpoint `/players/position?position=<pos>` para filtrar por posición
 - Campos: id, name, stats (JSONB), fitness, technical
 - Validaciones con class-validator
 - Hook usePlayers() en frontend con integración a la API

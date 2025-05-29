@@ -32,6 +32,12 @@ export class PlayersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('position')
+  searchByPosition(@Query('position') position: string) {
+    return this.playersService.searchByPosition(position);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(":id")
   async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
     return this.playersService.findOne(id);

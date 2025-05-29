@@ -17,6 +17,7 @@ describe('PlayersController', () => {
           useValue: {
             findAll: jest.fn(),
             searchByName: jest.fn(),
+            searchByPosition: jest.fn(),
             findOne: jest.fn(),
             create: jest.fn(),
             update: jest.fn(),
@@ -43,5 +44,10 @@ describe('PlayersController', () => {
   it('searches players', () => {
     controller.search('john');
     expect(service.searchByName).toHaveBeenCalledWith('john');
+  });
+
+  it('searches players by position', () => {
+    controller.searchByPosition('forward');
+    expect(service.searchByPosition).toHaveBeenCalledWith('forward');
   });
 });
