@@ -38,4 +38,22 @@ export class IaService {
       throw error;
     }
   }
+
+  async predictMatch(
+    homeTeam: string[],
+    awayTeam: string[],
+  ): Promise<{ prediction: string }> {
+    try {
+      const response = await firstValueFrom(
+        this.http.post('/ia/predict_match', {
+          home_team: homeTeam,
+          away_team: awayTeam,
+        }),
+      );
+      return response.data;
+    } catch (error) {
+      this.logger.error('Failed to predict match', error as Error);
+      throw error;
+    }
+  }
 }
