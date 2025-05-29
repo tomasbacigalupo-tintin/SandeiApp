@@ -35,6 +35,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TacticsResponse'
+  /ia/predict_match:
+    post:
+      summary: Predict match result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchPredictionRequest'
+      responses:
+        '200':
+          description: Match prediction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchPredictionResponse'
   /matches/{matchId}/ratings:
     post:
       summary: Register a player rating
@@ -100,3 +116,22 @@ components:
       required:
         - playerId
         - score
+    MatchPredictionRequest:
+      type: object
+      properties:
+        homeTeam:
+          type: array
+          items:
+            type: string
+        awayTeam:
+          type: array
+          items:
+            type: string
+      required:
+        - homeTeam
+        - awayTeam
+    MatchPredictionResponse:
+      type: object
+      properties:
+        prediction:
+          type: string

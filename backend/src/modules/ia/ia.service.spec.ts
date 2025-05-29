@@ -46,6 +46,20 @@ describe('IaService', () => {
     expect(result).toEqual(data);
   });
 
+  it('should request match prediction to ia-service', async () => {
+    const data = { prediction: '2-1' };
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(of({ data } as AxiosResponse));
+
+    const result = await service.predictMatch(['h'], ['a']);
+    expect(httpService.post).toHaveBeenCalledWith('/ia/predict_match', {
+      home_team: ['h'],
+      away_team: ['a'],
+    });
+    expect(result).toEqual(data);
+  });
+
   it('logs and rethrows errors from http service', async () => {
     jest
       .spyOn(httpService, 'post')

@@ -57,4 +57,16 @@ describe('IaController', () => {
       .expect(HttpStatus.CREATED)
       .expect(data);
   });
+
+  it('POST /ia/predict_match', () => {
+    const data = { prediction: 'x' };
+    (httpService.post as jest.Mock).mockReturnValue(
+      of({ data } as AxiosResponse),
+    );
+    return request(app.getHttpServer())
+      .post('/ia/predict_match')
+      .send({ homeTeam: ['h'], awayTeam: ['a'] })
+      .expect(HttpStatus.CREATED)
+      .expect(data);
+  });
 });
