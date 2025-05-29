@@ -47,7 +47,17 @@ Servicio de IA:
 
 Uso con Docker:
 
-Desde la raíz del proyecto:
+Desde la raíz del proyecto puedes ejecutar:
+
+```bash
+./run_local.sh
+```
+
+El script generará el archivo `.env` a partir de `.env.example` si no existe y
+comprobará que las variables esenciales estén completas antes de iniciar Docker
+Compose.
+
+Si prefieres hacerlo manualmente:
 
 docker-compose up --build
 
