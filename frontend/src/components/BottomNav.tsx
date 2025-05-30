@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { FaHome, FaUserFriends, FaUser, FaChessBoard } from 'react-icons/fa'
+import { FaHome, FaUserFriends, FaUser, FaChessBoard, FaChartBar } from 'react-icons/fa'
 
 export default function BottomNav() {
   return (
@@ -20,6 +20,10 @@ export default function BottomNav() {
       <NavLink to="/tactics" className="flex flex-col items-center" aria-label="Tácticas">
         <FaChessBoard className="mb-1" aria-hidden="true" />
         T\u00e1cticas
+      </NavLink>
+      <NavLink to="/stats" className="flex flex-col items-center" aria-label="Estadísticas">
+        <FaChartBar className="mb-1" aria-hidden="true" />
+        Stats
       </NavLink>
       <NavLink to="/profile" className="flex flex-col items-center" aria-label="Perfil">
         <FaUser className="mb-1" aria-hidden="true" />

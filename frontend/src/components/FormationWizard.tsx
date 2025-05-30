@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Spinner from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 
 export interface FormationWizardData {
   name: string;
@@ -81,30 +82,31 @@ export default function FormationWizard({
       )}
       <div className="flex justify-between mt-4">
         {step > 1 ? (
-          <button onClick={prev} className="text-blue-600 underline">
+          <Button variant="link" onClick={prev} className="text-primary">
             Atr\u00e1s
-          </button>
+          </Button>
         ) : (
           <span />
         )}
         {step < totalSteps && (
-          <button onClick={next} className="bg-blue-700 text-white px-4 py-2 rounded">
+          <Button variant="primary" onClick={next}>
             Siguiente
-          </button>
+          </Button>
         )}
         {step === totalSteps && (
-          <button
+          <Button
+            variant="success"
             onClick={finish}
             disabled={saving}
-            className="bg-green-700 text-white px-4 py-2 rounded flex items-center"
+            className="flex items-center"
           >
             {saving && <Spinner className="h-4 w-4 mr-2 text-white" />}
             Guardar
-          </button>
+          </Button>
         )}
-        <button onClick={onCancel} className="ml-2 text-red-600 underline">
+        <Button variant="link" onClick={onCancel} className="ml-2 text-destructive">
           Cancelar
-        </button>
+        </Button>
       </div>
     </div>
   );
