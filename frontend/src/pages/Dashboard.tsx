@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { usePlayers } from "@/hooks/usePlayers"
 import { useMatches } from "@/hooks/useMatches"
 import Spinner from "@/components/ui/spinner"
+import { Skeleton } from "@/components/ui/skeleton"
 import PlayerQuickInfo from "@/components/PlayerQuickInfo"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -44,7 +45,7 @@ export default function Dashboard() {
         <div className="min-w-[15rem] bg-white rounded shadow p-4">
           <h2 className="font-bold mb-2">Próximos partidos</h2>
           {matchesLoading ? (
-            <Spinner className="h-4 w-4 text-primary" />
+            <Skeleton className="h-4 w-24" />
           ) : upcoming.length ? (
             <ul className="space-y-1">
               {upcoming.map((m) => (
@@ -58,7 +59,7 @@ export default function Dashboard() {
         <div className="min-w-[15rem] bg-white rounded shadow p-4">
           <h2 className="font-bold mb-2">Promedio de rendimiento</h2>
           {playersLoading ? (
-            <Spinner className="h-4 w-4 text-primary" />
+            <Skeleton className="h-8 w-12" />
           ) : (
             <p className="text-2xl font-semibold">{averageScore}</p>
           )}
@@ -83,7 +84,11 @@ export default function Dashboard() {
       <div>
         <h2 className="text-xl font-bold mb-2">Jugadores</h2>
         {playersLoading ? (
-          <Spinner className="h-6 w-6 text-primary" />
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} className="min-w-40 h-10" />
+            ))}
+          </div>
         ) : (
           <div className="flex gap-2 overflow-x-auto pb-2">
             {players?.map((p) => (
