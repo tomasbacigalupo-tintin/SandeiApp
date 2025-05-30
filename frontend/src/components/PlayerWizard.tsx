@@ -56,26 +56,35 @@ export default function PlayerWizard({
     <div className="bg-white p-6 rounded w-96">
       <div className="h-2 bg-gray-200 rounded mb-4">
         <div
-          className="h-full bg-blue-600 rounded"
+          className="h-full bg-blue-700 rounded"
           style={{ width: `${progress}%` }}
         />
       </div>
       {step === 1 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Nombre del jugador</h2>
+          <label htmlFor="player-name" className="sr-only">
+            Nombre
+          </label>
           <input
+            id="player-name"
             type="text"
             className="border p-2 w-full rounded"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nombre"
+            aria-label="Nombre"
           />
         </div>
       )}
       {step === 2 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Estadísticas</h2>
+          <label htmlFor="player-stats" className="sr-only">
+            Estadísticas
+          </label>
           <textarea
+            id="player-stats"
             className="border p-2 w-full rounded"
             placeholder='Stats (ej: {"goals": 3})'
             value={stats}
@@ -88,6 +97,7 @@ export default function PlayerWizard({
                 setStatsError("JSON inválido");
               }
             }}
+            aria-label="Estadísticas"
           />
           {statsError && <p className="text-red-500 text-sm">{statsError}</p>}
         </div>
@@ -114,7 +124,7 @@ export default function PlayerWizard({
         {step < totalSteps && (
           <button
             onClick={next}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-700 text-white px-4 py-2 rounded"
           >
             Siguiente
           </button>
@@ -123,7 +133,7 @@ export default function PlayerWizard({
           <button
             onClick={finish}
             disabled={saving}
-            className="bg-green-600 text-white px-4 py-2 rounded flex items-center"
+            className="bg-green-700 text-white px-4 py-2 rounded flex items-center"
           >
             {saving && <Spinner className="h-4 w-4 mr-2 text-white" />}
             Guardar

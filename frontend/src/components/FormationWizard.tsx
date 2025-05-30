@@ -37,28 +37,34 @@ export default function FormationWizard({
   return (
     <div className="bg-white p-6 rounded w-96">
       <div className="h-2 bg-gray-200 rounded mb-4">
-        <div className="h-full bg-blue-600 rounded" style={{ width: `${progress}%` }} />
+        <div className="h-full bg-blue-700 rounded" style={{ width: `${progress}%` }} />
       </div>
       {step === 1 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Nombre de la formaci\u00f3n</h2>
+          <label htmlFor="formation-name" className="sr-only">Nombre</label>
           <input
+            id="formation-name"
             type="text"
             className="border p-2 w-full rounded"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nombre"
+            aria-label="Nombre"
           />
         </div>
       )}
       {step === 2 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Descripci\u00f3n</h2>
+          <label htmlFor="formation-description" className="sr-only">Descripci\u00f3n</label>
           <textarea
+            id="formation-description"
             className="border p-2 w-full rounded"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Descripci\u00f3n"
+            aria-label="Descripci\u00f3n"
           />
         </div>
       )}
@@ -82,7 +88,7 @@ export default function FormationWizard({
           <span />
         )}
         {step < totalSteps && (
-          <button onClick={next} className="bg-blue-600 text-white px-4 py-2 rounded">
+          <button onClick={next} className="bg-blue-700 text-white px-4 py-2 rounded">
             Siguiente
           </button>
         )}
@@ -90,7 +96,7 @@ export default function FormationWizard({
           <button
             onClick={finish}
             disabled={saving}
-            className="bg-green-600 text-white px-4 py-2 rounded flex items-center"
+            className="bg-green-700 text-white px-4 py-2 rounded flex items-center"
           >
             {saving && <Spinner className="h-4 w-4 mr-2 text-white" />}
             Guardar

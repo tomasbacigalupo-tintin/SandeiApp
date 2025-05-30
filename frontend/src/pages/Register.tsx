@@ -32,30 +32,45 @@ export default function Register() {
   return (
     <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-10 space-y-4">
       <h1 className="text-xl font-bold">Registrarse</h1>
-      <input
-        type="text"
-        placeholder="Nombre"
-        className="border p-2 w-full rounded"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        className="border p-2 w-full rounded"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        className="border p-2 w-full rounded"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <div className="space-y-1">
+        <label htmlFor="name" className="text-sm font-medium">Nombre</label>
+        <input
+          id="name"
+          type="text"
+          placeholder="Nombre"
+          className="border p-2 w-full rounded"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-label="Nombre"
+        />
+      </div>
+      <div className="space-y-1">
+        <label htmlFor="email" className="text-sm font-medium">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email"
+          className="border p-2 w-full rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-label="Email"
+        />
+      </div>
+      <div className="space-y-1">
+        <label htmlFor="password" className="text-sm font-medium">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Contraseña"
+          className="border p-2 w-full rounded"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          aria-label="Contraseña"
+        />
+      </div>
       {error && <p className="text-red-500">{error}</p>}
       <button
-        className="bg-green-600 text-white px-4 py-2 rounded w-full flex items-center justify-center"
+        className="bg-green-700 text-white px-4 py-2 rounded w-full flex items-center justify-center"
         disabled={loading}
       >
         {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}

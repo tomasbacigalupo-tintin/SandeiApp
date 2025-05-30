@@ -52,21 +52,31 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
+            <div className="space-y-1">
+              <label htmlFor="email" className="text-sm font-medium">
+                Email
+              </label>
               <Input
+                id="email"
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-label="Email"
                 required
               />
             </div>
-            <div>
+            <div className="space-y-1">
+              <label htmlFor="password" className="text-sm font-medium">
+                Contraseña
+              </label>
               <Input
+                id="password"
                 type="password"
                 placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-label="Contraseña"
                 required
               />
             </div>
