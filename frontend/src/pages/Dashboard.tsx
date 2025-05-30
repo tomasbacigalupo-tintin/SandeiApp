@@ -1,4 +1,4 @@
-import { logout } from "@/services/authService"
+import { useAuth } from "@/context/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { usePlayers } from "@/hooks/usePlayers"
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 export default function Dashboard() {
   const navigate = useNavigate()
   const { data: players, isLoading: playersLoading } = usePlayers()
+  const { logout } = useAuth()
   const { data: matches, isLoading: matchesLoading } = useMatches()
   const [selected, setSelected] = useState<string | null>(null)
 

@@ -10,9 +10,10 @@ import Stats from "@/pages/Stats"
 import { Toaster } from "sonner"
 import { Navigate } from "react-router-dom"
 import BottomNav from "@/components/BottomNav"
-import { isAuthenticated } from "@/services/authService"
+import { useAuth } from "@/context/AuthContext"
 
 function App() {
+  const { isAuthenticated } = useAuth()
   return (
     <>
       <BrowserRouter>
@@ -61,7 +62,7 @@ function App() {
         />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
-        {isAuthenticated() && <BottomNav />}
+        {isAuthenticated && <BottomNav />}
       </BrowserRouter>
       <Toaster />
     </>

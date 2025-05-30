@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import api from "../services/api"
+import { useAuth } from "@/context/AuthContext"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -13,15 +13,14 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     try {
-      const res = await api.post("/auth/login", { email, password })
-
-      localStorage.setItem("token", res.data.token)
+      await login(email, password)
       toast.success("Inicio de sesión exitoso")
       navigate("/dashboard")
     } catch {
