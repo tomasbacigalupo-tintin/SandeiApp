@@ -6,6 +6,7 @@ import {
 } from "@/hooks/usePlayers"
 import { useState } from "react"
 import Spinner from "@/components/ui/spinner"
+import { Skeleton } from "@/components/ui/skeleton"
 import PlayerWizard from "@/components/PlayerWizard"
 import PlayerCard from "@/components/PlayerCard"
 import { Button } from "@/components/ui/button"
@@ -30,8 +31,13 @@ export default function Players() {
 
   if (loading)
     return (
-      <div className="flex justify-center mt-10">
-        <Spinner className="h-8 w-8 text-primary" />
+      <div className="p-6 space-y-4">
+        <h2 className="text-xl font-bold">Jugadores</h2>
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-28 w-full" />
+          ))}
+        </div>
       </div>
     )
   if (error) return <p className="text-red-500 text-center mt-10">{error}</p>

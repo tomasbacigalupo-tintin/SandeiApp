@@ -10,29 +10,48 @@ import ThemeToggle from './ThemeToggle'
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-sm md:hidden">
+    <nav
+      aria-label="Menú de navegación"
+      className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-sm md:hidden"
+    >
       <NavLink
         to="/dashboard"
-        className="flex flex-col items-center"
+        className="flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
         end
         aria-label="Inicio"
       >
         <FaHome className="mb-1" aria-hidden="true" />
         Inicio
       </NavLink>
-      <NavLink to="/players" className="flex flex-col items-center" aria-label="Jugadores">
+      <NavLink
+        to="/players"
+        className="flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+        aria-label="Jugadores"
+      >
         <FaUserFriends className="mb-1" aria-hidden="true" />
         Jugadores
       </NavLink>
-      <NavLink to="/tactics" className="flex flex-col items-center" aria-label="Tácticas">
+      <NavLink
+        to="/tactics"
+        className="flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+        aria-label="Tácticas"
+      >
         <FaChessBoard className="mb-1" aria-hidden="true" />
         T\u00e1cticas
       </NavLink>
-      <NavLink to="/stats" className="flex flex-col items-center" aria-label="Estadísticas">
+      <NavLink
+        to="/stats"
+        className="flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+        aria-label="Estadísticas"
+      >
         <FaChartBar className="mb-1" aria-hidden="true" />
         Stats
       </NavLink>
-      <NavLink to="/profile" className="flex flex-col items-center" aria-label="Perfil">
+      <NavLink
+        to="/profile"
+        className="flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+        aria-label="Perfil"
+      >
         <FaUser className="mb-1" aria-hidden="true" />
         Perfil
       </NavLink>
