@@ -44,22 +44,29 @@ export default function Players() {
         Crear jugador
       </Button>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {players.map((player) => (
-          <PlayerCard
-            key={player.id}
-            player={player}
-            onEdit={() => {
-              setName(player.name)
-              setStats(JSON.stringify(player.stats, null, 2))
-              setEditId(player.id)
-              setIsEditMode(true)
-              setShowModal(true)
-            }}
-            onDelete={() => handleDelete(player.id)}
-          />
-        ))}
-      </div>
+      {players.length === 0 ? (
+        <div className="text-center py-10 space-y-2">
+          <p className="text-gray-500">Aún no hay jugadores.</p>
+          <Button onClick={() => setShowModal(true)}>Añadir jugador</Button>
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {players.map((player) => (
+            <PlayerCard
+              key={player.id}
+              player={player}
+              onEdit={() => {
+                setName(player.name)
+                setStats(JSON.stringify(player.stats, null, 2))
+                setEditId(player.id)
+                setIsEditMode(true)
+                setShowModal(true)
+              }}
+              onDelete={() => handleDelete(player.id)}
+            />
+          ))}
+        </div>
+      )}
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

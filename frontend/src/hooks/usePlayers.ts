@@ -28,6 +28,7 @@ export const useCreatePlayer = () => {
     },
     onSuccess: () => {
       toast.success("Jugador creado correctamente")
+      if (navigator.vibrate) navigator.vibrate(50)
       queryClient.invalidateQueries({ queryKey: ["players"] })
     },
     onError: () => {
@@ -61,6 +62,7 @@ export const useDeletePlayer = () => {
     },
     onSuccess: () => {
       toast.success("Jugador eliminado")
+      if (navigator.vibrate) navigator.vibrate(50)
       queryClient.invalidateQueries({ queryKey: ["players"] })
     },
     onError: () => {
