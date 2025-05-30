@@ -140,7 +140,7 @@ html {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans pb-16;
   }
   h1, h2, h3, .font-display {
     @apply font-display;
