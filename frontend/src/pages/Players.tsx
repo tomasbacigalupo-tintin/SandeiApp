@@ -4,6 +4,7 @@ import {
   useDeletePlayer,
 } from "@/hooks/usePlayers"
 import { useState } from "react"
+import Spinner from "@/components/ui/spinner"
 
 export default function Players() {
   const { data: players, isLoading: loading, error } = usePlayers()
@@ -23,7 +24,12 @@ export default function Players() {
   }
 
 
-  if (loading) return <p className="text-center mt-10">Cargando jugadores...</p>
+  if (loading)
+    return (
+      <div className="flex justify-center mt-10">
+        <Spinner className="h-8 w-8 text-primary" />
+      </div>
+    )
   if (error) return <p className="text-red-500 text-center mt-10">{error}</p>
 
   return (

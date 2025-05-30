@@ -1,17 +1,20 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { register } from "@/services/authService"
+import Spinner from "@/components/ui/spinner"
 
 export default function Register() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError("")
+    setLoading(true)
 
     if (!name || !email || !password)
       return setError("Todos los campos son obligatorios")
@@ -21,6 +24,8 @@ export default function Register() {
       navigate("/login")
     } catch (err) {
       setError("No se pudo registrar el usuario")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -49,7 +54,11 @@ export default function Register() {
         onChange={(e) => setPassword(e.target.value)}
       />
       {error && <p className="text-red-500">{error}</p>}
-      <button className="bg-green-600 text-white px-4 py-2 rounded w-full">
+      <button
+        className="bg-green-600 text-white px-4 py-2 rounded w-full flex items-center justify-center"
+        disabled={loading}
+      >
+        {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}
         Crear cuenta
       </button>
     </form>
