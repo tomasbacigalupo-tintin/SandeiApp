@@ -7,6 +7,8 @@ import { TacticsRequestDto } from './dto/tactics-request.dto';
 import { TacticsResponseDto } from './dto/tactics-response.dto';
 import { MatchPredictionRequestDto } from './dto/match-prediction-request.dto';
 import { MatchPredictionResponseDto } from './dto/match-prediction-response.dto';
+import { ErrorDetectionRequestDto } from './dto/error-detection-request.dto';
+import { ErrorDetectionResponseDto } from './dto/error-detection-response.dto';
 
 @Controller('ia')
 export class IaController {
@@ -30,5 +32,13 @@ export class IaController {
     @Body() body: MatchPredictionRequestDto,
   ): Promise<MatchPredictionResponseDto> {
     return this.iaService.predictMatch(body.homeTeam, body.awayTeam);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('detect_errors')
+  detectErrors(
+    @Body() body: ErrorDetectionRequestDto,
+  ): Promise<ErrorDetectionResponseDto> {
+    return this.iaService.detectErrors(body.lineup, body.formation);
   }
 }

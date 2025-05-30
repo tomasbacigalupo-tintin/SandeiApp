@@ -69,4 +69,16 @@ describe('IaController', () => {
       .expect(HttpStatus.CREATED)
       .expect(data);
   });
+
+  it('POST /ia/detect_errors', () => {
+    const data = { report: 'ok' };
+    (httpService.post as jest.Mock).mockReturnValue(
+      of({ data } as AxiosResponse),
+    );
+    return request(app.getHttpServer())
+      .post('/ia/detect_errors')
+      .send({ lineup: ['a', 'b'] })
+      .expect(HttpStatus.CREATED)
+      .expect(data);
+  });
 });

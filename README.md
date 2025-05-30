@@ -47,6 +47,7 @@ Servicio de IA:
 - Endpoint `/ia/analyze_performance` para evaluar el rendimiento según las calificaciones
 - Endpoint `/ia/suggest_tactics` para obtener recomendaciones tácticas mediante IA
 - Endpoint `/ia/predict_match` para predecir el resultado de un partido
+- Endpoint `/ia/detect_errors` para identificar problemas en la alineación enviada
 
 ---
 
@@ -85,7 +86,7 @@ Servicios incluidos:
 - Servicio IA (FastAPI)
 
 El archivo `infra/swagger.yaml` describe los endpoints principales como
-`/ia/suggest_lineup`, `/ia/suggest_tactics`, `/ia/predict_match` y el registro de calificaciones.
+`/ia/suggest_lineup`, `/ia/suggest_tactics`, `/ia/predict_match`, `/ia/detect_errors` y el registro de calificaciones.
 
 Asegurarse de copiar `.env.example` a `.env` en cada servicio (`backend/`,
 `frontend/` e `ia-service/`) y completar los valores necesarios.
