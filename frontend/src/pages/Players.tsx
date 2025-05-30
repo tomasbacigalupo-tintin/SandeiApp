@@ -7,6 +7,8 @@ import {
 import { useState } from "react"
 import Spinner from "@/components/ui/spinner"
 import PlayerWizard from "@/components/PlayerWizard"
+import PlayerCard from "@/components/PlayerCard"
+import { Button } from "@/components/ui/button"
 
 export default function Players() {
   const { data: players, isLoading: loading, error } = usePlayers()
@@ -35,53 +37,29 @@ export default function Players() {
   if (error) return <p className="text-red-500 text-center mt-10">{error}</p>
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Jugadores</h2>
+    <div className="p-6 space-y-4">
+      <h2 className="text-xl font-bold">Jugadores</h2>
 
-      <button
-        onClick={() => setShowModal(true)}
-        className="bg-green-600 text-white px-4 py-2 rounded mb-4"
-      >
+      <Button onClick={() => setShowModal(true)} className="w-fit">
         Crear jugador
-      </button>
+      </Button>
 
-      <table className="w-full border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="p-2 text-left">Nombre</th>
-            <th className="p-2 text-left">Stats</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map((player) => (
-            <tr key={player.id} className="border-t">
-              <td className="p-2">
-                {player.name}
-                <button
-                  onClick={() => {
-                    setName(player.name)
-                    setStats(JSON.stringify(player.stats, null, 2))
-                    setEditId(player.id)
-                    setIsEditMode(true)
-                    setShowModal(true)
-                  }}
-                  className="ml-2 text-blue-600 underline text-sm"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => handleDelete(player.id)}
-                  className="ml-2 text-red-600 underline text-sm"
-                >
-                  Eliminar
-                </button>
-              </td>
-              <td className="p-2">{JSON.stringify(player.stats)}</td>
-            </tr>
-          ))}
-
-        </tbody>
-      </table>
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {players.map((player) => (
+          <PlayerCard
+            key={player.id}
+            player={player}
+            onEdit={() => {
+              setName(player.name)
+              setStats(JSON.stringify(player.stats, null, 2))
+              setEditId(player.id)
+              setIsEditMode(true)
+              setShowModal(true)
+            }}
+            onDelete={() => handleDelete(player.id)}
+          />
+        ))}
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
