@@ -10,6 +10,7 @@ import { Player } from '../players/player.entity';
   imports: [TypeOrmModule.forFeature([Rating, Match, Player])],
   providers: [RatingsService],
   controllers: [RatingsController],
+  exports: [RatingsService],
 })
 export class RatingsModule {}
 

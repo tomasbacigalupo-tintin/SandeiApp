@@ -22,6 +22,7 @@ describe('PlayersController', () => {
             create: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
+            getAverageRating: jest.fn(),
           },
         },
       ],
@@ -49,5 +50,10 @@ describe('PlayersController', () => {
   it('searches players by position', () => {
     controller.searchByPosition('forward');
     expect(service.searchByPosition).toHaveBeenCalledWith('forward');
+  });
+
+  it('gets average rating', () => {
+    controller.getAverageRating('id');
+    expect(service.getAverageRating).toHaveBeenCalledWith('id');
   });
 });

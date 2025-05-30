@@ -41,5 +41,15 @@ export class RatingsService {
       return manager.save(rating);
     });
   }
+
+  async averageForPlayer(playerId: string): Promise<number> {
+    const result = await this.ratingsRepo
+      .createQueryBuilder('rating')
+      .select('AVG(rating.score)', 'avg')
+      .where('rating.playerId = :playerId', { playerId })
+      .getRawOne<{ avg: string | null }>();
+    const avg = result?.avg;
+    return avg ? parseFloat(avg) : 0;
+  }
 }
 
