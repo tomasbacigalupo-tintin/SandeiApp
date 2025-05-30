@@ -70,6 +70,7 @@ export default function Register() {
       <div className="h-2 bg-gray-200 rounded">
         <div className="h-full bg-blue-700 rounded" style={{ width: `${progress}%` }} />
       </div>
+
       {step === 1 && (
         <div className="space-y-3">
           <h1 className="text-lg font-bold">Datos personales</h1>
@@ -90,6 +91,7 @@ export default function Register() {
           </div>
         </div>
       )}
+
       {step === 2 && (
         <div className="space-y-3">
           <h1 className="text-lg font-bold">Información de equipo</h1>
@@ -105,6 +107,7 @@ export default function Register() {
           </div>
         </div>
       )}
+
       {step === 3 && (
         <div className="space-y-2">
           <h1 className="text-lg font-bold">Confirmar datos</h1>
@@ -115,6 +118,7 @@ export default function Register() {
           {errors.submit && <p className="text-red-500 text-sm">{errors.submit}</p>}
         </div>
       )}
+
       <div className="flex justify-between pt-2">
         {step > 1 ? (
           <Button type="button" variant="outline" onClick={prev}>Atrás</Button>
