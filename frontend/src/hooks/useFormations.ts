@@ -27,7 +27,7 @@ export const useCreateFormation = () => {
       queryClient.invalidateQueries({ queryKey: ["formations"] });
     },
     onError: () => {
-      toast.error("Error al crear formaci\u00f3n");
+      // handled globally
     },
   });
 };

@@ -20,4 +20,16 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (error.response?.status === 401) {
+      setAuthToken(null)
+      window.dispatchEvent(new Event('unauthorized'))
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  },
+)
+
 export default api
