@@ -32,7 +32,7 @@ export const useCreatePlayer = () => {
       queryClient.invalidateQueries({ queryKey: ["players"] })
     },
     onError: () => {
-      toast.error("Error al crear el jugador")
+      // handled globally
     },
   })
 }
@@ -49,7 +49,7 @@ export const useUpdatePlayer = () => {
       queryClient.invalidateQueries({ queryKey: ["players"] })
     },
     onError: () => {
-      toast.error("Error al actualizar el jugador")
+      // handled globally
     },
   })
 }
@@ -66,7 +66,7 @@ export const useDeletePlayer = () => {
       queryClient.invalidateQueries({ queryKey: ["players"] })
     },
     onError: () => {
-      toast.error("Error al eliminar el jugador")
+      // handled globally
     },
   })
 }

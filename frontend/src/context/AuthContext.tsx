@@ -32,6 +32,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setAuthToken(null)
   }
 
+  useEffect(() => {
+    const handler = () => logout()
+    window.addEventListener('unauthorized', handler)
+    return () => window.removeEventListener('unauthorized', handler)
+  }, [logout])
+
   return (
     <AuthContext.Provider value={{ token, isAuthenticated: !!token, login, logout }}>
       {children}
