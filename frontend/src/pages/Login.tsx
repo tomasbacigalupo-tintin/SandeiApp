@@ -6,17 +6,7 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import Spinner from "@/components/ui/spinner"
-
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>
-
-export const Input: React.FC<InputProps> = (props) => {
-  return (
-    <input
-      {...props}
-      className="border rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-  )
-}
+import { Input } from "@/components/ui/input"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -60,6 +50,8 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 aria-label="Email"
+                autoComplete="username"
+                autoFocus
                 required
               />
             </div>
@@ -74,6 +66,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 aria-label="Contraseña"
+                autoComplete="current-password"
                 required
               />
             </div>
