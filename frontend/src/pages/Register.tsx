@@ -22,7 +22,7 @@ export default function Register() {
     try {
       await register(name, email, password)
       navigate("/login")
-    } catch (err) {
+    } catch {
       setError("No se pudo registrar el usuario")
     } finally {
       setLoading(false)

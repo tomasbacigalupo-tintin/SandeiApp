@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import Spinner from "@/components/ui/spinner"
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export const Input: React.FC<InputProps> = (props) => {
   return (
@@ -37,7 +37,7 @@ export default function Login() {
       localStorage.setItem("token", res.data.token)
       toast.success("Inicio de sesión exitoso")
       navigate("/dashboard")
-    } catch (err) {
+    } catch {
       toast.error("Credenciales inválidas o error del servidor")
     } finally {
       setLoading(false)

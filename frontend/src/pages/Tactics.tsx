@@ -27,11 +27,18 @@ export default function Tactics() {
       <Button onClick={() => setShowWizard(true)} className="w-fit">
         Crear formaci\u00f3n
       </Button>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {formations.map((f) => (
-          <FormationCard key={f.id} formation={f} />
-        ))}
-      </div>
+      {formations.length === 0 ? (
+        <div className="text-center py-10 space-y-2">
+          <p className="text-gray-500">Aún no hay formaciones.</p>
+          <Button onClick={() => setShowWizard(true)}>Añadir formación</Button>
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {formations.map((f) => (
+            <FormationCard key={f.id} formation={f} />
+          ))}
+        </div>
+      )}
       {showWizard && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <FormationWizard
