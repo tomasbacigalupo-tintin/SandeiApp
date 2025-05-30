@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { register } from "@/services/authService"
 import Spinner from "@/components/ui/spinner"
+import { Button } from "@/components/ui/button"
 
 export default function Register() {
   const [name, setName] = useState("")
@@ -68,14 +69,15 @@ export default function Register() {
           aria-label="Contraseña"
         />
       </div>
-      {error && <p className="text-red-500">{error}</p>}
-      <button
-        className="bg-green-700 text-white px-4 py-2 rounded w-full flex items-center justify-center"
+      {error && <p className="text-destructive">{error}</p>}
+      <Button
+        variant="success"
+        className="w-full flex items-center justify-center"
         disabled={loading}
       >
         {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}
         Crear cuenta
-      </button>
+      </Button>
     </form>
   )
 }
