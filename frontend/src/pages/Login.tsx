@@ -5,6 +5,7 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import Spinner from "@/components/ui/spinner"
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -69,7 +70,12 @@ export default function Login() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full flex items-center justify-center"
+              disabled={loading}
+            >
+              {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}
               {loading ? "Ingresando..." : "Ingresar"}
             </Button>
           </form>
