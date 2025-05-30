@@ -6,6 +6,7 @@ import { useMatches } from "@/hooks/useMatches"
 import Spinner from "@/components/ui/spinner"
 import PlayerQuickInfo from "@/components/PlayerQuickInfo"
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export default function Dashboard() {
     ? (
         players.reduce((sum, p) => sum + (p.score || 0), 0) / players.length
       ).toFixed(2)
-    : 'N/A'
+    : "N/A"
 
   function handleLogout() {
     logout()
@@ -102,7 +103,10 @@ export default function Dashboard() {
           <div className="bg-white p-4 rounded">
             <PlayerQuickInfo player={players!.find((p) => p.id === selected)!} />
             <div className="text-right mt-2">
-              <button onClick={() => setSelected(null)} className="text-blue-700 underline">
+              <button
+                onClick={() => setSelected(null)}
+                className="text-blue-700 underline"
+              >
                 Cerrar
               </button>
             </div>
@@ -110,9 +114,12 @@ export default function Dashboard() {
         </div>
       )}
 
-      <button onClick={handleLogout} className="bg-red-700 text-white px-4 py-2 rounded">
-        Cerrar sesión
-      </button>
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={handleLogout}>
+          Cerrar sesión
+        </Button>
+      </div>
     </motion.div>
   )
 }
+

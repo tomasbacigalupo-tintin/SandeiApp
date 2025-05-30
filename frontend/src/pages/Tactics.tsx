@@ -7,6 +7,7 @@ import Spinner from "@/components/ui/spinner";
 import FormationWizard from "@/components/FormationWizard";
 import FormationCard from "@/components/FormationCard";
 import { Button } from "@/components/ui/button";
+import TacticsBoard from "@/components/TacticsBoard";
 
 export default function Tactics() {
   const { data: formations, isLoading, error } = useFormations();
@@ -32,6 +33,7 @@ export default function Tactics() {
           <FormationCard key={f.id} formation={f} />
         ))}
       </div>
+      <TacticsBoard />
       {showWizard && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <FormationWizard

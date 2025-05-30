@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/600.css";
+@import "@fontsource/noto-sans/400.css";
+@import "@fontsource/noto-sans/600.css";
 @import "@fontsource/teko/500.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -29,6 +31,10 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -64,6 +70,10 @@
   --muted-foreground: oklch(0.554 0.046 257.417);
   --accent: #ca8a04;
   --accent-foreground: #000000;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
@@ -98,6 +108,10 @@
   --muted-foreground: oklch(0.704 0.04 256.788);
   --accent: #ca8a04;
   --accent-foreground: #000000;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
