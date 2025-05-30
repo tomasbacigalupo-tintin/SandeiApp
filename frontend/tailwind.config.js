@@ -15,7 +15,7 @@ export default {
         error: '#dc2626',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'Noto Sans', 'sans-serif'],
         display: ['Teko', 'sans-serif'],
       },
     },

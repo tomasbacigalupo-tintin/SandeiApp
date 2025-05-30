@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.510.0",
     "@fontsource/inter": "^5.0.0",
+    "@fontsource/noto-sans": "^5.0.0",
     "@fontsource/teko": "^5.0.0",
     "framer-motion": "^11.0.0",
     "react-icons": "^4.11.0",
