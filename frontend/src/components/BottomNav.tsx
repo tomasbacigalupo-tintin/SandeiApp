@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { FaHome, FaFutbol, FaUserFriends, FaUser } from 'react-icons/fa'
+import { FaHome, FaUserFriends, FaUser, FaChessBoard } from 'react-icons/fa'
 
 export default function BottomNav() {
   return (
@@ -8,13 +8,13 @@ export default function BottomNav() {
         <FaHome className="mb-1" />
         Inicio
       </NavLink>
-      <NavLink to="/matches" className="flex flex-col items-center">
-        <FaFutbol className="mb-1" />
-        Partidos
-      </NavLink>
       <NavLink to="/players" className="flex flex-col items-center">
         <FaUserFriends className="mb-1" />
         Jugadores
+      </NavLink>
+      <NavLink to="/tactics" className="flex flex-col items-center">
+        <FaChessBoard className="mb-1" />
+        T\u00e1cticas
       </NavLink>
       <NavLink to="/profile" className="flex flex-col items-center">
         <FaUser className="mb-1" />

@@ -2,21 +2,23 @@ import {
   usePlayers,
   useCreatePlayer,
   useDeletePlayer,
+  useUpdatePlayer,
 } from "@/hooks/usePlayers"
 import { useState } from "react"
 import Spinner from "@/components/ui/spinner"
+import PlayerWizard from "@/components/PlayerWizard"
 
 export default function Players() {
   const { data: players, isLoading: loading, error } = usePlayers()
   const createPlayerMutation = useCreatePlayer()
   const deletePlayerMutation = useDeletePlayer()
+  const updatePlayerMutation = useUpdatePlayer()
 
   const [showModal, setShowModal] = useState(false)
   const [name, setName] = useState("")
   const [stats, setStats] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
-  const [editId, setEditId] = useState<number | null>(null)
-  const [statsError, setStatsError] = useState("")
+  const [editId, setEditId] = useState<string | null>(null)
 
   const handleDelete = (id: string) => {
     if (!confirm("¿Estás seguro de eliminar este jugador?")) return
@@ -83,75 +85,27 @@ export default function Players() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded w-96">
-            <h2 className="text-lg font-bold mb-4">Nuevo jugador</h2>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault()
-                let parsedStats
-                try {
-                  parsedStats = stats ? JSON.parse(stats) : {}
-                  setStatsError("")
-                } catch {
-                  setStatsError("JSON inválido")
-                  return
-                }
-                try {
-                  await createPlayerMutation.mutateAsync({
-                    name,
-                    stats: parsedStats,
-                  })
-                  setShowModal(false)
-                } catch (err) {
-                  alert("Error al crear jugador")
-                }
-              }}
-            >
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Nombre"
-                  className="border p-2 w-full rounded"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-                <textarea
-                  placeholder='Stats (ej: {"goals": 3})'
-                  className="border p-2 w-full rounded"
-                  value={stats}
-                  onChange={(e) => {
-                    setStats(e.target.value)
-                    try {
-                      JSON.parse(e.target.value)
-                      setStatsError("")
-                    } catch {
-                      setStatsError("JSON inválido")
-                    }
-                  }}
-                  required
-                />
-                {statsError && (
-                  <p className="text-red-500 text-sm mt-1">{statsError}</p>
-                )}
-                <div className="flex justify-between">
-                  <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
-                  >
-                    Guardar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="text-blue-600 underline"
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+          <PlayerWizard
+            initialName={name}
+            initialStats={stats}
+            onComplete={async (data) => {
+              if (isEditMode && editId) {
+                await updatePlayerMutation.mutateAsync({ id: editId, data })
+              } else {
+                await createPlayerMutation.mutateAsync(data)
+              }
+              setShowModal(false)
+              setIsEditMode(false)
+              setName("")
+              setStats("")
+            }}
+            onCancel={() => {
+              setShowModal(false)
+              setIsEditMode(false)
+              setName("")
+              setStats("")
+            }}
+          />
         </div>
       )}
     </div>
