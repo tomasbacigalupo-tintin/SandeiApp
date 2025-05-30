@@ -6,6 +6,7 @@ import PrivateRoute from "@/components/PrivateRoute"
 import Players from "@/pages/Players"
 import Tactics from "@/pages/Tactics"
 import Profile from "@/pages/Profile"
+import Stats from "@/pages/Stats"
 import { Toaster } from "sonner"
 import { Navigate } from "react-router-dom"
 import BottomNav from "@/components/BottomNav"
@@ -39,6 +40,14 @@ function App() {
           element={
             <PrivateRoute>
               <Tactics />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/stats"
+          element={
+            <PrivateRoute>
+              <Stats />
             </PrivateRoute>
           }
         />
