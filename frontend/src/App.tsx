@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { lazy, Suspense } from "react"
 import PrivateRoute from "@/components/PrivateRoute"
 import BottomNav from "@/components/BottomNav"
@@ -13,6 +13,7 @@ const Players = lazy(() => import("@/pages/Players"))
 const Tactics = lazy(() => import("@/pages/Tactics"))
 const Profile = lazy(() => import("@/pages/Profile"))
 const Stats = lazy(() => import("@/pages/Stats"))
+const NotFound = lazy(() => import("@/pages/NotFound"))
 
 function App() {
   const { isAuthenticated } = useAuth()
@@ -86,7 +87,14 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<Spinner className="mx-auto mt-4 h-6 w-6 text-primary" />}>
+                <NotFound />
+              </Suspense>
+            }
+          />
         </Routes>
         {isAuthenticated && <BottomNav />}
       </BrowserRouter>
