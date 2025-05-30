@@ -1,5 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { FaHome, FaUserFriends, FaUser, FaChessBoard, FaChartBar } from 'react-icons/fa'
+import {
+  FaHome,
+  FaUserFriends,
+  FaUser,
+  FaChessBoard,
+  FaChartBar,
+} from 'react-icons/fa'
+import ThemeToggle from './ThemeToggle'
 
 export default function BottomNav() {
   return (
@@ -29,6 +36,7 @@ export default function BottomNav() {
         <FaUser className="mb-1" aria-hidden="true" />
         Perfil
       </NavLink>
+      <ThemeToggle />
     </nav>
   )
 }
