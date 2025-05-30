@@ -190,6 +190,7 @@ Tecnologías utilizadas:
 
 - Backend: NestJS, TypeORM, PostgreSQL
 - Frontend: React, Vite, TailwindCSS, shadcn/ui
+- Guía de colores: [frontend/COLOR_GUIDE.md](frontend/COLOR_GUIDE.md)
 - IA: FastAPI (Python)
 - Infraestructura: Docker Compose
 - CI/CD: GitHub Actions

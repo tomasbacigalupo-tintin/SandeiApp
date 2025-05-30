@@ -1,6 +1,7 @@
 import { logout } from "@/services/authService"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -18,12 +19,9 @@ export default function Dashboard() {
     >
       <h1 className="text-2xl font-bold">Bienvenido al Dashboard</h1>
       <p>Estás autenticado correctamente.</p>
-      <button
-        onClick={handleLogout}
-        className="bg-red-700 text-white px-4 py-2 rounded"
-      >
+      <Button variant="destructive" onClick={handleLogout}>
         Cerrar sesión
-      </button>
+      </Button>
     </motion.div>
   )
 }
