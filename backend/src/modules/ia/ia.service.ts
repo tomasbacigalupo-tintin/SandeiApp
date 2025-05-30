@@ -3,6 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { LineupResponseDto } from './dto/lineup-response.dto';
 import { TacticsResponseDto } from './dto/tactics-response.dto';
+import { ErrorDetectionResponseDto } from './dto/error-detection-response.dto';
 
 @Injectable()
 export class IaService {
@@ -53,6 +54,21 @@ export class IaService {
       return response.data;
     } catch (error) {
       this.logger.error('Failed to predict match', error as Error);
+      throw error;
+    }
+  }
+
+  async detectErrors(
+    lineup: string[],
+    formation?: string,
+  ): Promise<ErrorDetectionResponseDto> {
+    try {
+      const response = await firstValueFrom(
+        this.http.post('/ia/detect_errors', { lineup, formation }),
+      );
+      return response.data;
+    } catch (error) {
+      this.logger.error('Failed to detect errors', error as Error);
       throw error;
     }
   }

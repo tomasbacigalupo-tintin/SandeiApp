@@ -63,6 +63,11 @@ class TacticsRequest(BaseModel):
     style: Optional[str] = None
 
 
+class ErrorDetectionRequest(BaseModel):
+    lineup: List[str]
+    formation: Optional[str] = None
+
+
 @app.post("/ia/suggest_lineup")
 async def suggest_lineup(
     payload: LineupRequest, client: httpx.AsyncClient = Depends(get_http_client)
@@ -166,5 +171,29 @@ async def predict_match(
     try:
         prediction = await fetch_chat_completion(messages, client)
         return {"prediction": prediction}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post("/ia/detect_errors")
+async def detect_errors(
+    payload: ErrorDetectionRequest, client: httpx.AsyncClient = Depends(get_http_client)
+):
+    if not OPENAI_API_KEY:
+        raise HTTPException(status_code=500, detail="OpenAI not available")
+
+    formation_part = f" with formation {payload.formation}" if payload.formation else ""
+    prompt = (
+        "Identify any issues in the lineup" + formation_part + ": "
+        + ", ".join(payload.lineup)
+    )
+
+    messages = [
+        {"role": "system", "content": "You are a football analyst."},
+        {"role": "user", "content": prompt},
+    ]
+    try:
+        report = await fetch_chat_completion(messages, client)
+        return {"report": report}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))

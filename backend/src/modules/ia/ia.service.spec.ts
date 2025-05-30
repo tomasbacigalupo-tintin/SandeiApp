@@ -60,6 +60,20 @@ describe('IaService', () => {
     expect(result).toEqual(data);
   });
 
+  it('should request error detection to ia-service', async () => {
+    const data = { report: 'ok' };
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(of({ data } as AxiosResponse));
+
+    const result = await service.detectErrors(['a', 'b'], undefined);
+    expect(httpService.post).toHaveBeenCalledWith('/ia/detect_errors', {
+      lineup: ['a', 'b'],
+      formation: undefined,
+    });
+    expect(result).toEqual(data);
+  });
+
   it('logs and rethrows errors from http service', async () => {
     jest
       .spyOn(httpService, 'post')
@@ -75,6 +89,15 @@ describe('IaService', () => {
       .mockReturnValue(throwError(() => new Error('fail')));
     const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
     await expect(service.suggestTactics(['p'])).rejects.toThrow('fail');
+    expect(logSpy).toHaveBeenCalled();
+  });
+
+  it('logs and rethrows errors when detecting lineup issues', async () => {
+    jest
+      .spyOn(httpService, 'post')
+      .mockReturnValue(throwError(() => new Error('fail')));
+    const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
+    await expect(service.detectErrors(['a'])).rejects.toThrow('fail');
     expect(logSpy).toHaveBeenCalled();
   });
 });
