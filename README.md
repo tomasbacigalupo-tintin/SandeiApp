@@ -48,6 +48,7 @@ Servicio de IA:
 - Endpoint `/ia/suggest_tactics` para obtener recomendaciones tácticas mediante IA
 - Endpoint `/ia/predict_match` para predecir el resultado de un partido
 - Endpoint `/ia/detect_errors` para identificar problemas en la alineación enviada
+- Endpoint `/healthz` para comprobación rápida del estado de la API
 
 ---
 
@@ -194,6 +195,12 @@ Tecnologías utilizadas:
 - IA: FastAPI (Python)
 - Infraestructura: Docker Compose
 - CI/CD: GitHub Actions
+## Funcionalidades propuestas
+
+- Panel de estadísticas avanzadas con gráficos interactivos.
+- Importación y exportación de datos en formato CSV.
+- Notificaciones por correo ante nuevas calificaciones o partidos.
+
 
 ---
 
