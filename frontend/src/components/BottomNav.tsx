@@ -10,7 +10,7 @@ import ThemeToggle from './ThemeToggle'
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-sm">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-sm md:hidden">
       <NavLink
         to="/dashboard"
         className="flex flex-col items-center"
