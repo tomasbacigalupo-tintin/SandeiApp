@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { PlayersService } from '../players.service';
 import { Player } from '../player.entity';
+import { RatingsService } from '../../ratings/ratings.service';
 
 describe('PlayersService', () => {
   let service: PlayersService;
@@ -12,6 +13,7 @@ describe('PlayersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlayersService,
+        { provide: RatingsService, useValue: { averageForPlayer: jest.fn() } },
         {
           provide: getRepositoryToken(Player),
           useValue: {

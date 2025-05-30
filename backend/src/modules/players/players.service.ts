@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
 import { Player } from './player.entity';
+import { RatingsService } from '../ratings/ratings.service';
 
 @Injectable()
 export class PlayersService {
   constructor(
     @InjectRepository(Player) private playersRepo: Repository<Player>,
+    private readonly ratingsService: RatingsService,
   ) {}
 
   create(data: Partial<Player>): Promise<Player> {
@@ -39,5 +41,9 @@ export class PlayersService {
     const player = await this.playersRepo.findOneByOrFail({ id });
     await this.playersRepo.remove(player);
     return player;
+  }
+
+  getAverageRating(id: string): Promise<number> {
+    return this.ratingsService.averageForPlayer(id);
   }
 }
