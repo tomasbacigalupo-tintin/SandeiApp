@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api, { setAuthToken } from '@/services/api';
 
 interface AuthContextType {
@@ -14,6 +15,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const stored = localStorage.getItem('token');
@@ -35,10 +37,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    const handler = () => logout();
+    const handler = () => {
+      logout();
+      navigate('/login');
+    };
     window.addEventListener('unauthorized', handler);
     return () => window.removeEventListener('unauthorized', handler);
-  }, [logout]);
+  }, [logout, navigate]);
 
   return (
     <AuthContext.Provider
