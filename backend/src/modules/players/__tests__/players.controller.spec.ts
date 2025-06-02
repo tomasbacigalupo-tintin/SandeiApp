@@ -38,7 +38,7 @@ describe('PlayersController', () => {
   });
 
   it('calls service to create a player', () => {
-    controller.create({ name: 'test' } as any);
+    controller.create({ name: 'test', stats: {}, fitness: 10, technical: 20 } as any);
     expect(service.create).toHaveBeenCalled();
   });
 

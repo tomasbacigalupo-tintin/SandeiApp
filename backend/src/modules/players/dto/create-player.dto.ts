@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsObject } from 'class-validator';
 
 export class CreatePlayerDto {
   @IsString()
@@ -11,4 +11,16 @@ export class CreatePlayerDto {
   @IsOptional()
   @IsNumber()
   score?: number;
+
+  @IsOptional()
+  @IsObject()
+  stats?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsNumber()
+  fitness?: number;
+
+  @IsOptional()
+  @IsNumber()
+  technical?: number;
 }

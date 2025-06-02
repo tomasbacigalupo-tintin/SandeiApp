@@ -34,7 +34,12 @@ describe('PlayersService', () => {
   });
 
   it('creates a player', async () => {
-    const data = { name: 'John' } as Partial<Player>;
+    const data = {
+      name: 'John',
+      stats: {},
+      fitness: 50,
+      technical: 60,
+    } as Partial<Player>;
     (repo.create as jest.Mock).mockReturnValue(data);
     (repo.save as jest.Mock).mockResolvedValue({ id: '1', ...data });
 

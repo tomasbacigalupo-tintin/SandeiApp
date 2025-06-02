@@ -8,6 +8,8 @@ export interface Player {
   position?: string;
   score?: number;
   stats?: PlayerStats;
+  fitness?: number;
+  technical?: number;
 }
 
 export interface CreatePlayerInput {
@@ -15,4 +17,6 @@ export interface CreatePlayerInput {
   position?: string;
   score?: number;
   stats?: PlayerStats;
+  fitness?: number;
+  technical?: number;
 }

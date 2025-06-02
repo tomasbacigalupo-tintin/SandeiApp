@@ -13,5 +13,14 @@ export class Player {
 
   @Column('int', { default: 0 })
   score!: number;
+
+  @Column('jsonb', { nullable: true })
+  stats?: Record<string, unknown>;
+
+  @Column('int', { default: 0 })
+  fitness!: number;
+
+  @Column('int', { default: 0 })
+  technical!: number;
 }
 
