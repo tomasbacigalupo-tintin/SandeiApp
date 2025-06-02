@@ -208,3 +208,7 @@ Autores:
 
 Tomás Bacigalupo | Joaquín Romero  
 GitHub: https://github.com/tomasbacigalupo-tintin | https://github.com/JoaquinRomeroVillagra
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más información.
