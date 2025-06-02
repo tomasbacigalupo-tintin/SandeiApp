@@ -16,11 +16,13 @@ export class StatsService {
 
   async getStats(range: 'month' | 'season'): Promise<StatItem[]> {
     const players = await this.playersService.findAll();
-    const result: StatItem[] = [];
-    for (const player of players) {
-      const avg = await this.ratingsService.averageForPlayer(player.id);
-      result.push({ name: player.name, value: avg });
-    }
-    return result;
+    const avgPromises = players.map(player =>
+      this.ratingsService.averageForPlayer(player.id),
+    );
+    const averages = await Promise.all(avgPromises);
+    return players.map((player, index) => ({
+      name: player.name,
+      value: averages[index],
+    }));
   }
 }
