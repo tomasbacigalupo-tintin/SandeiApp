@@ -1,0 +1,48 @@
+# IA Service
+
+Este servicio implementa una API REST con [FastAPI](https://fastapi.tiangolo.com/) que actúa como módulo de inteligencia artificial para **SandeiApp**. Se conecta a OpenAI para sugerir alineaciones y tácticas, analizar el rendimiento del equipo y predecir resultados de partidos.
+
+## Variables de entorno
+
+Copia `.env.example` a `.env` y completa los siguientes valores:
+
+- `OPENAI_API_KEY` &ndash; clave para autenticarte en la API de OpenAI.
+- `FASTAPI_HOST` &ndash; interfaz donde se iniciará Uvicorn (por defecto `0.0.0.0`).
+- `FASTAPI_PORT` &ndash; puerto de escucha (por defecto `8000`).
+
+Estas variables son requeridas tanto al ejecutar en local como con Docker.
+
+## Instalación y pruebas
+
+```bash
+cd ia-service
+pip install -r requirements.txt
+pytest
+```
+
+Las pruebas utilizan stubs para la API de OpenAI, por lo que pueden ejecutarse sin conexión a internet.
+
+## Uso básico
+
+Ejecuta el servicio en local con:
+
+```bash
+uvicorn app.main:app --host $FASTAPI_HOST --port $FASTAPI_PORT
+```
+
+O bien construye la imagen Docker:
+
+```bash
+docker build -t ia-service .
+FASTAPI_HOST=0.0.0.0 FASTAPI_PORT=8000 OPENAI_API_KEY=<clave> \
+  docker run -p 8000:8000 ia-service
+```
+
+### Endpoints principales
+
+- `GET /` &ndash; comprobación básica del servicio.
+- `POST /ia/suggest_lineup` &ndash; sugiere una alineación según la formación enviada.
+- `POST /ia/suggest_tactics` &ndash; genera instrucciones tácticas para los jugadores.
+- `POST /ia/analyze_performance` &ndash; analiza las calificaciones de cada jugador.
+- `POST /ia/predict_match` &ndash; predice el resultado de un partido.
+- `POST /ia/detect_errors` &ndash; informa de posibles errores en la alineación.
