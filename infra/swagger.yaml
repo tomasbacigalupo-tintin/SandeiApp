@@ -69,6 +69,24 @@ paths:
       responses:
         '201':
           description: Rating created
+  /stats:
+    get:
+      summary: Get aggregated statistics
+      parameters:
+        - in: query
+          name: range
+          schema:
+            type: string
+            enum: [month, season]
+      responses:
+        '200':
+          description: Stats list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StatItem'
 components:
   schemas:
     LineupRequest:
@@ -135,3 +153,13 @@ components:
       properties:
         prediction:
           type: string
+    StatItem:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: number
+      required:
+        - name
+        - value
