@@ -96,7 +96,10 @@ archivo `.env.example` en la raíz del proyecto. Cópialo a `.env` y ajusta las
 variables según tu entorno.
 
 La conexión a la base de datos se configura mediante la variable
-`DATABASE_URL` incluida en dichos archivos.
+`DATABASE_URL` incluida en dichos archivos. Si modificas `POSTGRES_USER`,
+`POSTGRES_PASSWORD` o `POSTGRES_DB`, recuerda actualizar `DATABASE_URL`
+con la cadena completa, por ejemplo
+`postgresql://<usuario>:<contraseña>@postgres:5432/<base>`.
 
 El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
 Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
