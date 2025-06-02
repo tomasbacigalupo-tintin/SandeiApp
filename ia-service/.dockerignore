@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.log
+
+# Virtual environments
+venv/
+.env
+.env.*
+*.local
+
+# Tests
+tests/
+
+# Others
+Dockerfile
