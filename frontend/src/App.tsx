@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import PrivateRoute from '@/components/PrivateRoute';
 import BottomNav from '@/components/BottomNav';
@@ -19,8 +19,7 @@ function App() {
   const { isAuthenticated } = useAuth();
   return (
     <>
-      <BrowserRouter>
-        <Routes>
+      <Routes>
           <Route
             path="/login"
             element={
@@ -129,8 +128,7 @@ function App() {
           />
         </Routes>
         {isAuthenticated && <BottomNav />}
-      </BrowserRouter>
-      <Toaster />
+        <Toaster />
     </>
   );
 }
