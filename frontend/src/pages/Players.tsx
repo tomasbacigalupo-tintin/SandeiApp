@@ -3,31 +3,30 @@ import {
   useCreatePlayer,
   useDeletePlayer,
   useUpdatePlayer,
-} from "@/hooks/usePlayers"
-import { useState } from "react"
-import Spinner from "@/components/ui/spinner"
-import { Skeleton } from "@/components/ui/skeleton"
-import PlayerWizard from "@/components/PlayerWizard"
-import PlayerCard from "@/components/PlayerCard"
-import { Button } from "@/components/ui/button"
+} from '@/hooks/usePlayers';
+import { useState } from 'react';
+import Spinner from '@/components/ui/spinner';
+import { Skeleton } from '@/components/ui/skeleton';
+import PlayerWizard from '@/components/PlayerWizard';
+import PlayerCard from '@/components/PlayerCard';
+import { Button } from '@/components/ui/button';
 
 export default function Players() {
-  const { data: players, isLoading: loading, error } = usePlayers()
-  const createPlayerMutation = useCreatePlayer()
-  const deletePlayerMutation = useDeletePlayer()
-  const updatePlayerMutation = useUpdatePlayer()
+  const { data: players, isLoading: loading, error } = usePlayers();
+  const createPlayerMutation = useCreatePlayer();
+  const deletePlayerMutation = useDeletePlayer();
+  const updatePlayerMutation = useUpdatePlayer();
 
-  const [showModal, setShowModal] = useState(false)
-  const [name, setName] = useState("")
-  const [stats, setStats] = useState("")
-  const [isEditMode, setIsEditMode] = useState(false)
-  const [editId, setEditId] = useState<string | null>(null)
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState('');
+  const [stats, setStats] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
 
   const handleDelete = (id: string) => {
-    if (!confirm("¿Estás seguro de eliminar este jugador?")) return
-    deletePlayerMutation.mutate(id)
-  }
-
+    if (!confirm('¿Estás seguro de eliminar este jugador?')) return;
+    deletePlayerMutation.mutate(id);
+  };
 
   if (loading)
     return (
@@ -39,8 +38,8 @@ export default function Players() {
           ))}
         </div>
       </div>
-    )
-  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>
+    );
+  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
 
   return (
     <div className="p-6 space-y-4">
@@ -62,11 +61,11 @@ export default function Players() {
               key={player.id}
               player={player}
               onEdit={() => {
-                setName(player.name)
-                setStats(JSON.stringify(player.stats, null, 2))
-                setEditId(player.id)
-                setIsEditMode(true)
-                setShowModal(true)
+                setName(player.name);
+                setStats(JSON.stringify(player.stats, null, 2));
+                setEditId(player.id);
+                setIsEditMode(true);
+                setShowModal(true);
               }}
               onDelete={() => handleDelete(player.id)}
             />
@@ -81,26 +80,24 @@ export default function Players() {
             initialStats={stats}
             onComplete={async (data) => {
               if (isEditMode && editId) {
-                await updatePlayerMutation.mutateAsync({ id: editId, data })
+                await updatePlayerMutation.mutateAsync({ id: editId, data });
               } else {
-                await createPlayerMutation.mutateAsync(data)
+                await createPlayerMutation.mutateAsync(data);
               }
-              setShowModal(false)
-              setIsEditMode(false)
-              setName("")
-              setStats("")
+              setShowModal(false);
+              setIsEditMode(false);
+              setName('');
+              setStats('');
             }}
             onCancel={() => {
-              setShowModal(false)
-              setIsEditMode(false)
-              setName("")
-              setStats("")
+              setShowModal(false);
+              setIsEditMode(false);
+              setName('');
+              setStats('');
             }}
           />
         </div>
       )}
     </div>
-  )
+  );
 }
-
-

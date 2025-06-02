@@ -1,5 +1,5 @@
-import { Formation } from "@/types/formation";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Formation } from '@/types/formation';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 interface FormationCardProps {
   formation: Formation;

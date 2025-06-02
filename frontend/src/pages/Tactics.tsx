@@ -1,13 +1,10 @@
-import { useState } from "react";
-import {
-  useFormations,
-  useCreateFormation,
-} from "@/hooks/useFormations";
-import Spinner from "@/components/ui/spinner";
-import FormationWizard from "@/components/FormationWizard";
-import FormationCard from "@/components/FormationCard";
-import { Button } from "@/components/ui/button";
-import TacticsBoard from "@/components/TacticsBoard";
+import { useState } from 'react';
+import { useFormations, useCreateFormation } from '@/hooks/useFormations';
+import Spinner from '@/components/ui/spinner';
+import FormationWizard from '@/components/FormationWizard';
+import FormationCard from '@/components/FormationCard';
+import { Button } from '@/components/ui/button';
+import TacticsBoard from '@/components/TacticsBoard';
 
 export default function Tactics() {
   const { data: formations = [], isLoading, error } = useFormations();

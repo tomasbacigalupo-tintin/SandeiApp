@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react';
 import {
   RadarChart,
   PolarGrid,
@@ -12,27 +12,27 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-} from "recharts"
-import { Button } from "@/components/ui/button"
-import { useStats } from "@/hooks/useStats"
-import Spinner from "@/components/ui/spinner"
+} from 'recharts';
+import { Button } from '@/components/ui/button';
+import { useStats } from '@/hooks/useStats';
+import Spinner from '@/components/ui/spinner';
 
 export default function Stats() {
-  const [range, setRange] = useState<"month" | "season">("month")
-  const { data, isLoading, error } = useStats(range)
+  const [range, setRange] = useState<'month' | 'season'>('month');
+  const { data, isLoading, error } = useStats(range);
 
-  const stats = data || []
+  const stats = data || [];
 
   if (isLoading) {
     return (
       <div className="flex justify-center mt-10">
         <Spinner className="h-8 w-8 text-primary" />
       </div>
-    )
+    );
   }
 
   if (error) {
-    return <p className="text-red-500 text-center mt-10">{String(error)}</p>
+    return <p className="text-red-500 text-center mt-10">{String(error)}</p>;
   }
 
   return (
@@ -40,14 +40,14 @@ export default function Stats() {
       <h2 className="text-xl font-bold">Rendimiento</h2>
       <div className="flex gap-2">
         <Button
-          variant={range === "month" ? "default" : "outline"}
-          onClick={() => setRange("month")}
+          variant={range === 'month' ? 'default' : 'outline'}
+          onClick={() => setRange('month')}
         >
           Último mes
         </Button>
         <Button
-          variant={range === "season" ? "default" : "outline"}
-          onClick={() => setRange("season")}
+          variant={range === 'season' ? 'default' : 'outline'}
+          onClick={() => setRange('season')}
         >
           Temporada
         </Button>
@@ -75,5 +75,5 @@ export default function Stats() {
         </RadarChart>
       </div>
     </div>
-  )
+  );
 }
