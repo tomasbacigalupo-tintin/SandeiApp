@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
-import { FaMoon, FaSun } from 'react-icons/fa'
-import { Button } from './ui/button'
+import { useEffect, useState } from 'react';
+import { FaMoon, FaSun } from 'react-icons/fa';
+import { Button } from './ui/button';
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
-    if (saved) return saved
+    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    if (saved) return saved;
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
-      : 'light'
-  })
+      : 'light';
+  });
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
-    localStorage.setItem('theme', theme)
-  }, [theme])
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
-  const toggle = () => setTheme(theme === 'light' ? 'dark' : 'light')
+  const toggle = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
     <Button
@@ -27,7 +27,11 @@ export default function ThemeToggle() {
         theme === 'light' ? 'Activar modo oscuro' : 'Desactivar modo oscuro'
       }
     >
-      {theme === 'light' ? <FaMoon aria-hidden="true" /> : <FaSun aria-hidden="true" />}
+      {theme === 'light' ? (
+        <FaMoon aria-hidden="true" />
+      ) : (
+        <FaSun aria-hidden="true" />
+      )}
     </Button>
-  )
+  );
 }

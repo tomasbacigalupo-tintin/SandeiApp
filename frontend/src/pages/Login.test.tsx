@@ -11,7 +11,7 @@ describe('Login page', () => {
         <AuthProvider>
           <Login />
         </AuthProvider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText(/Iniciar sesi\u00f3n/i)).toBeInTheDocument();
   });

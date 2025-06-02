@@ -1,5 +1,5 @@
-import { Player } from "@/types/player";
-import { useState } from "react";
+import { Player } from '@/types/player';
+import { useState } from 'react';
 
 interface PlayerQuickInfoProps {
   player: Player;
@@ -33,7 +33,9 @@ export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
       </div>
       {tab === 'stats' && (
         <pre className="whitespace-pre-wrap break-all text-sm">
-          {player.stats ? JSON.stringify(player.stats, null, 2) : 'Sin estadísticas'}
+          {player.stats
+            ? JSON.stringify(player.stats, null, 2)
+            : 'Sin estadísticas'}
         </pre>
       )}
       {tab === 'history' && (

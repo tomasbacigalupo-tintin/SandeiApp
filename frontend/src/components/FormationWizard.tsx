@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Spinner from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import Spinner from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
 
 export interface FormationWizardData {
   name: string;
@@ -15,8 +15,8 @@ export default function FormationWizard({
   onCancel: () => void;
 }) {
   const [step, setStep] = useState(1);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [saving, setSaving] = useState(false);
   const totalSteps = 3;
 
@@ -38,12 +38,17 @@ export default function FormationWizard({
   return (
     <div className="bg-white p-6 rounded w-96">
       <div className="h-2 bg-gray-200 rounded mb-4">
-        <div className="h-full bg-blue-700 rounded" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full bg-blue-700 rounded"
+          style={{ width: `${progress}%` }}
+        />
       </div>
       {step === 1 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Nombre de la formaci\u00f3n</h2>
-          <label htmlFor="formation-name" className="sr-only">Nombre</label>
+          <label htmlFor="formation-name" className="sr-only">
+            Nombre
+          </label>
           <input
             id="formation-name"
             type="text"
@@ -58,7 +63,9 @@ export default function FormationWizard({
       {step === 2 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold">Descripci\u00f3n</h2>
-          <label htmlFor="formation-description" className="sr-only">Descripci\u00f3n</label>
+          <label htmlFor="formation-description" className="sr-only">
+            Descripci\u00f3n
+          </label>
           <textarea
             id="formation-description"
             className="border p-2 w-full rounded"
@@ -104,7 +111,11 @@ export default function FormationWizard({
             Guardar
           </Button>
         )}
-        <Button variant="link" onClick={onCancel} className="ml-2 text-destructive">
+        <Button
+          variant="link"
+          onClick={onCancel}
+          className="ml-2 text-destructive"
+        >
           Cancelar
         </Button>
       </div>

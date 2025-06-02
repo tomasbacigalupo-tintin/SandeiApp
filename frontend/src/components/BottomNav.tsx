@@ -1,12 +1,12 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import {
   FaHome,
   FaUserFriends,
   FaUser,
   FaChessBoard,
   FaChartBar,
-} from 'react-icons/fa'
-import ThemeToggle from './ThemeToggle'
+} from 'react-icons/fa';
+import ThemeToggle from './ThemeToggle';
 
 export default function BottomNav() {
   return (
@@ -57,5 +57,5 @@ export default function BottomNav() {
       </NavLink>
       <ThemeToggle />
     </nav>
-  )
+  );
 }

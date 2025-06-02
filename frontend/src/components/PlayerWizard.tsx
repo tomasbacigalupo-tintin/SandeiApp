@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Spinner from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import Spinner from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
 
 export interface PlayerWizardData {
   name: string;
@@ -8,8 +8,8 @@ export interface PlayerWizardData {
 }
 
 export default function PlayerWizard({
-  initialName = "",
-  initialStats = "",
+  initialName = '',
+  initialStats = '',
   onComplete,
   onCancel,
 }: {
@@ -21,7 +21,7 @@ export default function PlayerWizard({
   const [step, setStep] = useState(1);
   const [name, setName] = useState(initialName);
   const [stats, setStats] = useState(initialStats);
-  const [statsError, setStatsError] = useState("");
+  const [statsError, setStatsError] = useState('');
   const [saving, setSaving] = useState(false);
   const totalSteps = 3;
 
@@ -29,10 +29,10 @@ export default function PlayerWizard({
     if (step === 1 && !name) return;
     if (step === 2) {
       try {
-        JSON.parse(stats || "{}");
-        setStatsError("");
+        JSON.parse(stats || '{}');
+        setStatsError('');
       } catch {
-        setStatsError("JSON inválido");
+        setStatsError('JSON inválido');
         return;
       }
     }
@@ -93,9 +93,9 @@ export default function PlayerWizard({
               setStats(e.target.value);
               try {
                 JSON.parse(e.target.value);
-                setStatsError("");
+                setStatsError('');
               } catch {
-                setStatsError("JSON inválido");
+                setStatsError('JSON inválido');
               }
             }}
             aria-label="Estadísticas"
@@ -110,7 +110,7 @@ export default function PlayerWizard({
             <strong>Nombre:</strong> {name}
           </p>
           <pre className="bg-gray-100 p-2 rounded overflow-auto text-sm">
-            {stats || "{}"}
+            {stats || '{}'}
           </pre>
         </div>
       )}
@@ -138,7 +138,11 @@ export default function PlayerWizard({
             Guardar
           </Button>
         )}
-        <Button variant="link" onClick={onCancel} className="ml-2 text-destructive">
+        <Button
+          variant="link"
+          onClick={onCancel}
+          className="ml-2 text-destructive"
+        >
           Cancelar
         </Button>
       </div>

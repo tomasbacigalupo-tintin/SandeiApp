@@ -1,7 +1,7 @@
-import { Player } from "@/types/player";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { motion, useAnimation } from "framer-motion";
+import { Player } from '@/types/player';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { motion, useAnimation } from 'framer-motion';
 
 interface PlayerCardProps {
   player: Player;
@@ -9,12 +9,16 @@ interface PlayerCardProps {
   onDelete?: () => void;
 }
 
-export default function PlayerCard({ player, onEdit, onDelete }: PlayerCardProps) {
+export default function PlayerCard({
+  player,
+  onEdit,
+  onDelete,
+}: PlayerCardProps) {
   const controls = useAnimation();
 
   const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
     if (info.offset.x < -100 && onDelete) {
-      if (confirm("¿Estás seguro de eliminar este jugador?")) {
+      if (confirm('¿Estás seguro de eliminar este jugador?')) {
         onDelete();
         if (navigator.vibrate) navigator.vibrate(50);
       }

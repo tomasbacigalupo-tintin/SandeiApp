@@ -1,34 +1,34 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { useAuth } from "@/context/AuthContext"
-import { toast } from "sonner"
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from 'sonner';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import Spinner from "@/components/ui/spinner"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import Spinner from '@/components/ui/spinner';
+import { Input } from '@/components/ui/input';
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-  const { login } = useAuth()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      await login(email, password)
-      toast.success("Inicio de sesión exitoso")
-      navigate("/dashboard")
+      await login(email, password);
+      toast.success('Inicio de sesión exitoso');
+      navigate('/dashboard');
     } catch {
-      toast.error("Credenciales inválidas o error del servidor")
+      toast.error('Credenciales inválidas o error del servidor');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -75,11 +75,11 @@ export default function Login() {
               disabled={loading}
             >
               {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}
-              {loading ? "Ingresando..." : "Ingresar"}
+              {loading ? 'Ingresando...' : 'Ingresar'}
             </Button>
           </form>
           <p className="text-sm text-center mt-4">
-            ¿No tenés cuenta?{" "}
+            ¿No tenés cuenta?{' '}
             <Link to="/register" className="text-blue-600 hover:underline">
               Registrate acá
             </Link>
@@ -87,5 +87,5 @@ export default function Login() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
