@@ -9,6 +9,7 @@ import { RatingsModule } from "./modules/ratings/ratings.module";
 import { FormationsModule } from "./modules/formations/formations.module";
 import { IaModule } from "./modules/ia/ia.module";
 import { HealthModule } from "./modules/health/health.module";
+import { StatsModule } from "./modules/stats/stats.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { HealthModule } from "./modules/health/health.module";
     FormationsModule,
     IaModule,
     HealthModule,
+    StatsModule,
   ],
 })
 export class AppModule {}
