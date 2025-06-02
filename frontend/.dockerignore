@@ -1,0 +1,21 @@
+node_modules
+npm-debug.log*
+yarn-debug.log*
+*.log
+
+# Build outputs
+dist/
+dist-ssr/
+
+# Tests and coverage
+tests
+coverage
+
+# Environment files
+.env
+.env.*
+*.local
+
+# IDE and others
+.vscode
+.idea
