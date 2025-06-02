@@ -22,16 +22,30 @@ describe('StatsService', () => {
     ratingsService = module.get<RatingsService>(RatingsService);
   });
 
-  it('aggregates ratings per player', async () => {
+  it('aggregates ratings per player concurrently', async () => {
     (playersService.findAll as jest.Mock).mockResolvedValue([
       { id: 'p1', name: 'John' },
       { id: 'p2', name: 'Jane' },
     ]);
-    (ratingsService.averageForPlayer as jest.Mock)
-      .mockResolvedValueOnce(5)
-      .mockResolvedValueOnce(7);
 
-    const result = await service.getStats('month');
+    const resolvers: Array<() => void> = [];
+    (ratingsService.averageForPlayer as jest.Mock).mockImplementation((id: string) => {
+      return new Promise<number>(resolve => {
+        resolvers.push(() => resolve(id === 'p1' ? 5 : 7));
+      });
+    });
+
+    const statsPromise = service.getStats('month');
+
+    // allow pending microtasks to run so service triggers rating calls
+    await Promise.resolve();
+
+    // both rating calculations should have been triggered before any resolve
+    expect(ratingsService.averageForPlayer).toHaveBeenCalledTimes(2);
+
+    resolvers.forEach(fn => fn());
+
+    const result = await statsPromise;
 
     expect(result).toEqual([
       { name: 'John', value: 5 },
