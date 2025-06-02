@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePlayerDto } from './create-player.dto';
-import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsObject } from 'class-validator';
 
 export class UpdatePlayerDto extends PartialType(CreatePlayerDto) {
   @IsOptional()
@@ -14,4 +14,16 @@ export class UpdatePlayerDto extends PartialType(CreatePlayerDto) {
   @IsOptional()
   @IsNumber()
   score?: number;
+
+  @IsOptional()
+  @IsNumber()
+  fitness?: number;
+
+  @IsOptional()
+  @IsNumber()
+  technical?: number;
+
+  @IsOptional()
+  @IsObject()
+  stats?: Record<string, unknown>;
 }

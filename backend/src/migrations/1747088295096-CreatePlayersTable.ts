@@ -9,6 +9,9 @@ export class CreatePlayersTable1747088295096 implements MigrationInterface {
             "name" character varying NOT NULL,
             "position" character varying,
             "score" integer NOT NULL DEFAULT 0,
+            "stats" jsonb,
+            "fitness" integer NOT NULL DEFAULT 0,
+            "technical" integer NOT NULL DEFAULT 0,
             CONSTRAINT "PK_players_id" PRIMARY KEY ("id")
         )`);
     }

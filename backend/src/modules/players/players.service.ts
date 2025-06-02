@@ -33,7 +33,7 @@ export class PlayersService {
   }
 
   async update(id: string, data: Partial<Player>): Promise<Player> {
-    await this.playersRepo.update(id, data);
+    await this.playersRepo.update(id, data as any);
     return this.playersRepo.findOneByOrFail({ id });
   }
 
