@@ -10,7 +10,7 @@ describe('NotFound page', () => {
         <NotFound />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/Page not found/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByText(/Página no encontrada/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Ir al login/i })).toBeInTheDocument();
   });
 });
