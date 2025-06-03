@@ -42,12 +42,19 @@ export class RatingsService {
     });
   }
 
-  async averageForPlayer(playerId: string): Promise<number> {
-    const result = await this.ratingsRepo
+  async averageForPlayer(playerId: string, since?: Date): Promise<number> {
+    const qb = this.ratingsRepo
       .createQueryBuilder('rating')
       .select('AVG(rating.score)', 'avg')
-      .where('rating.playerId = :playerId', { playerId })
-      .getRawOne<{ avg: string | null }>();
+      .where('rating.playerId = :playerId', { playerId });
+
+    if (since) {
+      qb.leftJoin('rating.match', 'match').andWhere('match.date >= :since', {
+        since,
+      });
+    }
+
+    const result = await qb.getRawOne<{ avg: string | null }>();
     const avg = result?.avg;
     return avg ? parseFloat(avg) : 0;
   }
