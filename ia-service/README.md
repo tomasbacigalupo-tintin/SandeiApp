@@ -38,6 +38,14 @@ FASTAPI_HOST=0.0.0.0 FASTAPI_PORT=8000 OPENAI_API_KEY=<clave> \
   docker run -p 8000:8000 ia-service
 ```
 
+### CORS
+
+El servicio habilita CORS para permitir peticiones desde el frontend y el backend.
+Actualmente los orígenes permitidos son:
+
+- `http://localhost:5173` (frontend en desarrollo)
+- `http://localhost:3000` (backend NestJS)
+
 ### Endpoints principales
 
 - `GET /` &ndash; comprobación básica del servicio.
