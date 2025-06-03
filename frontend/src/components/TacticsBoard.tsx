@@ -91,6 +91,7 @@ export default function TacticsBoard() {
                     defaultValue={p.x.toFixed(1)}
                     step="1"
                     className="border px-1 w-16 text-sm"
+                    aria-label="X coordinate"
                   />
                   <input
                     name="y"
@@ -98,6 +99,7 @@ export default function TacticsBoard() {
                     defaultValue={p.y.toFixed(1)}
                     step="1"
                     className="border px-1 w-16 text-sm"
+                    aria-label="Y coordinate"
                   />
                   <button className="bg-blue-700 text-white px-2 rounded text-sm">
                     OK
