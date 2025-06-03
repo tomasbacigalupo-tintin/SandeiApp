@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import os
@@ -37,6 +38,20 @@ async def get_http_client() -> httpx.AsyncClient:
     return client
 
 app = FastAPI()
+
+# Allow CORS from the frontend and backend services
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # frontend
+    "http://localhost:3000",  # backend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup() -> None:
