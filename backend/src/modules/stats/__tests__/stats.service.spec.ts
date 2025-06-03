@@ -52,4 +52,28 @@ describe('StatsService', () => {
       { name: 'Jane', value: 7 },
     ]);
   });
+
+  it('passes a date when range is month', async () => {
+    (playersService.findAll as jest.Mock).mockResolvedValue([
+      { id: 'p1', name: 'John' },
+    ]);
+    (ratingsService.averageForPlayer as jest.Mock).mockResolvedValue(5);
+
+    await service.getStats('month');
+
+    const callArgs = (ratingsService.averageForPlayer as jest.Mock).mock.calls[0];
+    expect(callArgs[1]).toBeInstanceOf(Date);
+  });
+
+  it('passes undefined when range is season', async () => {
+    (playersService.findAll as jest.Mock).mockResolvedValue([
+      { id: 'p1', name: 'John' },
+    ]);
+    (ratingsService.averageForPlayer as jest.Mock).mockResolvedValue(5);
+
+    await service.getStats('season');
+
+    const callArgs = (ratingsService.averageForPlayer as jest.Mock).mock.calls[0];
+    expect(callArgs[1]).toBeUndefined();
+  });
 });
