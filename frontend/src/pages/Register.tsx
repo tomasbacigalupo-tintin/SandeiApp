@@ -85,9 +85,13 @@ export default function Register() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              aria-invalid={errors.name ? 'true' : undefined}
+              aria-describedby="name-error"
             />
             {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name}</p>
+              <p id="name-error" className="text-red-500 text-sm">
+                {errors.name}
+              </p>
             )}
           </div>
           <div>
@@ -99,9 +103,13 @@ export default function Register() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={errors.email ? 'true' : undefined}
+              aria-describedby="email-error"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email}</p>
+              <p id="email-error" className="text-red-500 text-sm">
+                {errors.email}
+              </p>
             )}
           </div>
           <div>
@@ -113,9 +121,13 @@ export default function Register() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              aria-invalid={errors.password ? 'true' : undefined}
+              aria-describedby="password-error"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password}</p>
+              <p id="password-error" className="text-red-500 text-sm">
+                {errors.password}
+              </p>
             )}
           </div>
         </div>
@@ -132,9 +144,11 @@ export default function Register() {
               id="team"
               value={team}
               onChange={(e) => setTeam(e.target.value)}
+              aria-invalid={errors.team ? 'true' : undefined}
+              aria-describedby="team-error"
             />
             {errors.team && (
-              <p className="text-red-500 text-sm">{errors.team}</p>
+              <p id="team-error" className="text-red-500 text-sm">{errors.team}</p>
             )}
           </div>
           <div>
@@ -145,9 +159,11 @@ export default function Register() {
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
+              aria-invalid={errors.role ? 'true' : undefined}
+              aria-describedby="role-error"
             />
             {errors.role && (
-              <p className="text-red-500 text-sm">{errors.role}</p>
+              <p id="role-error" className="text-red-500 text-sm">{errors.role}</p>
             )}
           </div>
         </div>
