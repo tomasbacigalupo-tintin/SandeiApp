@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { usePlayers } from '@/hooks/usePlayers';
 import { useMatches } from '@/hooks/useMatches';
-import Spinner from '@/components/ui/spinner';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
 import { useState } from 'react';

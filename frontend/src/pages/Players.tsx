@@ -5,7 +5,6 @@ import {
   useUpdatePlayer,
 } from '@/hooks/usePlayers';
 import { useState } from 'react';
-import Spinner from '@/components/ui/spinner';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerWizard from '@/components/PlayerWizard';
 import PlayerCard from '@/components/PlayerCard';
