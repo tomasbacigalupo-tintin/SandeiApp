@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import PrivateRoute from '@/components/PrivateRoute';
 import BottomNav from '@/components/BottomNav';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/context/useAuth';
 import Spinner from '@/components/ui/spinner';
 import { Toaster } from 'sonner';
 
