@@ -39,11 +39,17 @@ async def get_http_client() -> httpx.AsyncClient:
 
 app = FastAPI()
 
-# Allow CORS from the frontend and backend services
-ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # frontend
-    "http://localhost:3000",  # backend
-]
+# Allow CORS from the frontend and backend services. Origins can be overridden
+# via the `ALLOWED_ORIGINS` environment variable, which should contain a
+# comma-separated list of URLs.
+_origins_env = os.getenv("ALLOWED_ORIGINS")
+if _origins_env:
+    ALLOWED_ORIGINS = [o.strip() for o in _origins_env.split(",") if o.strip()]
+else:
+    ALLOWED_ORIGINS = [
+        "http://localhost:5173",  # frontend
+        "http://localhost:3000",  # backend
+    ]
 
 app.add_middleware(
     CORSMiddleware,
