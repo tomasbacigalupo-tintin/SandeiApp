@@ -12,7 +12,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="Menú de navegación"
-      className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 text-sm md:hidden"
+      className="fixed bottom-0 left-0 right-0 border-t border-border bg-white/90 dark:bg-slate-800/90 backdrop-blur-md shadow-md flex justify-around py-2 text-sm md:hidden"
     >
       <NavLink
         to="/dashboard"
