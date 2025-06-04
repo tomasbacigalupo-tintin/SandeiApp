@@ -2,16 +2,20 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Match } from "./match.entity";
+import { RabbitMQService } from "../../messaging/rabbitmq.service";
 
 @Injectable()
 export class MatchesService {
   constructor(
     @InjectRepository(Match) private matchesRepo: Repository<Match>,
+    private readonly rabbit: RabbitMQService,
   ) {}
 
-  create(data: Partial<Match>) {
+  async create(data: Partial<Match>) {
     const match = this.matchesRepo.create(data);
-    return this.matchesRepo.save(match);
+    const saved = await this.matchesRepo.save(match);
+    await this.rabbit.publish('matches.created', saved);
+    return saved;
   }
 
   findAll() {

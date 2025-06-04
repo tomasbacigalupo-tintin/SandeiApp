@@ -16,4 +16,5 @@ export const env = {
   jwtSecret: requireEnv('JWT_SECRET'),
   iaServiceUrl: requireEnv('IA_SERVICE_URL'),
   dbLogging: process.env.DB_LOGGING === 'true',
+  rabbitMqUrl: requireEnv('RABBITMQ_URL'),
 };

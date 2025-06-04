@@ -1,6 +1,10 @@
 process.env.DATABASE_URL = 'postgres://dummy';
 process.env.JWT_SECRET = 'dummysecret';
 process.env.IA_SERVICE_URL = 'http://dummy';
+process.env.DATABASE_URL = 'postgres://dummy';
+process.env.JWT_SECRET = 'dummysecret';
+process.env.IA_SERVICE_URL = 'http://dummy';
+process.env.RABBITMQ_URL = 'amqp://localhost';
 import { Test } from '@nestjs/testing';
 import { INestApplication, HttpStatus } from '@nestjs/common';
 import { IaModule } from './ia.module';

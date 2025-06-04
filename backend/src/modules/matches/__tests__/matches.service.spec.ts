@@ -1,12 +1,15 @@
+process.env.RABBITMQ_URL = 'amqp://localhost';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { MatchesService } from '../matches.service';
 import { Match } from '../match.entity';
+import { RabbitMQService } from '../../../messaging/rabbitmq.service';
 
 describe('MatchesService', () => {
   let service: MatchesService;
   let repo: Repository<Match>;
+  let rabbit: RabbitMQService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,11 +27,13 @@ describe('MatchesService', () => {
             remove: jest.fn(),
           },
         },
+        { provide: RabbitMQService, useValue: { publish: jest.fn() } },
       ],
     }).compile();
 
     service = module.get<MatchesService>(MatchesService);
     repo = module.get(getRepositoryToken(Match));
+    rabbit = module.get<RabbitMQService>(RabbitMQService);
   });
 
   it('creates a match', async () => {
@@ -39,6 +44,7 @@ describe('MatchesService', () => {
     const result = await service.create(data);
     expect(repo.create).toHaveBeenCalledWith(data);
     expect(repo.save).toHaveBeenCalledWith(data);
+    expect(rabbit.publish).toHaveBeenCalledWith('matches.created', { id: '1', ...data });
     expect(result).toEqual({ id: '1', ...data });
   });
 
