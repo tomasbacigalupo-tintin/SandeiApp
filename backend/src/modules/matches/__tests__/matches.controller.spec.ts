@@ -1,3 +1,4 @@
+process.env.RABBITMQ_URL = 'amqp://localhost';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError } from 'typeorm';
 import { Match } from '../match.entity';
