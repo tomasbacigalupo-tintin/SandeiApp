@@ -4,6 +4,7 @@ import { register as registerUser } from '@/services/authService';
 import Spinner from '@/components/ui/spinner';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { createDemoData } from '@/services/demo';
 
 export default function Register() {
   const [step, setStep] = useState(1);
@@ -14,6 +15,7 @@ export default function Register() {
   const [role, setRole] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [demo, setDemo] = useState(false);
   const navigate = useNavigate();
   const totalSteps = 3;
 
@@ -55,6 +57,13 @@ export default function Register() {
     setLoading(true);
     try {
       await registerUser(name, email, password);
+      if (demo) {
+        try {
+          await createDemoData();
+        } catch (err) {
+          console.error('Demo data error', err);
+        }
+      }
       navigate('/login');
     } catch {
       setErrors({ submit: 'No se pudo registrar el usuario' });
@@ -184,6 +193,14 @@ export default function Register() {
           <p>
             <strong>Posición:</strong> {role}
           </p>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={demo}
+              onChange={(e) => setDemo(e.target.checked)}
+            />
+            <span>Probar con equipo de ejemplo</span>
+          </label>
           {errors.submit && (
             <p className="text-red-500 text-sm">{errors.submit}</p>
           )}

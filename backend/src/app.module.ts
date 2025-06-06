@@ -10,6 +10,7 @@ import { FormationsModule } from "./modules/formations/formations.module";
 import { IaModule } from "./modules/ia/ia.module";
 import { HealthModule } from "./modules/health/health.module";
 import { StatsModule } from "./modules/stats/stats.module";
+import { DemoModule } from "./modules/demo/demo.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { StatsModule } from "./modules/stats/stats.module";
     IaModule,
     HealthModule,
     StatsModule,
+    DemoModule,
   ],
 })
 export class AppModule {}
