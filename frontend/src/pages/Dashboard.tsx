@@ -35,7 +35,8 @@ export default function Dashboard() {
   }
 
   return (
-    <motion.div
+    <>
+      <motion.div
       className="p-6 space-y-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -128,7 +129,8 @@ export default function Dashboard() {
           Cerrar sesión
         </Button>
       </div>
-    </motion.div>
-    <Onboarding />
+      </motion.div>
+      <Onboarding />
+    </>
   );
 }
