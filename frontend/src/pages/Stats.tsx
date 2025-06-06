@@ -5,6 +5,8 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   Radar,
+  LineChart,
+  Line,
   BarChart,
   Bar,
   XAxis,
@@ -19,6 +21,7 @@ import Spinner from '@/components/ui/spinner';
 
 export default function Stats() {
   const [range, setRange] = useState<'month' | 'season'>('month');
+  const [selected, setSelected] = useState<string | null>(null);
   const { data, isLoading, error } = useStats(range);
 
   const stats = data || [];
@@ -73,6 +76,27 @@ export default function Stats() {
             fillOpacity={0.6}
           />
         </RadarChart>
+        {selected && (
+          <LineChart width={300} height={200} data={stats}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="value" stroke="#ff7300" />
+          </LineChart>
+        )}
+      </div>
+      <div className="flex gap-2 flex-wrap">
+        {stats.map((s) => (
+          <Button
+            key={s.name}
+            variant={selected === s.name ? 'default' : 'outline'}
+            onClick={() => setSelected(s.name)}
+          >
+            {s.name}
+          </Button>
+        ))}
       </div>
     </div>
   );

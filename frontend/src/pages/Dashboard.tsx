@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import Onboarding from '@/components/Onboarding';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -128,5 +129,6 @@ export default function Dashboard() {
         </Button>
       </div>
     </motion.div>
+    <Onboarding />
   );
 }

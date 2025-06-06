@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
 
 interface PlayerPos {
   id: string;
@@ -17,6 +18,7 @@ const initialPlayers: PlayerPos[] = [
 
 export default function TacticsBoard() {
   const [players, setPlayers] = useState(initialPlayers);
+  const boardRef = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
 
@@ -50,12 +52,21 @@ export default function TacticsBoard() {
     setEditing(null);
   };
 
+  const share = async () => {
+    if (!boardRef.current) return;
+    const canvas = await html2canvas(boardRef.current);
+    const url = canvas.toDataURL();
+    window.open(`https://wa.me/?text=${encodeURIComponent(url)}`, '_blank');
+  };
+
   return (
-    <div
-      className="relative w-full h-96 bg-green-700 rounded"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={onDrop}
-    >
+    <div className="space-y-2">
+      <div
+        ref={boardRef}
+        className="relative w-full h-96 bg-green-700 rounded"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={onDrop}
+      >
       {players.map((p) => (
         <div
           key={p.id}
@@ -110,6 +121,10 @@ export default function TacticsBoard() {
           )}
         </div>
       ))}
+      </div>
+      <button onClick={share} className="bg-blue-700 text-white px-4 py-1 rounded">
+        Compartir por WhatsApp
+      </button>
     </div>
   );
 }

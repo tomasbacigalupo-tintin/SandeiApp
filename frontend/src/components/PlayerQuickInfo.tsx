@@ -1,5 +1,6 @@
 import { Player } from '@/types/player';
 import { useRef, useState, type KeyboardEvent } from 'react';
+import { ExportPlayerPDF } from './exports/ExportButtons';
 
 interface PlayerQuickInfoProps {
   player: Player;
@@ -75,6 +76,9 @@ export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
       {tab === 'notes' && (
         <p className="text-sm text-gray-600">Notas no disponibles.</p>
       )}
+      <div className="mt-4 text-right">
+        <ExportPlayerPDF player={player} />
+      </div>
     </div>
   );
 }
