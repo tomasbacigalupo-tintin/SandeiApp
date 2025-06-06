@@ -157,6 +157,15 @@ Frontend:
 cd frontend
 npm run test
 
+Datos de ejemplo:
+
+Para poblar la base con registros de prueba ejecuta:
+
+```bash
+cd backend
+npm run seed
+```
+
 
 ---
 
