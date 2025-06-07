@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 
 interface PlayerPos {
@@ -16,48 +16,51 @@ const initialPlayers: PlayerPos[] = [
   { id: '5', name: '5', x: 60, y: 20 },
 ];
 
-export default function TacticsBoard() {
+function TacticsBoard() {
   const [players, setPlayers] = useState(initialPlayers);
   const boardRef = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [pressTimer, setPressTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
-  const onDragStart = (e: React.DragEvent, id: string) => {
+  const onDragStart = useCallback((e: React.DragEvent, id: string) => {
     e.dataTransfer.setData('id', id);
-  };
+  }, []);
 
-  const onDrop = (e: React.DragEvent) => {
+  const onDrop = useCallback((e: React.DragEvent) => {
     const id = e.dataTransfer.getData('id');
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, x, y } : p)));
-  };
+  }, []);
 
-  const handleLongPress = (id: string) => {
+  const handleLongPress = useCallback((id: string) => {
     setEditing(id);
-  };
+  }, []);
 
-  const startPress = (id: string) => {
-    const timer = setTimeout(() => handleLongPress(id), 500);
-    setPressTimer(timer);
-  };
+  const startPress = useCallback(
+    (id: string) => {
+      const timer = setTimeout(() => handleLongPress(id), 500);
+      setPressTimer(timer);
+    },
+    [handleLongPress],
+  );
 
-  const endPress = () => {
+  const endPress = useCallback(() => {
     if (pressTimer) clearTimeout(pressTimer);
-  };
+  }, [pressTimer]);
 
-  const savePos = (id: string, x: number, y: number) => {
+  const savePos = useCallback((id: string, x: number, y: number) => {
     setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, x, y } : p)));
     setEditing(null);
-  };
+  }, []);
 
-  const share = async () => {
+  const share = useCallback(async () => {
     if (!boardRef.current) return;
     const canvas = await html2canvas(boardRef.current);
     const url = canvas.toDataURL();
     window.open(`https://wa.me/?text=${encodeURIComponent(url)}`, '_blank');
-  };
+  }, []);
 
   return (
     <div className="space-y-2">
@@ -70,13 +73,16 @@ export default function TacticsBoard() {
       {players.map((p) => (
         <div
           key={p.id}
+          role="button"
+          tabIndex={0}
+          aria-label={`Mover ${p.name}`}
           draggable
           onDragStart={(e) => onDragStart(e, p.id)}
           onMouseDown={() => startPress(p.id)}
           onMouseUp={endPress}
           onTouchStart={() => startPress(p.id)}
           onTouchEnd={endPress}
-          className="absolute text-white font-bold cursor-move select-none"
+          className="absolute text-white font-bold cursor-move select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
         >
           {p.name}
@@ -128,3 +134,5 @@ export default function TacticsBoard() {
     </div>
   );
 }
+export default memo(TacticsBoard);
+

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../services/api';
-import { Formation, CreateFormationInput } from '../types/formation';
+import type { Formation, CreateFormationInput } from '../types/formation';
 import { toast } from 'sonner';
 
 const fetchFormations = async (): Promise<Formation[]> => {

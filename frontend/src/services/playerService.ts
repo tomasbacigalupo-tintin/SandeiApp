@@ -1,5 +1,5 @@
 import api from './api';
-import { CreatePlayerInput, Player } from '../types/player';
+import type { CreatePlayerInput, Player } from '../types/player';
 
 export async function createPlayer(data: CreatePlayerInput): Promise<Player> {
   const res = await api.post('/players', data);

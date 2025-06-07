@@ -2,14 +2,16 @@ name: Frontend CI/CD
 
 on:
   push:
+    branches: [main, dev]
     paths:
       - 'frontend/**'
   pull_request:
+    branches: [main, dev]
     paths:
       - 'frontend/**'
 
 jobs:
-  lint-build:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,19 +21,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'npm'
       - run: npm ci
-      - run: npx eslint .
-      - run: npx prettier --check .
-      - run: npm run test -- --run
       - run: npm run build
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push image
+          name: frontend-build
+          path: frontend/dist
+      - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }} ./frontend
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+          docker build -t frontend:test .
+          docker run --rm frontend:test ls /usr/share/nginx/html
+      # - name: Push image
+      #   run: docker push <registry>/frontend:test

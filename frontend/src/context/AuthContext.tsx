@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useState,
+  useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api, { setAuthToken } from '@/services/api';
@@ -17,16 +18,12 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  const [token, setToken] = useState<string | null>(() => {
     const stored = localStorage.getItem('token');
-    if (stored) {
-      setToken(stored);
-      setAuthToken(stored);
-    }
-  }, []);
+    if (stored) setAuthToken(stored);
+    return stored;
+  });
+  const navigate = useNavigate();
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.post('/auth/login', { email, password });
@@ -48,10 +45,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('unauthorized', handler);
   }, [logout, navigate]);
 
+  const value = useMemo(
+    () => ({ token, isAuthenticated: !!token, login, logout }),
+    [token, login, logout],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ token, isAuthenticated: !!token, login, logout }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

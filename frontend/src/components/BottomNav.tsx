@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { memo } from 'react';
 import {
   FaHome,
   FaUserFriends,
@@ -8,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
 
-export default function BottomNav() {
+function BottomNav() {
   return (
     <nav
       aria-label="Menú de navegación"
@@ -59,3 +60,5 @@ export default function BottomNav() {
     </nav>
   );
 }
+
+export default memo(BottomNav);

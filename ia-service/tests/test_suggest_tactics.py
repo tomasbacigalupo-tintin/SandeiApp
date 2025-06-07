@@ -18,11 +18,12 @@ class DummyAsyncClient:
 
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.main import suggest_tactics, TacticsRequest
+from app.routers.ia import suggest_tactics
+from app.schemas import TacticsRequest
 
 
 def test_suggest_tactics(monkeypatch):
-    monkeypatch.setattr('app.main.OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr('app.routers.ia.OPENAI_API_KEY', 'test-key')
     payload = TacticsRequest(players=["John"], style=None)
     result = asyncio.run(suggest_tactics(payload, DummyAsyncClient()))
     assert result == {"tactics": "ok"}

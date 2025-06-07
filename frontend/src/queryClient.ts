@@ -2,6 +2,7 @@ import {
   QueryClient,
   QueryCache,
   MutationCache,
+  type QueryClientConfig,
 } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import axios from 'axios';
@@ -18,7 +19,26 @@ const getMessage = (error: unknown) => {
   return 'Error inesperado';
 };
 
-export const queryClient = new QueryClient({
+const config: QueryClientConfig = {
+  // Opciones por defecto para queries y mutations
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      onError: (error: unknown) => {
+        toast.error(getMessage(error));
+      },
+      // por ejemplo, podrías ajustar staleTime y cacheTime en producción:
+      // staleTime: 1000 * 60 * 5, // 5 minutos
+      // cacheTime: 1000 * 60 * 10, // 10 minutos
+    },
+    mutations: {
+      onError: (error: unknown) => {
+        toast.error(getMessage(error));
+      },
+      // retry: false, // conmutar si no quieres reintentos en mutations
+    },
+  },
+  // Si quieres capturar errores también a nivel de cache:
   queryCache: new QueryCache({
     onError: (error) => {
       toast.error(getMessage(error));
@@ -29,9 +49,6 @@ export const queryClient = new QueryClient({
       toast.error(getMessage(error));
     },
   }),
-  defaultOptions: {
-    queries: {
-      retry: 1,
-    },
-  },
-});
+};
+
+export const queryClient = new QueryClient(config);

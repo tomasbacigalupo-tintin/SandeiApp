@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Match } from '@/types/match';
+import type { Match } from '@/types/match';
 import { getMatches } from '@/services/matches';
 
 export function useMatches() {

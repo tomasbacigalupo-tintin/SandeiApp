@@ -1,14 +1,15 @@
 ##### Fase 1: build #####
-FROM node:20-alpine AS builder
+FROM node:20-alpine AS deps
 WORKDIR /app
 
-# Copio solo los manifests para aprovechar caché
+# Copio los manifiestos de npm e instalo dependencias
 COPY package*.json ./
-
-# Instalo todas las dependencias sin chequear peer-deps
-RUN npm install --legacy-peer-deps
+RUN npm ci --legacy-peer-deps
 
 # Copio el resto del código y compilo
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
@@ -17,9 +18,9 @@ RUN npm run build
 FROM node:20-alpine
 WORKDIR /app
 
-# Solo dependencias de producción, también sin peer-deps
+# Solo dependencias de producción
 COPY package*.json ./
-RUN npm install --omit=dev --legacy-peer-deps
+RUN npm ci --omit=dev --legacy-peer-deps
 
 # Paso los artefactos compilados
 COPY --from=builder /app/dist ./dist
