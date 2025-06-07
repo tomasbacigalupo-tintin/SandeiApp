@@ -79,7 +79,9 @@ describe('IaService', () => {
       .spyOn(httpService, 'post')
       .mockReturnValue(throwError(() => new Error('fail')));
     const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
-    await expect(service.suggestLineup(['x'], '4-4-2')).rejects.toThrow('fail');
+    await expect(service.suggestLineup(['x'], '4-4-2')).rejects.toThrow(
+      'IA service error',
+    );
     expect(logSpy).toHaveBeenCalled();
   });
 
@@ -88,7 +90,7 @@ describe('IaService', () => {
       .spyOn(httpService, 'post')
       .mockReturnValue(throwError(() => new Error('fail')));
     const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
-    await expect(service.suggestTactics(['p'])).rejects.toThrow('fail');
+    await expect(service.suggestTactics(['p'])).rejects.toThrow('IA service error');
     expect(logSpy).toHaveBeenCalled();
   });
 
@@ -97,7 +99,7 @@ describe('IaService', () => {
       .spyOn(httpService, 'post')
       .mockReturnValue(throwError(() => new Error('fail')));
     const logSpy = jest.spyOn<any, any>(service['logger'], 'error');
-    await expect(service.detectErrors(['a'])).rejects.toThrow('fail');
+    await expect(service.detectErrors(['a'])).rejects.toThrow('IA service error');
     expect(logSpy).toHaveBeenCalled();
   });
 });
