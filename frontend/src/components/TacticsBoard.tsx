@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 
 interface PlayerPos {
@@ -16,48 +16,51 @@ const initialPlayers: PlayerPos[] = [
   { id: '5', name: '5', x: 60, y: 20 },
 ];
 
-export default function TacticsBoard() {
+function TacticsBoard() {
   const [players, setPlayers] = useState(initialPlayers);
   const boardRef = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const onDragStart = (e: React.DragEvent, id: string) => {
+  const onDragStart = useCallback((e: React.DragEvent, id: string) => {
     e.dataTransfer.setData('id', id);
-  };
+  }, []);
 
-  const onDrop = (e: React.DragEvent) => {
+  const onDrop = useCallback((e: React.DragEvent) => {
     const id = e.dataTransfer.getData('id');
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, x, y } : p)));
-  };
+  }, []);
 
-  const handleLongPress = (id: string) => {
+  const handleLongPress = useCallback((id: string) => {
     setEditing(id);
-  };
+  }, []);
 
-  const startPress = (id: string) => {
-    const timer = setTimeout(() => handleLongPress(id), 500);
-    setPressTimer(timer);
-  };
+  const startPress = useCallback(
+    (id: string) => {
+      const timer = setTimeout(() => handleLongPress(id), 500);
+      setPressTimer(timer);
+    },
+    [handleLongPress],
+  );
 
-  const endPress = () => {
+  const endPress = useCallback(() => {
     if (pressTimer) clearTimeout(pressTimer);
-  };
+  }, [pressTimer]);
 
-  const savePos = (id: string, x: number, y: number) => {
+  const savePos = useCallback((id: string, x: number, y: number) => {
     setPlayers((prev) => prev.map((p) => (p.id === id ? { ...p, x, y } : p)));
     setEditing(null);
-  };
+  }, []);
 
-  const share = async () => {
+  const share = useCallback(async () => {
     if (!boardRef.current) return;
     const canvas = await html2canvas(boardRef.current);
     const url = canvas.toDataURL();
     window.open(`https://wa.me/?text=${encodeURIComponent(url)}`, '_blank');
-  };
+  }, []);
 
   return (
     <div className="space-y-2">
@@ -131,3 +134,5 @@ export default function TacticsBoard() {
     </div>
   );
 }
+export default memo(TacticsBoard);
+

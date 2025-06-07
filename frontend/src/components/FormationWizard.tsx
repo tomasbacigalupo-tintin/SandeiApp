@@ -96,17 +96,12 @@ export default function FormationWizard({
           <span />
         )}
         {step < totalSteps && (
-          <Button variant="primary" onClick={next}>
+          <Button variant="default" onClick={next}>
             Siguiente
           </Button>
         )}
         {step === totalSteps && (
-          <Button
-            variant="success"
-            onClick={finish}
-            disabled={saving}
-            className="flex items-center"
-          >
+          <Button variant="success" onClick={finish} disabled={saving}>
             {saving && <Spinner className="h-4 w-4 mr-2 text-white" />}
             Guardar
           </Button>

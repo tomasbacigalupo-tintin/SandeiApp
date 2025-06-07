@@ -18,13 +18,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { useStats } from '@/hooks/useStats';
 import Spinner from '@/components/ui/spinner';
+import type { StatItem } from '@/types/stats';
 
 export default function Stats() {
   const [range, setRange] = useState<'month' | 'season'>('month');
   const [selected, setSelected] = useState<string | null>(null);
   const { data, isLoading, error } = useStats(range);
 
-  const stats = data || [];
+  const stats: StatItem[] = data ?? [];
 
   if (isLoading) {
     return (

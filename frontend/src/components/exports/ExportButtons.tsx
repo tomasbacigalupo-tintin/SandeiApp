@@ -1,11 +1,13 @@
-import { Player } from '@/types/player';
+import type { Player } from '@/types/player';
 import { type FC, useState, useEffect } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
-let jsPDF: any;
-let html2canvas: any;
-let CSVLink: any;
+// Lazy-loaded modules
+let jsPDF: typeof import('jspdf')['default'] | undefined;
+let html2canvasLib: typeof import('html2canvas')['default'] | undefined;
+let CSVLinkComponent: typeof import('react-csv').CSVLink | undefined;
 
+// Export button to generate a simple PDF with player data
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   const generate = async () => {
     if (!jsPDF) jsPDF = (await import('jspdf')).default;
@@ -14,37 +16,49 @@ export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
     doc.text(JSON.stringify(player, null, 2), 10, 20);
     doc.save(`${player.name}.pdf`);
   };
+
   return (
-    <Button onClick={generate} variant="outline">
+    <Button variant="outline" onClick={generate}>
       Exportar PDF
     </Button>
   );
 };
 
-export const ExportListCSV: FC<{ data: unknown[] }> = ({ data }) => {
-  const [Link, setLink] = useState<typeof CSVLink | null>(CSVLink);
+// Export button to download arbitrary data as CSV
+export const ExportListCSV: FC<{ data: unknown[]; filename?: string }> = ({ data, filename = 'reporte.csv' }) => {
+  const [Link, setLink] = useState<typeof CSVLinkComponent | null>(CSVLinkComponent ?? null);
+
   useEffect(() => {
     if (!Link) {
       import('react-csv').then((mod) => {
-        CSVLink = mod.CSVLink;
-        setLink(mod.CSVLink);
+        CSVLinkComponent = mod.CSVLink;
+        setLink(() => mod.CSVLink);
       });
     }
   }, [Link]);
+
   if (!Link) return null;
+
   return (
-    <Link data={data} filename="reporte.csv" className="inline-block">
+    <Link data={data} filename={filename} className="inline-block">
       <Button variant="outline">Exportar CSV</Button>
     </Link>
   );
 };
 
+// Utility to export a DOM element as PDF
 export async function exportElementPDF(element: HTMLElement, filename: string) {
-  if (!html2canvas) html2canvas = (await import('html2canvas')).default;
+  if (!html2canvasLib) html2canvasLib = (await import('html2canvas')).default;
   if (!jsPDF) jsPDF = (await import('jspdf')).default;
-  const canvas = await html2canvas(element);
+
+  const canvas = await html2canvasLib(element);
   const imgData = canvas.toDataURL('image/png');
   const doc = new jsPDF();
-  doc.addImage(imgData, 'PNG', 0, 0, 200, 0);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const imgProps = doc.getImageProperties(imgData);
+  const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+  doc.addImage(imgData, 'PNG', 0, 0, pageWidth, imgHeight);
   doc.save(filename);
 }
+

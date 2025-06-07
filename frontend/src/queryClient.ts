@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, type QueryClientConfig } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import axios from 'axios';
 
@@ -14,18 +14,20 @@ const getMessage = (error: unknown) => {
   return 'Error inesperado';
 };
 
-export const queryClient = new QueryClient({
+const config: QueryClientConfig = {
   defaultOptions: {
     queries: {
       retry: 1,
-      onError: (error) => {
+      onError: (error: unknown) => {
         toast.error(getMessage(error));
       },
     },
     mutations: {
-      onError: (error) => {
+      onError: (error: unknown) => {
         toast.error(getMessage(error));
       },
     },
   },
-});
+};
+
+export const queryClient = new QueryClient(config);
