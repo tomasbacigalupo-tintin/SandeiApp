@@ -6,24 +6,22 @@ Este servicio implementa una API REST con [FastAPI](https://fastapi.tiangolo.com
 
 Copia `.env.example` a `.env` y completa los siguientes valores:
 
-- `OPENAI_API_KEY` &ndash; clave para autenticarte en la API de OpenAI.
-- `FASTAPI_HOST` &ndash; interfaz donde se iniciará Uvicorn (por defecto `0.0.0.0`).
-- `FASTAPI_PORT` &ndash; puerto de escucha (por defecto `8000`).
-- `ALLOWED_ORIGINS` &ndash; lista de orígenes permitidos (separados por comas) para CORS.
+* `OPENAI_API_KEY` – clave para autenticarte en la API de OpenAI.
+* `FASTAPI_HOST` – interfaz donde se iniciará Uvicorn (por defecto `0.0.0.0`).
+* `FASTAPI_PORT` – puerto de escucha (por defecto `8000`).
+* `ALLOWED_ORIGINS` – lista de orígenes permitidos (separados por comas) para CORS.
+* `API_TOKEN` – token Bearer requerido para llamar a los endpoints.
 
 Estas variables son requeridas tanto al ejecutar en local como con Docker.
 
-Todas las peticiones a los endpoints de `/ia` pueden incluir la cabecera
-`Authorization` con un token emitido por el backend de NestJS. El ejemplo de
-código verifica únicamente que la cabecera esté presente, pero se puede ampliar
-la función `verify_token` para consultar el backend y validar su autenticidad.
+Todas las peticiones a los endpoints de `/ia` pueden incluir la cabecera `Authorization` con un token emitido por el backend de NestJS. El ejemplo de código verifica únicamente que la cabecera esté presente, pero se puede ampliar la función `verify_token` para consultar el backend y validar su autenticidad.
 
 ## Instalación y pruebas
 
 ```bash
 cd ia-service
 pip install -r requirements.txt
-pytest
+./run_tests.sh
 ```
 
 Las pruebas utilizan stubs para la API de OpenAI, por lo que pueden ejecutarse sin conexión a internet.
@@ -49,15 +47,16 @@ FASTAPI_HOST=0.0.0.0 FASTAPI_PORT=8000 OPENAI_API_KEY=<clave> \
 El servicio habilita CORS para permitir peticiones desde el frontend y el backend.
 Actualmente los orígenes permitidos son:
 
-- `http://localhost:5173` (frontend en desarrollo)
-- `http://localhost:3000` (backend NestJS)
+* `http://localhost:5173` (frontend en desarrollo)
+* `http://localhost:3000` (backend NestJS)
 
 ### Endpoints principales
 
-- `GET /` &ndash; comprobación básica del servicio.
-- `POST /ia/suggest_lineup` &ndash; sugiere una alineación según la formación enviada.
-- `POST /ia/suggest_tactics` &ndash; genera instrucciones tácticas para los jugadores.
-- `POST /ia/analyze_performance` &ndash; analiza las calificaciones de cada jugador.
-- `POST /ia/predict_match` &ndash; predice el resultado de un partido.
-- `POST /ia/detect_errors` &ndash; informa de posibles errores en la alineación.
-- `GET /healthz` &ndash; endpoint de comprobación de salud.
+* `GET /` – comprobación básica del servicio.
+* `POST /ia/suggest_lineup` – sugiere una alineación según la formación enviada.
+* `POST /ia/suggest_tactics` – genera instrucciones tácticas para los jugadores.
+* `POST /ia/analyze_performance` – analiza las calificaciones de cada jugador.
+* `POST /ia/predict_match` – predice el resultado de un partido.
+* `POST /ia/detect_errors` – informa de posibles errores en la alineación.
+* `GET /healthz` – endpoint de comprobación de salud.
+

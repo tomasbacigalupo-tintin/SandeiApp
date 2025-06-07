@@ -3,27 +3,36 @@ import sys
 import types
 import asyncio
 
-# Ensure the app package can be imported
+# Aseguramos que el paquete app pueda ser importado
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-# Create a minimal httpx stub
+# Creamos un stub mínimo de httpx.AsyncClient
 class DummyAsyncClient:
     async def post(self, *args, **kwargs):
         class Resp:
             def raise_for_status(self):
                 pass
-            def json(self):
+
+            async def json(self):
                 return {"choices": [{"message": {"content": "ok"}}]}
+
         return Resp()
 
+# Inyectamos el stub como httpx
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.routers.ia import suggest_tactics
+from app.routers.ia_router import suggest_tactics
 from app.schemas import TacticsRequest
+from app.config import settings
 
 
 def test_suggest_tactics(monkeypatch):
-    monkeypatch.setattr('app.routers.ia.OPENAI_API_KEY', 'test-key')
+    # Simulamos que la API key está configurada
+    monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
+
     payload = TacticsRequest(players=["John"], style=None)
+
     result = asyncio.run(suggest_tactics(payload, DummyAsyncClient()))
+
     assert result == {"tactics": "ok"}
+
