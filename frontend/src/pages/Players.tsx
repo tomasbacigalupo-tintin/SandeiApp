@@ -38,7 +38,12 @@ export default function Players() {
         </div>
       </div>
     );
-  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
+  if (error)
+    return (
+      <p className="text-red-500 text-center mt-10">{String(error)}</p>
+    );
+
+  const playerList = players ?? [];
 
   return (
     <div className="p-6 space-y-4">
@@ -48,14 +53,14 @@ export default function Players() {
         Crear jugador
       </Button>
 
-      {players.length === 0 ? (
+      {playerList.length === 0 ? (
         <div className="text-center py-10 space-y-2">
           <p className="text-gray-500">Aún no hay jugadores.</p>
           <Button onClick={() => setShowModal(true)}>Añadir jugador</Button>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {players.map((player) => (
+          {playerList.map((player) => (
             <PlayerCard
               key={player.id}
               player={player}

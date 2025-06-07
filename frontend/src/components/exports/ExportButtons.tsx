@@ -2,9 +2,9 @@ import { Player } from '@/types/player';
 import { type FC, useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 
-let jsPDF: any;
-let html2canvas: any;
-let CSVLink: any;
+let jsPDF: typeof import('jspdf')['default'] | undefined;
+let html2canvasLib: typeof import('html2canvas')['default'] | undefined;
+let CSVLink: typeof import('react-csv').CSVLink | undefined;
 
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   const generate = async () => {
@@ -22,7 +22,7 @@ export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
 };
 
 export const ExportListCSV: FC<{ data: unknown[] }> = ({ data }) => {
-  const [Link, setLink] = useState<typeof CSVLink | null>(CSVLink);
+  const [Link, setLink] = useState<typeof CSVLink | null>(CSVLink ?? null);
   useEffect(() => {
     if (!Link) {
       import('react-csv').then((mod) => {
@@ -40,9 +40,9 @@ export const ExportListCSV: FC<{ data: unknown[] }> = ({ data }) => {
 };
 
 export async function exportElementPDF(element: HTMLElement, filename: string) {
-  if (!html2canvas) html2canvas = (await import('html2canvas')).default;
+  if (!html2canvasLib) html2canvasLib = (await import('html2canvas')).default;
   if (!jsPDF) jsPDF = (await import('jspdf')).default;
-  const canvas = await html2canvas(element);
+  const canvas = await html2canvasLib(element);
   const imgData = canvas.toDataURL('image/png');
   const doc = new jsPDF();
   doc.addImage(imgData, 'PNG', 0, 0, 200, 0);

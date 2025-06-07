@@ -18,12 +18,12 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
-      onError: (error) => {
+      onError: (error: unknown) => {
         toast.error(getMessage(error));
       },
     },
     mutations: {
-      onError: (error) => {
+      onError: (error: unknown) => {
         toast.error(getMessage(error));
       },
     },
