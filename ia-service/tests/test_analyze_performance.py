@@ -1,33 +1,26 @@
-import os
-import sys
-import types
 import asyncio
+from app.schemas import PerformanceRequest
+from app.config import settings
+from app.routers.ia_router import analyze_performance
 
-# Ensure the app package can be imported
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-import pytest
-
-# Create a minimal httpx stub so app.main can be imported without the real package
 class DummyAsyncClient:
     async def post(self, *args, **kwargs):
-        class Resp:
-            def raise_for_status(self):
-                pass
-            def json(self):
-                return {"choices": [{"message": {"content": "ok"}}]}
-        return Resp()
+        return DummyResponse()
 
-sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.routers.ia import analyze_performance
-from app.models import PerformanceRequest
-from app.services.ai_logic import fetch_chat_completion
-from app.utils.config import settings
+class DummyResponse:
+    async def json(self):
+        return {"analysis": "ok"}
 
 
 def test_analyze_performance(monkeypatch):
+    # Simulamos que la API key está configurada
     monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
+
     payload = PerformanceRequest(ratings=[{"player": "John", "score": 7}])
-    result = asyncio.run(analyze_performance(payload, DummyAsyncClient(), fetch_chat_completion))
+
+    # Llamamos a la función solo con payload y cliente; verify_token se ignora
+    result = asyncio.run(analyze_performance(payload, DummyAsyncClient()))
+
     assert result == {"analysis": "ok"}
