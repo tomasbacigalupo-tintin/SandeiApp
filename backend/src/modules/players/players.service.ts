@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Player } from './player.entity';
 import { RatingsService } from '../ratings/ratings.service';
 
@@ -29,11 +30,13 @@ export class PlayersService {
   }
 
   searchByPosition(position: string): Promise<Player[]> {
-    return this.playersRepo.find({ where: { position: ILike(`%${position}%`) } });
+    return this.playersRepo.find({
+      where: { position: ILike(`%${position}%`) },
+    });
   }
 
   async update(id: string, data: Partial<Player>): Promise<Player> {
-    await this.playersRepo.update(id, data as any);
+    await this.playersRepo.update(id, data as QueryDeepPartialEntity<Player>);
     return this.playersRepo.findOneByOrFail({ id });
   }
 

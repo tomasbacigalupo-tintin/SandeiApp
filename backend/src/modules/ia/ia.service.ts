@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { LineupResponseDto } from './dto/lineup-response.dto';
@@ -21,7 +21,7 @@ export class IaService {
       return response.data;
     } catch (error) {
       this.logger.error('Failed to suggest lineup', error as Error);
-      throw error;
+      throw new HttpException('IA service error', HttpStatus.BAD_GATEWAY);
     }
   }
 
@@ -36,7 +36,7 @@ export class IaService {
       return response.data;
     } catch (error) {
       this.logger.error('Failed to suggest tactics', error as Error);
-      throw error;
+      throw new HttpException('IA service error', HttpStatus.BAD_GATEWAY);
     }
   }
 
@@ -54,7 +54,7 @@ export class IaService {
       return response.data;
     } catch (error) {
       this.logger.error('Failed to predict match', error as Error);
-      throw error;
+      throw new HttpException('IA service error', HttpStatus.BAD_GATEWAY);
     }
   }
 
@@ -69,7 +69,7 @@ export class IaService {
       return response.data;
     } catch (error) {
       this.logger.error('Failed to detect errors', error as Error);
-      throw error;
+      throw new HttpException('IA service error', HttpStatus.BAD_GATEWAY);
     }
   }
 }

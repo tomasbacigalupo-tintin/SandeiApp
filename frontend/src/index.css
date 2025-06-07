@@ -140,7 +140,7 @@ html {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground font-sans pb-16;
+    @apply text-foreground;
     background-color: var(--color-background);
     background-image: linear-gradient(
       to bottom right,
@@ -148,7 +148,10 @@ html {
       var(--color-muted)
     );
   }
-  h1, h2, h3, .font-display {
-    @apply font-display;
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: 'Teko', sans-serif;
   }
 }

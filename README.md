@@ -1,226 +1,73 @@
-# SandeiApp v1.0
+# SandeiApp
 
-SandeiApp es una aplicación full stack para la gestión de jugadores, formaciones tácticas y partidos. El sistema combina un backend en NestJS con una base de datos PostgreSQL, un frontend moderno basado en React y Vite, y un servicio de inteligencia artificial desarrollado con FastAPI. **Esta versión está lista para su presentación final al Product Owner.**
+SandeiApp es una plataforma full stack para entrenadores que necesitan gestionar jugadores, formaciones tácticas y obtener predicciones basadas en IA.
 
----
+## Tecnologías clave
+- **Frontend:** React + Vite + TypeScript
+- **Backend:** NestJS + PostgreSQL
+- **Servicio IA:** FastAPI (Python)
+- **Infraestructura:** Docker Compose
+
+## Arquitectura
+```
+Navegador ──► Frontend ──► Backend ──► PostgreSQL
+                           │
+                           └──► IA Service (FastAPI)
+```
+Servicios adicionales como MongoDB, Redis y RabbitMQ se utilizan para tareas internas y están definidos en la composición de Docker.
 
 ## Requisitos
+- Docker y Docker Compose
+- Node.js 20+ y npm (para desarrollo frontend/back)
+- Python 3.9+ (para desarrollo del servicio de IA)
+- Opcional: PostgreSQL, Redis, MongoDB y RabbitMQ si no se usan contenedores
 
-- Node.js 20 o superior
-
-
-Estructura del proyecto:
-
-- backend/ → API REST con NestJS + TypeORM
-- frontend/ → Interfaz de usuario en React + Vite + Tailwind
-- ia-service/ → Servicio de IA con FastAPI
-- infra/ → Infraestructura y orquestación con Docker Compose
-- .github/ → Workflows de CI/CD con GitHub Actions
-- README.md
-
----
-
-Funcionalidades principales:
-
-Autenticación:
-
-- Registro e inicio de sesión con JWT
-- Protección de rutas (backend y frontend)
-- Almacenamiento del token en localStorage
-
-Gestión de jugadores:
-
-- CRUD completo de jugadores
-- Búsqueda de jugadores por nombre
-- Búsqueda de jugadores por posición
-- Nuevo endpoint `/players/position?position=<pos>` para filtrar por posición
-- Campos: id, name, position, score, stats (JSONB), fitness, technical
-- Validaciones con class-validator
-- Hook usePlayers() en frontend con integración a la API
-- Gestión de formaciones con endpoints protegidos
-- Registro de calificaciones por jugador
-
-Servicio de IA:
-
-- Servicio REST en FastAPI preparado para integrar funcionalidades de análisis inteligente
-- Módulo IA en el backend para futuras integraciones
-- Endpoint `/ia/analyze_performance` para evaluar el rendimiento según las calificaciones
-- Endpoint `/ia/suggest_tactics` para obtener recomendaciones tácticas mediante IA
-- Endpoint `/ia/predict_match` para predecir el resultado de un partido
-- Endpoint `/ia/detect_errors` para identificar problemas en la alineación enviada
-- Endpoint `/healthz` para comprobación rápida del estado de la API
-
----
-
-Uso con Docker:
-
-Desde la raíz del proyecto puedes ejecutar:
-
+## Instalación y ejecución local
+1. Clona este repositorio.
+2. Copia cada archivo `.env.example` a `.env` en la raíz, `backend/`, `frontend/` e `ia-service/` y completa los valores necesarios.
+3. Levanta todo con Docker Compose:
 ```bash
 ./run_local.sh
+# o bien
+docker-compose -f infra/docker-compose.yml up --build
 ```
-
-El script generará el archivo `.env` a partir de `.env.example` si no existe y
-comprobará que las variables esenciales estén completas antes de iniciar Docker
-Compose.
-
-Si prefieres hacerlo manualmente:
-
-docker-compose up --build
-
-Para desplegar las imágenes ya publicadas en un registro se incluye
-`infra/docker-compose.prod.yml`.  Ajusta la variable `REGISTRY_USER` con tu
-nombre de usuario en el registro y ejecuta:
-
+### Modo desarrollo sin Docker
 ```bash
-REGISTRY_USER=<usuario> docker-compose -f infra/docker-compose.prod.yml up -d
+# Backend
+cd backend && npm install && npm run start:dev
+
+# Frontend
+cd ../frontend && npm install && npm run dev
+
+# Servicio IA
+cd ../ia-service && pip install -r requirements.txt && uvicorn app.main:app --reload
 ```
 
-Servicios incluidos:
+## Uso de la aplicación
+- El frontend estará disponible en [http://localhost:5173](http://localhost:5173).
+- Registra usuarios y carga jugadores desde la interfaz.
+- Consulta el módulo de IA para obtener tácticas y predicciones de partido.
 
-- PostgreSQL
-- MongoDB
-- Redis
-- RabbitMQ
-- Backend (NestJS)
-- Frontend (React)
-- Servicio IA (FastAPI)
+## Testing y CI
+- Backend: `npm run test`
+- Frontend: `npm run test`
+- IA service: `pytest`
 
-El archivo `infra/swagger.yaml` describe los endpoints principales como
-`/ia/suggest_lineup`, `/ia/suggest_tactics`, `/ia/predict_match`, `/ia/detect_errors` y el registro de calificaciones.
+El repositorio incluye flujos de GitHub Actions en `.github/workflows/` que ejecutan lint, tests y despliegue de imágenes Docker.
 
-Asegurarse de copiar `.env.example` a `.env` en cada servicio (`backend/`,
-`frontend/` e `ia-service/`) y completar los valores necesarios.
-Para levantar la infraestructura con Docker Compose también se incluye un
-archivo `.env.example` en la raíz del proyecto. Cópialo a `.env` y ajusta las
-variables según tu entorno.
+## Estructura del proyecto
+- `backend/` – API REST con NestJS y TypeORM
+- `frontend/` – Aplicación React + Vite
+- `ia-service/` – Servicio IA en FastAPI
+- `infra/` – Definición de servicios y bases de datos con Docker Compose
+- `docs/` – Documentación adicional
 
-La conexión a la base de datos se configura mediante la variable
-`DATABASE_URL` incluida en dichos archivos. Si modificas `POSTGRES_USER`,
-`POSTGRES_PASSWORD` o `POSTGRES_DB`, recuerda actualizar `DATABASE_URL`
-con la cadena completa, por ejemplo
-`postgresql://<usuario>:<contraseña>@postgres:5432/<base>`.
-
-El frontend utiliza la variable `VITE_API_URL` para apuntar a la URL base del backend.
-Los directorios `backend/` y `frontend/` incluyen Dockerfiles para construir las imágenes de ambos servicios.
-
-### Variables de entorno
-
-El archivo `.env.example` ubicado en la raíz define las credenciales y puertos
-que utiliza Docker Compose. Copia este archivo a `.env` y ajusta los valores
-según tu entorno. Las principales variables son:
-
-- `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`: credenciales de PostgreSQL.
-- `MONGO_USER`, `MONGO_PASSWORD`: credenciales de MongoDB.
-- `REDIS_PASSWORD`: contraseña utilizada por Redis.
-- `RABBITMQ_USER`, `RABBITMQ_PASSWORD`: usuario y contraseña de RabbitMQ.
-- `BACKEND_PORT`: puerto expuesto por el servicio backend.
-- `FASTAPI_PORT`: puerto del servicio de IA.
-- `REGISTRY_USER` y `TAG`: usados por `docker-compose.prod.yml` para indicar el
-  repositorio y la etiqueta de las imágenes.
-
-Cada servicio cuenta además con su propio `.env.example` donde se incluyen
-variables específicas como `JWT_SECRET`, `IA_SERVICE_URL`, `VITE_API_URL` u
-`OPENAI_API_KEY`.
-
----
-
-Uso sin Docker (modo desarrollo):
-
-Backend:
-
-cd backend  
-npm install  
-npm run start:dev
-
-Frontend:
-
-cd frontend  
-npm install  
-npm run dev
-
-Servicio IA:
-
-cd ia-service  
-pip install -r requirements.txt  
-uvicorn main:app --reload
-
-Pruebas:
-
-Backend:
-
-cd backend
-npm run test
-
-Frontend:
-
-cd frontend
-npm run test
-
-Datos de ejemplo:
-
-Para poblar la base con registros de prueba ejecuta:
-
-```bash
-cd backend
-npm run seed
-```
-
-
----
-
-Migraciones con TypeORM:
-
-Las migraciones utilizan la URL definida en `DATABASE_URL` para conectarse a
-la base de datos.
-
-Generar migración:
-
-npx typeorm migration:generate src/migrations/CreatePlayersTable -d src/data-source.ts
-
-Ejecutar migración:
-
-npx typeorm migration:run -d src/data-source.ts
-
----
-
-CI/CD:
-
-Los flujos de integración continua están definidos en `.github/workflows/` y
-construyen y publican las imágenes de Docker de cada servicio:
-
-- `backend.yml` → lint, test y push del backend
-- `frontend.yml` → lint, build estático y push del frontend
-- `ia-service.yml` → lint, test y push del servicio IA
-
-Para autenticarse en el registro, configura en el repositorio los secretos
-`DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN` con tus credenciales de Docker Hub (o
-registro compatible).
-
----
-
-Tecnologías utilizadas:
-
-- Backend: NestJS, TypeORM, PostgreSQL
-- Frontend: React, Vite, TailwindCSS, shadcn/ui
-- Guía de colores: [frontend/COLOR_GUIDE.md](frontend/COLOR_GUIDE.md)
-- IA: FastAPI (Python)
-- Infraestructura: Docker Compose
-- CI/CD: GitHub Actions
-## Funcionalidades propuestas
-
-- Panel de estadísticas avanzadas con gráficos interactivos.
-- Importación y exportación de datos en formato CSV.
-- Notificaciones por correo ante nuevas calificaciones o partidos.
-
-
----
-
-Autores:
-
-Tomás Bacigalupo | Joaquín Romero  
-GitHub: https://github.com/tomasbacigalupo-tintin | https://github.com/JoaquinRomeroVillagra
+## Contribuciones
+Las contribuciones son bienvenidas mediante *pull requests*. Asegúrate de seguir una descripción clara de los cambios y asociar los issues correspondientes si existen.
 
 ## Licencia
+Distribuido bajo la [licencia MIT](LICENSE).
 
-Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más información.
+## Autores
+Tomás Bacigalupo y Joaquín Romero
+
