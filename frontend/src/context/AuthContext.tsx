@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useState,
+  useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api, { setAuthToken } from '@/services/api';
@@ -48,10 +49,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('unauthorized', handler);
   }, [logout, navigate]);
 
+  const value = useMemo(
+    () => ({ token, isAuthenticated: !!token, login, logout }),
+    [token, login, logout],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ token, isAuthenticated: !!token, login, logout }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
