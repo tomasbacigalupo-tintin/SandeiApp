@@ -20,11 +20,14 @@ class DummyAsyncClient:
 
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.main import analyze_performance, PerformanceRequest
+from app.routers.ia import analyze_performance
+from app.models import PerformanceRequest
+from app.services.ai_logic import fetch_chat_completion
+from app.utils.config import settings
 
 
 def test_analyze_performance(monkeypatch):
-    monkeypatch.setattr('app.main.OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
     payload = PerformanceRequest(ratings=[{"player": "John", "score": 7}])
-    result = asyncio.run(analyze_performance(payload, DummyAsyncClient()))
+    result = asyncio.run(analyze_performance(payload, DummyAsyncClient(), fetch_chat_completion))
     assert result == {"analysis": "ok"}

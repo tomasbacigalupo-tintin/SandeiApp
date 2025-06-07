@@ -10,6 +10,7 @@ Copia `.env.example` a `.env` y completa los siguientes valores:
 - `FASTAPI_HOST` &ndash; interfaz donde se iniciará Uvicorn (por defecto `0.0.0.0`).
 - `FASTAPI_PORT` &ndash; puerto de escucha (por defecto `8000`).
 - `ALLOWED_ORIGINS` &ndash; lista de orígenes permitidos (separados por comas) para CORS.
+- `API_TOKEN` &ndash; token Bearer requerido para llamar a los endpoints.
 
 Estas variables son requeridas tanto al ejecutar en local como con Docker.
 
@@ -18,7 +19,7 @@ Estas variables son requeridas tanto al ejecutar en local como con Docker.
 ```bash
 cd ia-service
 pip install -r requirements.txt
-pytest
+./run_tests.sh
 ```
 
 Las pruebas utilizan stubs para la API de OpenAI, por lo que pueden ejecutarse sin conexión a internet.
@@ -55,3 +56,4 @@ Actualmente los orígenes permitidos son:
 - `POST /ia/analyze_performance` &ndash; analiza las calificaciones de cada jugador.
 - `POST /ia/predict_match` &ndash; predice el resultado de un partido.
 - `POST /ia/detect_errors` &ndash; informa de posibles errores en la alineación.
+- `GET /healthz` &ndash; verificación rápida de estado.
