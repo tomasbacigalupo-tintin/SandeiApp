@@ -128,12 +128,7 @@ export default function PlayerWizard({
           </Button>
         )}
         {step === totalSteps && (
-          <Button
-            variant="success"
-            onClick={finish}
-            disabled={saving}
-            className="flex items-center"
-          >
+          <Button variant="success" onClick={finish} disabled={saving}>
             {saving && <Spinner className="h-4 w-4 mr-2 text-white" />}
             Guardar
           </Button>
