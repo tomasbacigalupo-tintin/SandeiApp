@@ -1,4 +1,8 @@
-import { QueryClient } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryCache,
+  MutationCache,
+} from '@tanstack/react-query';
 import { toast } from 'sonner';
 import axios from 'axios';
 
@@ -15,17 +19,19 @@ const getMessage = (error: unknown) => {
 };
 
 export const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      toast.error(getMessage(error));
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      toast.error(getMessage(error));
+    },
+  }),
   defaultOptions: {
     queries: {
       retry: 1,
-      onError: (error) => {
-        toast.error(getMessage(error));
-      },
-    },
-    mutations: {
-      onError: (error) => {
-        toast.error(getMessage(error));
-      },
     },
   },
 });

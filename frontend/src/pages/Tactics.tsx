@@ -20,7 +20,11 @@ export default function Tactics() {
   }
 
   if (error) {
-    return <p className="text-red-500 text-center mt-10">{error}</p>;
+    return (
+      <p className="text-red-500 text-center mt-10">
+        {String(error)}
+      </p>
+    );
   }
 
   return (

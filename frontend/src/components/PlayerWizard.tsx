@@ -4,7 +4,20 @@ import { Button } from '@/components/ui/button';
 
 export interface PlayerWizardData {
   name: string;
-  stats: Record<string, unknown>;
+  stats: Record<string, number>;
+}
+
+function parseStats(json: string): Record<string, number> {
+  try {
+    const obj = JSON.parse(json) as unknown;
+    if (typeof obj !== 'object' || obj === null) return {};
+    return Object.entries(obj).reduce<Record<string, number>>((acc, [k, v]) => {
+      if (typeof v === 'number') acc[k] = v;
+      return acc;
+    }, {});
+  } catch {
+    return {};
+  }
 }
 
 export default function PlayerWizard({
@@ -44,7 +57,7 @@ export default function PlayerWizard({
   const finish = async () => {
     try {
       setSaving(true);
-      const parsed = stats ? JSON.parse(stats) : {};
+      const parsed = stats ? parseStats(stats) : {};
       await onComplete({ name, stats: parsed });
     } finally {
       setSaving(false);
@@ -123,7 +136,7 @@ export default function PlayerWizard({
           <span />
         )}
         {step < totalSteps && (
-          <Button variant="primary" onClick={next}>
+          <Button variant="default" onClick={next}>
             Siguiente
           </Button>
         )}

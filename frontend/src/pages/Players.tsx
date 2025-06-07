@@ -11,7 +11,7 @@ import PlayerCard from '@/components/PlayerCard';
 import { Button } from '@/components/ui/button';
 
 export default function Players() {
-  const { data: players, isLoading: loading, error } = usePlayers();
+  const { data: players = [], isLoading: loading, error } = usePlayers();
   const createPlayerMutation = useCreatePlayer();
   const deletePlayerMutation = useDeletePlayer();
   const updatePlayerMutation = useUpdatePlayer();
@@ -38,7 +38,10 @@ export default function Players() {
         </div>
       </div>
     );
-  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
+  if (error)
+    return (
+      <p className="text-red-500 text-center mt-10">{String(error)}</p>
+    );
 
   return (
     <div className="p-6 space-y-4">

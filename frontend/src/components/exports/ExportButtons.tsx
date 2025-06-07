@@ -1,10 +1,15 @@
 import { Player } from '@/types/player';
-import { type FC, useState, useEffect } from 'react';
+import { type FC, useState, useEffect, ComponentType } from 'react';
 import { Button } from '../ui/button';
 
-let jsPDF: any;
-let html2canvas: any;
-let CSVLink: any;
+let jsPDF: typeof import('jspdf')['default'] | null = null;
+let html2canvas: typeof import('html2canvas')['default'] | null = null;
+let CSVLink: ComponentType<{
+  data: unknown[] | object;
+  filename?: string;
+  children?: React.ReactNode;
+  className?: string;
+}> | null = null;
 
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   const generate = async () => {
