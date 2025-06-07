@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import Spinner from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
+import type { PlayerStats } from '@/types/player';
 
 export interface PlayerWizardData {
   name: string;
-  stats: Record<string, unknown>;
+  stats: PlayerStats;
 }
 
 export default function PlayerWizard({
@@ -44,7 +45,7 @@ export default function PlayerWizard({
   const finish = async () => {
     try {
       setSaving(true);
-      const parsed = stats ? JSON.parse(stats) : {};
+      const parsed = stats ? (JSON.parse(stats) as PlayerStats) : {};
       await onComplete({ name, stats: parsed });
     } finally {
       setSaving(false);

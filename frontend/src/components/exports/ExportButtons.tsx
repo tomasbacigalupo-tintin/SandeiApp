@@ -1,10 +1,10 @@
-import { Player } from '@/types/player';
+import type { Player } from '@/types/player';
 import { type FC, useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 
-let jsPDF: any;
-let html2canvas: any;
-let CSVLink: any;
+let jsPDF: typeof import('jspdf')['default'] | null;
+let html2canvas: typeof import('html2canvas') | null;
+let CSVLink: typeof import('react-csv').CSVLink | null;
 
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   const generate = async () => {

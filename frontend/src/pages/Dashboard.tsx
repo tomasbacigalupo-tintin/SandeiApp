@@ -2,6 +2,7 @@ import { useAuth } from '@/context/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { usePlayers } from '@/hooks/usePlayers';
+import type { Player } from '@/types/player';
 import { useMatches } from '@/hooks/useMatches';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
@@ -18,16 +19,18 @@ export default function Dashboard() {
 
   const upcoming = matches
     ? [...matches]
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        )
         .slice(0, 3)
     : [];
 
-  const averageScore =
-    players && players.length
-      ? (
-          players.reduce((sum, p) => sum + (p.score || 0), 0) / players.length
-        ).toFixed(2)
-      : 'N/A';
+  const averageScore = players
+    ? (
+        players.reduce((sum: number, p: Player) => sum + (p.score || 0), 0) /
+        players.length
+      ).toFixed(2)
+    : 'N/A';
 
   function handleLogout() {
     logout();
