@@ -1,12 +1,12 @@
+import { memo, useCallback, useRef, useState, type KeyboardEvent } from 'react';
 import { Player } from '@/types/player';
-import { useRef, useState, type KeyboardEvent } from 'react';
 import { ExportPlayerPDF } from './exports/ExportButtons';
 
 interface PlayerQuickInfoProps {
   player: Player;
 }
 
-export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
+function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
   const tabs = [
     { key: 'stats', label: 'Estadísticas' },
     { key: 'history', label: 'Historial' },
@@ -17,28 +17,28 @@ export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
   const [tab, setTab] = useState<TabKey>('stats');
   const tabRefs = useRef<HTMLButtonElement[]>([]);
 
-  const focusTab = (index: number) => {
+  const focusTab = useCallback((index: number) => {
     const btn = tabRefs.current[index];
     btn?.focus();
-  };
+  }, []);
 
-  const handleKeyDown = (
-    e: KeyboardEvent<HTMLButtonElement>,
-    index: number,
-  ) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      const next = (index + 1) % tabs.length;
-      setTab(tabs[next].key);
-      focusTab(next);
-    }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prev = (index - 1 + tabs.length) % tabs.length;
-      setTab(tabs[prev].key);
-      focusTab(prev);
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = (index + 1) % tabs.length;
+        setTab(tabs[next].key);
+        focusTab(next);
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = (index - 1 + tabs.length) % tabs.length;
+        setTab(tabs[prev].key);
+        focusTab(prev);
+      }
+    },
+    [focusTab, tabs],
+  );
 
   return (
     <div className="bg-white p-4 rounded shadow w-80">
@@ -82,3 +82,5 @@ export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
     </div>
   );
 }
+export default memo(PlayerQuickInfo);
+

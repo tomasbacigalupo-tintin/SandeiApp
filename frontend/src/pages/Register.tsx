@@ -60,8 +60,8 @@ export default function Register() {
       if (demo) {
         try {
           await createDemoData();
-        } catch (err) {
-          console.error('Demo data error', err);
+        } catch {
+          // ignore demo data errors
         }
       }
       navigate('/login');

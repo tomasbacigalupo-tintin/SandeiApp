@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { usePlayers } from '@/hooks/usePlayers';
 import { useMatches } from '@/hooks/useMatches';
+import { useMemo, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
 import { useState } from 'react';
@@ -16,23 +17,29 @@ export default function Dashboard() {
   const { data: matches, isLoading: matchesLoading } = useMatches();
   const [selected, setSelected] = useState<string | null>(null);
 
-  const upcoming = matches
-    ? [...matches]
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-        .slice(0, 3)
-    : [];
+  const upcoming = useMemo(
+    () =>
+      matches
+        ? [...matches]
+            .sort(
+              (a, b) =>
+                new Date(a.date).getTime() - new Date(b.date).getTime(),
+            )
+            .slice(0, 3)
+        : [],
+    [matches],
+  );
 
-  const averageScore =
-    players && players.length
-      ? (
-          players.reduce((sum, p) => sum + (p.score || 0), 0) / players.length
-        ).toFixed(2)
-      : 'N/A';
+  const averageScore = useMemo(() => {
+    if (!players || !players.length) return 'N/A';
+    const total = players.reduce((sum, p) => sum + (p.score || 0), 0);
+    return (total / players.length).toFixed(2);
+  }, [players]);
 
-  function handleLogout() {
+  const handleLogout = useCallback(() => {
     logout();
     navigate('/login');
-  }
+  }, [logout, navigate]);
 
   return (
     <>
