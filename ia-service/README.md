@@ -13,6 +13,11 @@ Copia `.env.example` a `.env` y completa los siguientes valores:
 
 Estas variables son requeridas tanto al ejecutar en local como con Docker.
 
+Todas las peticiones a los endpoints de `/ia` pueden incluir la cabecera
+`Authorization` con un token emitido por el backend de NestJS. El ejemplo de
+código verifica únicamente que la cabecera esté presente, pero se puede ampliar
+la función `verify_token` para consultar el backend y validar su autenticidad.
+
 ## Instalación y pruebas
 
 ```bash
@@ -55,3 +60,4 @@ Actualmente los orígenes permitidos son:
 - `POST /ia/analyze_performance` &ndash; analiza las calificaciones de cada jugador.
 - `POST /ia/predict_match` &ndash; predice el resultado de un partido.
 - `POST /ia/detect_errors` &ndash; informa de posibles errores en la alineación.
+- `GET /healthz` &ndash; endpoint de comprobación de salud.
