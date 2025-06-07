@@ -36,7 +36,7 @@ export default function PlayerWizard({
 }: PlayerWizardProps) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState(initialName);
-  const [statsString, setStatsString] = useState<string>(() =>
+  const [statsString, setStatsString] = useState(() =>
     JSON.stringify(initialStats)
   );
   const [statsError, setStatsError] = useState('');
@@ -160,3 +160,4 @@ export default function PlayerWizard({
     </div>
   );
 }
+
