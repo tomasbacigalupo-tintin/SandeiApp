@@ -18,14 +18,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
-      onError: (error) => {
-        toast.error(getMessage(error));
-      },
     },
-    mutations: {
-      onError: (error) => {
-        toast.error(getMessage(error));
-      },
-    },
+    mutations: {},
   },
 });

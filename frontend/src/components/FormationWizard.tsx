@@ -96,7 +96,7 @@ export default function FormationWizard({
           <span />
         )}
         {step < totalSteps && (
-          <Button variant="primary" onClick={next}>
+          <Button variant="default" onClick={next}>
             Siguiente
           </Button>
         )}
