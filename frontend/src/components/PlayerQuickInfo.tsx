@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef, useState, type KeyboardEvent } from 'react';
+import React, { memo, useCallback, useRef, useState, type KeyboardEvent } from 'react';
 import { Player } from '@/types/player';
 import { ExportPlayerPDF } from './exports/ExportButtons';
 
@@ -6,81 +6,97 @@ interface PlayerQuickInfoProps {
   player: Player;
 }
 
-function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
-  const tabs = [
-    { key: 'stats', label: 'Estadísticas' },
-    { key: 'history', label: 'Historial' },
-    { key: 'notes', label: 'Notas' },
-  ] as const;
-  type TabKey = (typeof tabs)[number]['key'];
+const TABS = [
+  { key: 'stats', label: 'Estadísticas' },
+  { key: 'history', label: 'Historial' },
+  { key: 'notes', label: 'Notas' },
+] as const;
+type TabKey = (typeof TABS)[number]['key'];
 
-  const [tab, setTab] = useState<TabKey>('stats');
-  const tabRefs = useRef<HTMLButtonElement[]>([]);
+const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
+  const [activeTab, setActiveTab] = useState<TabKey>('stats');
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const focusTab = useCallback((index: number) => {
-    const btn = tabRefs.current[index];
-    btn?.focus();
+    const button = tabRefs.current[index];
+    button?.focus();
   }, []);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+      let newIndex: number | null = null;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
-        const next = (index + 1) % tabs.length;
-        setTab(tabs[next].key);
-        focusTab(next);
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        newIndex = (index + 1) % TABS.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
-        const prev = (index - 1 + tabs.length) % tabs.length;
-        setTab(tabs[prev].key);
-        focusTab(prev);
+        newIndex = (index - 1 + TABS.length) % TABS.length;
+      }
+      if (newIndex !== null) {
+        setActiveTab(TABS[newIndex].key);
+        focusTab(newIndex);
       }
     },
-    [focusTab, tabs],
+    [focusTab],
   );
+
+  const handleTabClick = useCallback((key: TabKey) => {
+    setActiveTab(key);
+  }, []);
 
   return (
     <div className="bg-white p-4 rounded shadow w-80">
       <h3 className="text-lg font-bold mb-2">{player.name}</h3>
-      <div role="tablist" className="flex gap-2 mb-2">
-        {tabs.map((t, idx) => (
-          <button
-            key={t.key}
-            ref={(el) => {
-              if (el) tabRefs.current[idx] = el;
-            }}
-            role="tab"
-            aria-selected={tab === t.key}
-            tabIndex={tab === t.key ? 0 : -1}
-            className={`px-2 py-1 rounded ${
-              tab === t.key ? 'bg-blue-700 text-white' : 'bg-gray-200'
-            }`}
-            onClick={() => setTab(t.key)}
-            onKeyDown={(e) => handleKeyDown(e, idx)}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div role="tablist" aria-label={`Información de ${player.name}`} className="flex gap-2 mb-2">
+        {TABS.map((t, idx) => {
+          const selected = activeTab === t.key;
+          return (
+            <button
+              key={t.key}
+              ref={(el) => (tabRefs.current[idx] = el)}
+              id={`player-${player.id}-tab-${t.key}`}
+              role="tab"
+              aria-selected={selected}
+              aria-controls={`player-${player.id}-tabpanel-${t.key}`}
+              tabIndex={selected ? 0 : -1}
+              className={`px-2 py-1 rounded ${
+                selected ? 'bg-blue-700 text-white' : 'bg-gray-200'
+              }`}
+              onClick={() => handleTabClick(t.key)}
+              onKeyDown={(e) => handleKeyDown(e, idx)}
+            >
+              {t.label}
+            </button>
+          );
+        })}
       </div>
-      {tab === 'stats' && (
-        <pre className="whitespace-pre-wrap break-all text-sm">
-          {player.stats
-            ? JSON.stringify(player.stats, null, 2)
-            : 'Sin estadísticas'}
-        </pre>
-      )}
-      {tab === 'history' && (
-        <p className="text-sm text-gray-600">Historial no disponible.</p>
-      )}
-      {tab === 'notes' && (
-        <p className="text-sm text-gray-600">Notas no disponibles.</p>
-      )}
+      {TABS.map((t) => {
+        if (activeTab !== t.key) return null;
+        return (
+          <div
+            key={t.key}
+            id={`player-${player.id}-tabpanel-${t.key}`}
+            role="tabpanel"
+            aria-labelledby={`player-${player.id}-tab-${t.key}`}
+          >
+            {t.key === 'stats' ? (
+              <pre className="whitespace-pre-wrap break-all text-sm">
+                {player.stats ? JSON.stringify(player.stats, null, 2) : 'Sin estadísticas'}
+              </pre>
+            ) : (
+              <p className="text-sm text-gray-600">
+                {t.key === 'history' ? 'Historial no disponible.' : 'Notas no disponibles.'}
+              </p>
+            )}
+          </div>
+        );
+      })}
       <div className="mt-4 text-right">
         <ExportPlayerPDF player={player} />
       </div>
     </div>
   );
-}
+};
+
 export default memo(PlayerQuickInfo);
 
