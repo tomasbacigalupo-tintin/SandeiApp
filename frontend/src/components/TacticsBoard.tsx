@@ -70,13 +70,16 @@ export default function TacticsBoard() {
       {players.map((p) => (
         <div
           key={p.id}
+          role="button"
+          tabIndex={0}
+          aria-label={`Mover ${p.name}`}
           draggable
           onDragStart={(e) => onDragStart(e, p.id)}
           onMouseDown={() => startPress(p.id)}
           onMouseUp={endPress}
           onTouchStart={() => startPress(p.id)}
           onTouchEnd={endPress}
-          className="absolute text-white font-bold cursor-move select-none"
+          className="absolute text-white font-bold cursor-move select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
           style={{ left: `${p.x}%`, top: `${p.y}%` }}
         >
           {p.name}

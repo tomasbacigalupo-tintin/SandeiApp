@@ -47,7 +47,11 @@ export default function Tactics() {
       )}
 
       {showWizard && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        >
           <FormationWizard
             onComplete={async (data) => {
               await createFormation.mutateAsync(data);

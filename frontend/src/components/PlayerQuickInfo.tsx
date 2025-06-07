@@ -1,12 +1,12 @@
+import React, { useRef, useState, type KeyboardEvent } from 'react';
 import { Player } from '@/types/player';
-import { useRef, useState, type KeyboardEvent } from 'react';
 import { ExportPlayerPDF } from './exports/ExportButtons';
 
 interface PlayerQuickInfoProps {
   player: Player;
 }
 
-export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
+function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
   const tabs = [
     { key: 'stats', label: 'Estadísticas' },
     { key: 'history', label: 'Historial' },
@@ -82,3 +82,5 @@ export default function PlayerQuickInfo({ player }: PlayerQuickInfoProps) {
     </div>
   );
 }
+
+export default React.memo(PlayerQuickInfo);

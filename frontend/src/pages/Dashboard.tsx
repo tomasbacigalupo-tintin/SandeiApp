@@ -5,7 +5,7 @@ import { usePlayers } from '@/hooks/usePlayers';
 import { useMatches } from '@/hooks/useMatches';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import Onboarding from '@/components/Onboarding';
 
@@ -16,18 +16,23 @@ export default function Dashboard() {
   const { data: matches, isLoading: matchesLoading } = useMatches();
   const [selected, setSelected] = useState<string | null>(null);
 
-  const upcoming = matches
-    ? [...matches]
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-        .slice(0, 3)
-    : [];
+  const upcoming = useMemo(
+    () =>
+      matches
+        ? [...matches]
+            .sort(
+              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+            )
+            .slice(0, 3)
+        : [],
+    [matches],
+  );
 
-  const averageScore =
-    players && players.length
-      ? (
-          players.reduce((sum, p) => sum + (p.score || 0), 0) / players.length
-        ).toFixed(2)
-      : 'N/A';
+  const averageScore = useMemo(() => {
+    if (!players || players.length === 0) return 'N/A';
+    const avg = players.reduce((sum, p) => sum + (p.score || 0), 0) / players.length;
+    return avg.toFixed(2);
+  }, [players]);
 
   function handleLogout() {
     logout();
@@ -107,7 +112,11 @@ export default function Dashboard() {
       </div>
 
       {selected && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        >
           <div className="bg-white p-4 rounded">
             <PlayerQuickInfo
               player={players!.find((p) => p.id === selected)!}

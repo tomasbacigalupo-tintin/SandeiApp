@@ -1,3 +1,4 @@
+import React from 'react';
 import { Player } from '@/types/player';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ interface PlayerCardProps {
   onDelete?: () => void;
 }
 
-export default function PlayerCard({
+function PlayerCard({
   player,
   onEdit,
   onDelete,
@@ -55,3 +56,5 @@ export default function PlayerCard({
     </motion.div>
   );
 }
+
+export default React.memo(PlayerCard);
