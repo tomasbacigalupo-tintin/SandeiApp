@@ -16,11 +16,12 @@ class DummyAsyncClient:
 
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.main import predict_match, MatchPredictionRequest
+from app.routers.ia import predict_match
+from app.schemas import MatchPredictionRequest
 
 
 def test_predict_match(monkeypatch):
-    monkeypatch.setattr('app.main.OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr('app.routers.ia.OPENAI_API_KEY', 'test-key')
     payload = MatchPredictionRequest(home_team=['A'], away_team=['B'])
     result = asyncio.run(predict_match(payload, DummyAsyncClient()))
     assert result == {"prediction": "ok"}

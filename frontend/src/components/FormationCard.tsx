@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { Formation } from '@/types/formation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,9 +7,15 @@ interface FormationCardProps {
   formation: Formation;
 }
 
-export default function FormationCard({ formation }: FormationCardProps) {
-  const shareText = `Formación ${formation.name}${
-    formation.description ? ` - ${formation.description}` : ''}`;
+function FormationCard({ formation }: FormationCardProps) {
+  // Memoize share text to avoid recalculations on parent rerenders
+  const shareText = useMemo(
+    () =>
+      `Formación ${formation.name}${
+        formation.description ? ` - ${formation.description}` : ''
+      }`,
+    [formation.name, formation.description],
+  );
 
   return (
     <Card className="flex flex-col gap-2">
@@ -34,3 +41,5 @@ export default function FormationCard({ formation }: FormationCardProps) {
     </Card>
   );
 }
+export default memo(FormationCard);
+

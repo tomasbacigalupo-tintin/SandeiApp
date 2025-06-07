@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getStats } from '@/services/stats';
-import { StatItem } from '@/types/stats';
+import type { StatItem } from '@/types/stats';
 
 export function useStats(range: 'month' | 'season') {
   return useQuery<StatItem[]>({

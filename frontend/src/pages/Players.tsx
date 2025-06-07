@@ -4,14 +4,19 @@ import {
   useDeletePlayer,
   useUpdatePlayer,
 } from '@/hooks/usePlayers';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import PlayerWizard from '@/components/PlayerWizard';
+import PlayerWizard, { type PlayerWizardData } from '@/components/PlayerWizard';
 import PlayerCard from '@/components/PlayerCard';
 import { Button } from '@/components/ui/button';
 
 export default function Players() {
-  const { data: players, isLoading: loading, error } = usePlayers();
+  const {
+    data: players = [],
+    isLoading: loading,
+    error,
+  } = usePlayers();
+
   const createPlayerMutation = useCreatePlayer();
   const deletePlayerMutation = useDeletePlayer();
   const updatePlayerMutation = useUpdatePlayer();
@@ -22,12 +27,15 @@ export default function Players() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
-    if (!confirm('¿Estás seguro de eliminar este jugador?')) return;
-    deletePlayerMutation.mutate(id);
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      if (!confirm('¿Estás seguro de eliminar este jugador?')) return;
+      deletePlayerMutation.mutate(id);
+    },
+    [deletePlayerMutation],
+  );
 
-  if (loading)
+  if (loading) {
     return (
       <div className="p-6 space-y-4">
         <h2 className="text-xl font-bold">Jugadores</h2>
@@ -38,7 +46,11 @@ export default function Players() {
         </div>
       </div>
     );
-  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500 text-center mt-10">{String(error)}</p>;
+  }
 
   return (
     <div className="p-6 space-y-4">
@@ -73,11 +85,15 @@ export default function Players() {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        >
           <PlayerWizard
             initialName={name}
             initialStats={stats}
-            onComplete={async (data) => {
+            onComplete={async (data: PlayerWizardData) => {
               if (isEditMode && editId) {
                 await updatePlayerMutation.mutateAsync({ id: editId, data });
               } else {
@@ -85,12 +101,14 @@ export default function Players() {
               }
               setShowModal(false);
               setIsEditMode(false);
+              setEditId(null);
               setName('');
               setStats('');
             }}
             onCancel={() => {
               setShowModal(false);
               setIsEditMode(false);
+              setEditId(null);
               setName('');
               setStats('');
             }}
@@ -100,3 +118,4 @@ export default function Players() {
     </div>
   );
 }
+

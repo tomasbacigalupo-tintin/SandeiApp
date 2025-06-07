@@ -69,11 +69,7 @@ export default function Login() {
                 required
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full flex items-center justify-center"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading && <Spinner className="mr-2 h-5 w-5 text-white" />}
               {loading ? 'Ingresando...' : 'Ingresar'}
             </Button>

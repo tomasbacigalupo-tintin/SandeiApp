@@ -16,11 +16,12 @@ class DummyAsyncClient:
 
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.main import detect_errors, ErrorDetectionRequest
+from app.routers.ia import detect_errors
+from app.schemas import ErrorDetectionRequest
 
 
 def test_detect_errors(monkeypatch):
-    monkeypatch.setattr('app.main.OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr('app.routers.ia.OPENAI_API_KEY', 'test-key')
     payload = ErrorDetectionRequest(lineup=["A", "B"], formation=None)
     result = asyncio.run(detect_errors(payload, DummyAsyncClient()))
     assert result == {"report": "ok"}
