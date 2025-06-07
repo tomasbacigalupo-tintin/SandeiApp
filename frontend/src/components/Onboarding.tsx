@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
-import type { Step } from 'react-joyride';
+import type {
+  Step,
+  Props as JoyrideProps,
+  CallBackProps,
+} from 'react-joyride';
+import type { ComponentType } from 'react';
 
-let Joyride: any;
+let Joyride: ComponentType<JoyrideProps> | null = null;
 
 const steps: Step[] = [
   {
@@ -38,7 +43,7 @@ export default function Onboarding() {
         run={run}
         continuous
         showSkipButton
-        callback={(data: any) => {
+        callback={(data: CallBackProps) => {
           if (data.status === 'finished' || data.status === 'skipped') {
             localStorage.setItem('tourDone', 'true');
           }
