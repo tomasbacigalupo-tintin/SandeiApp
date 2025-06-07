@@ -20,7 +20,7 @@ function TacticsBoard() {
   const [players, setPlayers] = useState(initialPlayers);
   const boardRef = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState<string | null>(null);
-  const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
+  const [pressTimer, setPressTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const onDragStart = useCallback((e: React.DragEvent, id: string) => {
     e.dataTransfer.setData('id', id);

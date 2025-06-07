@@ -2,12 +2,12 @@ import type { Player } from '@/types/player';
 import { type FC, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
-// Lazy-loaded modules
+// Lazy‐loaded modules
 let jsPDF: typeof import('jspdf')['default'] | undefined;
 let html2canvasLib: typeof import('html2canvas')['default'] | undefined;
 let CSVLinkComponent: typeof import('react-csv').CSVLink | undefined;
 
-// Export button to generate a simple PDF with player data
+// Botón para exportar la ficha de un jugador a PDF
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   const generate = async () => {
     if (!jsPDF) jsPDF = (await import('jspdf')).default;
@@ -24,9 +24,14 @@ export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
   );
 };
 
-// Export button to download arbitrary data as CSV
-export const ExportListCSV: FC<{ data: unknown[]; filename?: string }> = ({ data, filename = 'reporte.csv' }) => {
-  const [Link, setLink] = useState<typeof CSVLinkComponent | null>(CSVLinkComponent ?? null);
+// Botón para descargar datos genéricos como CSV
+export const ExportListCSV: FC<{ data: unknown[]; filename?: string }> = ({
+  data,
+  filename = 'reporte.csv',
+}) => {
+  const [Link, setLink] = useState<typeof CSVLinkComponent | null>(
+    CSVLinkComponent ?? null
+  );
 
   useEffect(() => {
     if (!Link) {
@@ -46,8 +51,11 @@ export const ExportListCSV: FC<{ data: unknown[]; filename?: string }> = ({ data
   );
 };
 
-// Utility to export a DOM element as PDF
-export async function exportElementPDF(element: HTMLElement, filename: string) {
+// Función utilitaria para capturar un elemento DOM y exportarlo a PDF
+export async function exportElementPDF(
+  element: HTMLElement,
+  filename: string
+) {
   if (!html2canvasLib) html2canvasLib = (await import('html2canvas')).default;
   if (!jsPDF) jsPDF = (await import('jspdf')).default;
 
