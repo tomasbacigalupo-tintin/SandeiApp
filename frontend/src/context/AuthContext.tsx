@@ -18,16 +18,12 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  const [token, setToken] = useState<string | null>(() => {
     const stored = localStorage.getItem('token');
-    if (stored) {
-      setToken(stored);
-      setAuthToken(stored);
-    }
-  }, []);
+    if (stored) setAuthToken(stored);
+    return stored;
+  });
+  const navigate = useNavigate();
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.post('/auth/login', { email, password });
