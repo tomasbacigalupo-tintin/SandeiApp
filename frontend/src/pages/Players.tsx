@@ -6,12 +6,17 @@ import {
 } from '@/hooks/usePlayers';
 import { useState, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import PlayerWizard from '@/components/PlayerWizard';
+import PlayerWizard, { type PlayerWizardData } from '@/components/PlayerWizard';
 import PlayerCard from '@/components/PlayerCard';
 import { Button } from '@/components/ui/button';
 
 export default function Players() {
-  const { data: players, isLoading: loading, error } = usePlayers();
+  const {
+    data: players = [],
+    isLoading: loading,
+    error,
+  } = usePlayers();
+
   const createPlayerMutation = useCreatePlayer();
   const deletePlayerMutation = useDeletePlayer();
   const updatePlayerMutation = useUpdatePlayer();
@@ -30,7 +35,7 @@ export default function Players() {
     [deletePlayerMutation],
   );
 
-  if (loading)
+  if (loading) {
     return (
       <div className="p-6 space-y-4">
         <h2 className="text-xl font-bold">Jugadores</h2>
@@ -41,12 +46,11 @@ export default function Players() {
         </div>
       </div>
     );
-  if (error)
-    return (
-      <p className="text-red-500 text-center mt-10">{String(error)}</p>
-    );
+  }
 
-  const playerList = players ?? [];
+  if (error) {
+    return <p className="text-red-500 text-center mt-10">{String(error)}</p>;
+  }
 
   return (
     <div className="p-6 space-y-4">
@@ -56,14 +60,14 @@ export default function Players() {
         Crear jugador
       </Button>
 
-      {playerList.length === 0 ? (
+      {players.length === 0 ? (
         <div className="text-center py-10 space-y-2">
           <p className="text-gray-500">Aún no hay jugadores.</p>
           <Button onClick={() => setShowModal(true)}>Añadir jugador</Button>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {playerList.map((player) => (
+          {players.map((player) => (
             <PlayerCard
               key={player.id}
               player={player}
@@ -85,7 +89,7 @@ export default function Players() {
           <PlayerWizard
             initialName={name}
             initialStats={stats}
-            onComplete={async (data) => {
+            onComplete={async (data: PlayerWizardData) => {
               if (isEditMode && editId) {
                 await updatePlayerMutation.mutateAsync({ id: editId, data });
               } else {
@@ -93,12 +97,14 @@ export default function Players() {
               }
               setShowModal(false);
               setIsEditMode(false);
+              setEditId(null);
               setName('');
               setStats('');
             }}
             onCancel={() => {
               setShowModal(false);
               setIsEditMode(false);
+              setEditId(null);
               setName('');
               setStats('');
             }}
@@ -108,3 +114,4 @@ export default function Players() {
     </div>
   );
 }
+

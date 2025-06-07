@@ -1,11 +1,7 @@
-import { useState, useEffect } from 'react';
-import type {
-  Step,
-  Props as JoyrideProps,
-  CallBackProps,
-} from 'react-joyride';
-import type { ComponentType } from 'react';
+import { useState, useEffect, ComponentType } from 'react';
+import type { Step, Props as JoyrideProps, CallBackProps } from 'react-joyride';
 
+// Dynamic import of Joyride to avoid SSR issues
 let Joyride: ComponentType<JoyrideProps> | null = null;
 
 const steps: Step[] = [
@@ -28,27 +24,39 @@ export default function Onboarding() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    import('react-joyride').then((mod) => {
-      Joyride = mod.default;
-      setLoaded(true);
-    });
+    // Import react-joyride only on client
+    import('react-joyride')
+      .then((mod) => {
+        Joyride = mod.default;
+        setLoaded(true);
+      })
+      .catch((err) => {
+        console.error('Error loading Joyride:', err);
+      });
+
+    // Check if the tour was completed
     const done = localStorage.getItem('tourDone');
-    if (!done) setRun(true);
+    if (!done) {
+      setRun(true);
+    }
   }, []);
 
+  // While Joyride is loading, render nothing or a placeholder
+  if (!loaded || Joyride === null) return null;
+
   return (
-    loaded && (
-      <Joyride
-        steps={steps}
-        run={run}
-        continuous
-        showSkipButton
-        callback={(data: CallBackProps) => {
-          if (data.status === 'finished' || data.status === 'skipped') {
-            localStorage.setItem('tourDone', 'true');
-          }
-        }}
-      />
-    )
+    <Joyride
+      steps={steps}
+      run={run}
+      continuous
+      showSkipButton
+      callback={(data: CallBackProps) => {
+        // Mark tour as done when finished or skipped
+        if (['finished', 'skipped'].includes(data.status)) {
+          localStorage.setItem('tourDone', 'true');
+          setRun(false);
+        }
+      }}
+    />
   );
 }

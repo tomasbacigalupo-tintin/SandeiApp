@@ -8,20 +8,24 @@ export interface PlayerWizardData {
   stats: PlayerStats;
 }
 
-export default function PlayerWizard({
-  initialName = '',
-  initialStats = '',
-  onComplete,
-  onCancel,
-}: {
+interface PlayerWizardProps {
   initialName?: string;
-  initialStats?: string;
+  initialStats?: PlayerStats;
   onComplete: (data: PlayerWizardData) => Promise<void> | void;
   onCancel: () => void;
-}) {
+}
+
+export default function PlayerWizard({
+  initialName = '',
+  initialStats = {},
+  onComplete,
+  onCancel,
+}: PlayerWizardProps) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState(initialName);
-  const [stats, setStats] = useState(initialStats);
+  const [statsString, setStatsString] = useState<string>(() =>
+    JSON.stringify(initialStats)
+  );
   const [statsError, setStatsError] = useState('');
   const [saving, setSaving] = useState(false);
   const totalSteps = 3;
@@ -30,7 +34,7 @@ export default function PlayerWizard({
     if (step === 1 && !name) return;
     if (step === 2) {
       try {
-        JSON.parse(stats || '{}');
+        JSON.parse(statsString);
         setStatsError('');
       } catch {
         setStatsError('JSON inválido');
@@ -45,7 +49,7 @@ export default function PlayerWizard({
   const finish = async () => {
     try {
       setSaving(true);
-      const parsed: PlayerStats = stats ? JSON.parse(stats) : {};
+      const parsed: PlayerStats = JSON.parse(statsString);
       await onComplete({ name, stats: parsed });
     } finally {
       setSaving(false);
@@ -89,9 +93,9 @@ export default function PlayerWizard({
             id="player-stats"
             className="border p-2 w-full rounded"
             placeholder='Stats (ej: {"goals": 3})'
-            value={stats}
+            value={statsString}
             onChange={(e) => {
-              setStats(e.target.value);
+              setStatsString(e.target.value);
               try {
                 JSON.parse(e.target.value);
                 setStatsError('');
@@ -111,7 +115,7 @@ export default function PlayerWizard({
             <strong>Nombre:</strong> {name}
           </p>
           <pre className="bg-gray-100 p-2 rounded overflow-auto text-sm">
-            {stats || '{}'}
+            {statsString}
           </pre>
         </div>
       )}
