@@ -42,8 +42,10 @@
     "@tailwindcss/postcss": "^4.1.6",
     "@testing-library/jest-dom": "^6.3.1",
     "@testing-library/react": "^14.2.1",
+    "@types/jest": "^29.5.11",
     "@types/node": "^22.15.17",
     "@types/react": "^19.1.2",
+    "@types/react-csv": "^2.2.2",
     "@types/react-dom": "^19.1.2",
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.3.3",
@@ -60,8 +62,6 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
-    "vitest": "^1.0.0",
-    "@types/jest": "^29.5.11",
-    "@types/react-csv": "^2.2.2"
+    "vitest": "^1.0.0"
   }
 }

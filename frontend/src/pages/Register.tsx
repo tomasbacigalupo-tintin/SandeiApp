@@ -60,8 +60,8 @@ export default function Register() {
       if (demo) {
         try {
           await createDemoData();
-        } catch (err) {
-          console.error('Demo data error', err);
+        } catch {
+          // ignore demo data errors
         }
       }
       navigate('/login');
@@ -221,11 +221,7 @@ export default function Register() {
           </Button>
         )}
         {step === totalSteps && (
-          <Button
-            type="submit"
-            disabled={loading}
-            className="flex items-center justify-center"
-          >
+          <Button type="submit" disabled={loading}>
             {loading && <Spinner className="mr-2 h-4 w-4 text-white" />}
             Completar
           </Button>

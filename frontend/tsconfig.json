@@ -19,9 +19,14 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["node", "jest"],
+    "types": ["jest", "node"],
     "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "include": ["src"],
-  "exclude": ["**/*.test.tsx", "**/*.spec.tsx"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx"
+  ]
 }
