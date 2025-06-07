@@ -4,7 +4,7 @@ import {
   useDeletePlayer,
   useUpdatePlayer,
 } from '@/hooks/usePlayers';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import PlayerWizard from '@/components/PlayerWizard';
 import PlayerCard from '@/components/PlayerCard';
@@ -22,10 +22,13 @@ export default function Players() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
-    if (!confirm('¿Estás seguro de eliminar este jugador?')) return;
-    deletePlayerMutation.mutate(id);
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      if (!confirm('¿Estás seguro de eliminar este jugador?')) return;
+      deletePlayerMutation.mutate(id);
+    },
+    [deletePlayerMutation],
+  );
 
   if (loading)
     return (
