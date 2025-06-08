@@ -52,13 +52,15 @@ export default function Players() {
 
   const openModalForEdit = (player: Player) => {
     setName(player.name);
-    setStats(player.stats ?? {
-      gamesPlayed: 0,
-      goals: 0,
-      assists: 0,
-      yellowCards: 0,
-      redCards: 0,
-    });
+    setStats(
+      player.stats ?? {
+        gamesPlayed: 0,
+        goals: 0,
+        assists: 0,
+        yellowCards: 0,
+        redCards: 0,
+      }
+    );
     setIsEditMode(true);
     setEditId(player.id);
     setShowModal(true);

@@ -1,11 +1,11 @@
 import type { Player } from '@/types/player';
-import { type FC, useState, useEffect } from 'react';
+import { type FC } from 'react';
 import { Button } from '@/components/ui/button';
+import { CSVLink } from 'react-csv';
 
 // Lazy‐loaded modules
 let jsPDF: typeof import('jspdf')['default'] | undefined;
 let html2canvasLib: typeof import('html2canvas')['default'] | undefined;
-let CSVLinkComponent: typeof import('react-csv').CSVLink | undefined;
 
 // Botón para exportar la ficha de un jugador a PDF
 export const ExportPlayerPDF: FC<{ player: Player }> = ({ player }) => {
@@ -29,25 +29,10 @@ export const ExportListCSV: FC<{ data: unknown[]; filename?: string }> = ({
   data,
   filename = 'reporte.csv',
 }) => {
-  const [Link, setLink] = useState<typeof CSVLinkComponent | null>(
-    CSVLinkComponent ?? null
-  );
-
-  useEffect(() => {
-    if (!Link) {
-      import('react-csv').then((mod) => {
-        CSVLinkComponent = mod.CSVLink;
-        setLink(() => mod.CSVLink);
-      });
-    }
-  }, [Link]);
-
-  if (!Link) return null;
-
   return (
-    <Link data={data} filename={filename} className="inline-block">
+    <CSVLink data={data} filename={filename} className="inline-block">
       <Button variant="outline">Exportar CSV</Button>
-    </Link>
+    </CSVLink>
   );
 };
 
