@@ -23,9 +23,6 @@ const config: QueryClientConfig = {
   defaultOptions: {
     queries: {
       retry: 1,
-      onError: (error: unknown) => {
-        toast.error(getMessage(error));
-      },
       // Ejemplo para producción:
       // staleTime: 1000 * 60 * 5, // 5 minutos
       // cacheTime: 1000 * 60 * 10, // 10 minutos
