@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../services/api';
+import api from '@/services/api';
 import { toast } from 'sonner';
-import type { Player, CreatePlayerInput } from '../types/player';
+import type { Player, CreatePlayerInput } from '@/types/player';
 
 const fetchPlayers = async (): Promise<Player[]> => {
   const res = await api.get('/players');
