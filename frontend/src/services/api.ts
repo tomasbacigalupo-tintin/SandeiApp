@@ -1,33 +1,8 @@
+// Mock mínimo de API para evitar error de import. Reemplaza con tu lógica real si es necesario.
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  baseURL: '/api',
 });
-
-let authToken: string | null = localStorage.getItem('token');
-
-export function setAuthToken(token: string | null) {
-  authToken = token;
-  if (token) localStorage.setItem('token', token);
-  else localStorage.removeItem('token');
-}
-
-api.interceptors.request.use((config) => {
-  if (authToken) {
-    config.headers = config.headers || {};
-    config.headers.Authorization = `Bearer ${authToken}`;
-  }
-  return config;
-});
-
-api.interceptors.response.use(
-  (res) => res,
-  (error) => {
-    if (error.response?.status === 401) {
-      window.dispatchEvent(new Event('unauthorized'));
-    }
-    return Promise.reject(error);
-  },
-);
 
 export default api;
