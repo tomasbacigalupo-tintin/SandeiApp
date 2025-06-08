@@ -1,4 +1,10 @@
-import React, { memo, useCallback, useRef, useState, type KeyboardEvent } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from 'react';
 import { Player } from '@/types/player';
 import { ExportPlayerPDF } from './exports/ExportButtons';
 
@@ -11,6 +17,7 @@ const TABS = [
   { key: 'history', label: 'Historial' },
   { key: 'notes', label: 'Notas' },
 ] as const;
+
 type TabKey = (typeof TABS)[number]['key'];
 
 const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
@@ -37,7 +44,7 @@ const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
         focusTab(newIndex);
       }
     },
-    [focusTab],
+    [focusTab]
   );
 
   const handleTabClick = useCallback((key: TabKey) => {
@@ -47,13 +54,19 @@ const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
   return (
     <div className="bg-white p-4 rounded shadow w-80">
       <h3 className="text-lg font-bold mb-2">{player.name}</h3>
-      <div role="tablist" aria-label={`Información de ${player.name}`} className="flex gap-2 mb-2">
+      <div
+        role="tablist"
+        aria-label={`Información de ${player.name}`}
+        className="flex gap-2 mb-2"
+      >
         {TABS.map((t, idx) => {
           const selected = activeTab === t.key;
           return (
             <button
               key={t.key}
-              ref={(el) => (tabRefs.current[idx] = el)}
+              ref={(el) => {
+                tabRefs.current[idx] = el;
+              }}
               id={`player-${player.id}-tab-${t.key}`}
               role="tab"
               aria-selected={selected}
@@ -81,11 +94,15 @@ const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
           >
             {t.key === 'stats' ? (
               <pre className="whitespace-pre-wrap break-all text-sm">
-                {player.stats ? JSON.stringify(player.stats, null, 2) : 'Sin estadísticas'}
+                {player.stats
+                  ? JSON.stringify(player.stats, null, 2)
+                  : 'Sin estadísticas'}
               </pre>
             ) : (
               <p className="text-sm text-gray-600">
-                {t.key === 'history' ? 'Historial no disponible.' : 'Notas no disponibles.'}
+                {t.key === 'history'
+                  ? 'Historial no disponible.'
+                  : 'Notas no disponibles.'}
               </p>
             )}
           </div>
@@ -99,4 +116,5 @@ const PlayerQuickInfo = ({ player }: PlayerQuickInfoProps) => {
 };
 
 export default memo(PlayerQuickInfo);
+
 

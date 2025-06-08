@@ -45,7 +45,7 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^22.15.17",
     "@types/react": "^19.1.2",
-    "@types/react-csv": "^2.2.2",
+    "@types/react-csv": "^1.1.5",
     "@types/react-dom": "^19.1.2",
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.3.3",
