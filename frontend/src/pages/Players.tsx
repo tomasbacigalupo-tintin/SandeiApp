@@ -26,13 +26,25 @@ export default function Players() {
 
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
-  const [stats, setStats] = useState('');
+  const [stats, setStats] = useState({
+    gamesPlayed: 0,
+    goals: 0,
+    assists: 0,
+    yellowCards: 0,
+    redCards: 0,
+  });
   const [isEditMode, setIsEditMode] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
   const openModalForCreate = () => {
     setName('');
-    setStats('');
+    setStats({
+      gamesPlayed: 0,
+      goals: 0,
+      assists: 0,
+      yellowCards: 0,
+      redCards: 0,
+    });
     setIsEditMode(false);
     setEditId(null);
     setShowModal(true);
@@ -40,7 +52,13 @@ export default function Players() {
 
   const openModalForEdit = (player: Player) => {
     setName(player.name);
-    setStats(JSON.stringify(player.stats, null, 2));
+    setStats(player.stats ?? {
+      gamesPlayed: 0,
+      goals: 0,
+      assists: 0,
+      yellowCards: 0,
+      redCards: 0,
+    });
     setIsEditMode(true);
     setEditId(player.id);
     setShowModal(true);
@@ -51,7 +69,13 @@ export default function Players() {
     setIsEditMode(false);
     setEditId(null);
     setName('');
-    setStats('');
+    setStats({
+      gamesPlayed: 0,
+      goals: 0,
+      assists: 0,
+      yellowCards: 0,
+      redCards: 0,
+    });
   };
 
   const handleDelete = useCallback(
