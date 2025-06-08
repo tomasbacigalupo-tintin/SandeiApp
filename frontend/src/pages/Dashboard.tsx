@@ -133,7 +133,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {players.map(p => (
+              {players?.map(p => (
                 <button
                   key={p.id}
                   onClick={() => setSelectedPlayerId(p.id)}
