@@ -6,7 +6,7 @@ import {
   ParseUUIDPipe,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { KeycloakAuthGuard } from '../auth/keycloak-auth.guard';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { RatingsService } from './ratings.service';
 import {
@@ -24,7 +24,7 @@ import {
 export class RatingsController {
   constructor(private readonly ratingsService: RatingsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create rating for a match' })
   @ApiParam({ name: 'matchId', type: 'string' })

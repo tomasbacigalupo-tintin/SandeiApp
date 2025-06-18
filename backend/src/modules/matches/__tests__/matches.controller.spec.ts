@@ -1,4 +1,7 @@
 process.env.RABBITMQ_URL = 'amqp://localhost';
+process.env.DATABASE_URL = 'dummy';
+process.env.JWT_SECRET = 'secret';
+process.env.IA_SERVICE_URL = 'http://localhost';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError } from 'typeorm';
 import { Match } from '../match.entity';
@@ -24,7 +27,10 @@ describe('MatchesController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(require('../../auth/keycloak-auth.guard').KeycloakAuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<MatchesController>(MatchesController);
     service = module.get<MatchesService>(MatchesService);
@@ -32,11 +38,11 @@ describe('MatchesController', () => {
 
   it('throws EntityNotFoundError when match not found', async () => {
     (service.findById as jest.Mock).mockRejectedValue(new EntityNotFoundError(Match, 'test'));
-    await expect(controller.findOne('x')).rejects.toBeInstanceOf(EntityNotFoundError);
+    await expect(controller.findOne('x', { tenantId: 't1' } as any)).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 
   it('calls service to create a match', () => {
-    controller.create({} as any);
+    controller.create({} as any, { tenantId: 't1' } as any);
     expect(service.create).toHaveBeenCalled();
   });
 });

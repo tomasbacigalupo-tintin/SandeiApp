@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { typeOrmConfig } from "./config/typeorm.config";
@@ -11,6 +11,9 @@ import { IaModule } from "./modules/ia/ia.module";
 import { HealthModule } from "./modules/health/health.module";
 import { StatsModule } from "./modules/stats/stats.module";
 import { DemoModule } from "./modules/demo/demo.module";
+import { TacticsModule } from './modules/tactics/tactics.module';
+import { ScoutingModule } from './modules/scouting/scouting.module';
+import { TenantMiddleware } from './modules/common/tenant.middleware';
 
 @Module({
   imports: [
@@ -25,6 +28,14 @@ import { DemoModule } from "./modules/demo/demo.module";
     HealthModule,
     StatsModule,
     DemoModule,
+    TacticsModule,
+    ScoutingModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TenantMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

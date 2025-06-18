@@ -5,10 +5,12 @@ on:
     branches: [main, dev]
     paths:
       - 'backend/**'
+      - 'docs/multi-tenant-keycloak.md'
   pull_request:
     branches: [main, dev]
     paths:
       - 'backend/**'
+      - 'docs/multi-tenant-keycloak.md'
 
 jobs:
   build:

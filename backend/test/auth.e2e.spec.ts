@@ -1,3 +1,8 @@
+process.env.DATABASE_URL = 'dummy';
+process.env.JWT_SECRET = 'testsecret';
+process.env.IA_SERVICE_URL = 'http://localhost';
+process.env.RABBITMQ_URL = 'amqp://localhost';
+
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,10 +23,6 @@ describeOrSkip('AuthModule (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    process.env.DATABASE_URL = 'dummy';
-    process.env.JWT_SECRET = 'testsecret';
-    process.env.IA_SERVICE_URL = 'http://localhost';
-    process.env.RABBITMQ_URL = 'amqp://localhost';
 
     const moduleRef = await Test.createTestingModule({
       imports: [

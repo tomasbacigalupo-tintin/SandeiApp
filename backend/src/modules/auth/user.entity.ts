@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { TenantEntity } from '../common/tenant.entity';
 
 export enum UserRole {
   USER = 'user',
@@ -6,9 +7,7 @@ export enum UserRole {
 }
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+export class User extends TenantEntity {
 
   @Column()
   name!: string;

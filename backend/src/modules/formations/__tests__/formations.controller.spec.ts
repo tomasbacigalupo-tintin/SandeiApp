@@ -22,7 +22,10 @@ describe('FormationsController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(require('../../auth/keycloak-auth.guard').KeycloakAuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<FormationsController>(FormationsController);
     service = module.get<FormationsService>(FormationsService);

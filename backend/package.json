@@ -43,6 +43,8 @@
     "class-validator": "^0.13.2",
     "dotenv": "^10.0.0",
     "helmet": "^7.0.0",
+    "keycloak-connect": "^21.1.1",
+    "nest-keycloak-connect": "^1.10.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.0",

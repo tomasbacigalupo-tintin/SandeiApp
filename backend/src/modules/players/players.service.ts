@@ -12,41 +12,42 @@ export class PlayersService {
     private readonly ratingsService: RatingsService,
   ) {}
 
-  create(data: Partial<Player>): Promise<Player> {
-    const player = this.playersRepo.create(data);
+  create(data: Partial<Player>, tenantId: string): Promise<Player> {
+    const player = this.playersRepo.create({ ...data, tenantId });
     return this.playersRepo.save(player);
   }
 
-  findAll(): Promise<Player[]> {
-    return this.playersRepo.find();
+  findAll(tenantId: string): Promise<Player[]> {
+    return this.playersRepo.find({ where: { tenantId } });
   }
 
-  findOne(id: string): Promise<Player> {
-    return this.playersRepo.findOneByOrFail({ id });
+  findOne(id: string, tenantId: string): Promise<Player> {
+    return this.playersRepo.findOneByOrFail({ id, tenantId });
   }
 
-  searchByName(name: string): Promise<Player[]> {
-    return this.playersRepo.find({ where: { name: ILike(`%${name}%`) } });
+  searchByName(name: string, tenantId: string): Promise<Player[]> {
+    return this.playersRepo.find({ where: { name: ILike(`%${name}%`), tenantId } });
   }
 
-  searchByPosition(position: string): Promise<Player[]> {
+  searchByPosition(position: string, tenantId: string): Promise<Player[]> {
     return this.playersRepo.find({
-      where: { position: ILike(`%${position}%`) },
+      where: { position: ILike(`%${position}%`), tenantId },
     });
   }
 
-  async update(id: string, data: Partial<Player>): Promise<Player> {
-    await this.playersRepo.update(id, data as QueryDeepPartialEntity<Player>);
-    return this.playersRepo.findOneByOrFail({ id });
+  async update(id: string, tenantId: string, data: Partial<Player>): Promise<Player> {
+    await this.playersRepo.update({ id, tenantId }, data as QueryDeepPartialEntity<Player>);
+    return this.playersRepo.findOneByOrFail({ id, tenantId });
   }
 
-  async remove(id: string): Promise<Player> {
-    const player = await this.playersRepo.findOneByOrFail({ id });
+  async remove(id: string, tenantId: string): Promise<Player> {
+    const player = await this.playersRepo.findOneByOrFail({ id, tenantId });
     await this.playersRepo.remove(player);
     return player;
   }
 
-  getAverageRating(id: string): Promise<number> {
+  getAverageRating(id: string, tenantId: string): Promise<number> {
+    void tenantId;
     return this.ratingsService.averageForPlayer(id);
   }
 }

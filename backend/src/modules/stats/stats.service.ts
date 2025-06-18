@@ -14,8 +14,8 @@ export class StatsService {
     private ratingsService: RatingsService,
   ) {}
 
-  async getStats(range: 'month' | 'season'): Promise<StatItem[]> {
-    const players = await this.playersService.findAll();
+  async getStats(range: 'month' | 'season', tenantId?: string): Promise<StatItem[]> {
+    const players = await this.playersService.findAll(tenantId ?? '');
     const since =
       range === 'month'
         ? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
