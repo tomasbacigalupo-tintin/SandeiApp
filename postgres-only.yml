@@ -1,0 +1,15 @@
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: sandei_postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: sandei
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

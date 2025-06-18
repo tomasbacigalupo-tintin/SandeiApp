@@ -2,11 +2,9 @@ services:
   postgres:
     image: postgres:14
     container_name: infra-postgres-1
-    env_file:
-      - ../.env
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: secret_password
       POSTGRES_DB: sandeidb
     ports:
       - "5432:5432"
@@ -15,7 +13,7 @@ services:
     networks:
       - backend-net
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "$POSTGRES_USER"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,11 +21,9 @@ services:
   mongo:
     image: mongo:6
     restart: always
-    env_file:
-      - ../.env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret_password
     volumes:
       - mongodata:/data/db
     networks:
@@ -41,11 +37,11 @@ services:
   redis:
     image: redis:7
     restart: always
-    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    command: ["redis-server", "--requirepass", "secret_password"]
     networks:
       - backend-net
     healthcheck:
-      test: ["CMD", "sh", "-c", "redis-cli -a $REDIS_PASSWORD ping | grep PONG"]
+      test: ["CMD", "sh", "-c", "redis-cli -a secret_password ping | grep PONG"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -53,11 +49,9 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
-    env_file:
-      - ../.env
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     ports:
       - "15672:15672"
     volumes:
@@ -73,12 +67,12 @@ services:
   backend:
     build: ../backend
     env_file:
-      - ../backend/.env.example
+      - ../backend/.env
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - "${BACKEND_PORT}:3000"
+      - "3000:3000"
     networks:
       - backend-net
     healthcheck:
@@ -90,23 +84,23 @@ services:
   ia-service:
     build: ../ia-service
     env_file:
-      - ../ia-service/.env.example
+      - ../ia-service/.env
     depends_on:
       mongo:
         condition: service_healthy
     ports:
-      - "${FASTAPI_PORT}:8000"
+      - "8000:8000"
     networks:
       - backend-net
 
   frontend:
     build: ../frontend
     env_file:
-      - ../frontend/.env.example
+      - ../frontend/.env
     depends_on:
       - backend
     ports:
-      - "5173:80"
+      - "5173:5173"
     networks:
       - backend-net
 
