@@ -11,28 +11,28 @@ export class MatchesService {
     private readonly rabbit: RabbitMQService,
   ) {}
 
-  async create(data: Partial<Match>) {
-    const match = this.matchesRepo.create(data);
+  async create(data: Partial<Match>, tenantId: string) {
+    const match = this.matchesRepo.create({ ...data, tenantId });
     const saved = await this.matchesRepo.save(match);
     await this.rabbit.publish('matches.created', saved);
     return saved;
   }
 
-  findAll() {
-    return this.matchesRepo.find();
+  findAll(tenantId: string) {
+    return this.matchesRepo.find({ where: { tenantId } });
   }
 
-  findById(id: string) {
-    return this.matchesRepo.findOneByOrFail({ id });
+  findById(id: string, tenantId: string) {
+    return this.matchesRepo.findOneByOrFail({ id, tenantId });
   }
 
-  async update(id: string, data: Partial<Match>) {
-    await this.matchesRepo.update(id, data);
-    return this.matchesRepo.findOneByOrFail({ id });
+  async update(id: string, tenantId: string, data: Partial<Match>) {
+    await this.matchesRepo.update({ id, tenantId }, data);
+    return this.matchesRepo.findOneByOrFail({ id, tenantId });
   }
 
-  async remove(id: string) {
-    const match = await this.matchesRepo.findOneByOrFail({ id });
+  async remove(id: string, tenantId: string) {
+    const match = await this.matchesRepo.findOneByOrFail({ id, tenantId });
     await this.matchesRepo.remove(match);
     return match;
   }

@@ -9,7 +9,7 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, HttpStatus } from '@nestjs/common';
 import { IaModule } from './ia.module';
 import { HttpService } from '@nestjs/axios';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { KeycloakAuthGuard } from '../auth/keycloak-auth.guard';
 import { of } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import request from 'supertest';
@@ -24,7 +24,7 @@ describe('IaController', () => {
     })
       .overrideProvider(HttpService)
       .useValue({ post: jest.fn() })
-      .overrideGuard(JwtAuthGuard)
+      .overrideGuard(KeycloakAuthGuard)
       .useValue({ canActivate: () => true })
       .compile();
 

@@ -62,6 +62,11 @@ El repositorio incluye flujos de GitHub Actions en `.github/workflows/` que ejec
 - `infra/` – Definición de servicios y bases de datos con Docker Compose
 - `docs/` – Documentación adicional
 
+## Nuevos módulos
+- Multi-tenant con `TenantMiddleware` y migraciones.
+- Autenticación centralizada con Keycloak.
+- Módulos de tácticas y scouting de jugadores.
+
 ## Contribuciones
 Las contribuciones son bienvenidas mediante *pull requests*. Asegúrate de seguir una descripción clara de los cambios y asociar los issues correspondientes si existen.
 

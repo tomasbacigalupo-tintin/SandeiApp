@@ -35,7 +35,7 @@ describe('StatsService', () => {
       });
     });
 
-    const statsPromise = service.getStats('month');
+    const statsPromise = service.getStats('month', 't1');
 
     // allow pending microtasks to run so service triggers rating calls
     await Promise.resolve();
@@ -59,7 +59,7 @@ describe('StatsService', () => {
     ]);
     (ratingsService.averageForPlayer as jest.Mock).mockResolvedValue(5);
 
-    await service.getStats('month');
+    await service.getStats('month', 't1');
 
     const callArgs = (ratingsService.averageForPlayer as jest.Mock).mock.calls[0];
     expect(callArgs[1]).toBeInstanceOf(Date);
@@ -71,7 +71,7 @@ describe('StatsService', () => {
     ]);
     (ratingsService.averageForPlayer as jest.Mock).mockResolvedValue(5);
 
-    await service.getStats('season');
+    await service.getStats('season', 't1');
 
     const callArgs = (ratingsService.averageForPlayer as jest.Mock).mock.calls[0];
     expect(callArgs[1]).toBeUndefined();

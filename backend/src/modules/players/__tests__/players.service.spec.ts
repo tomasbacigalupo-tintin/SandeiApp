@@ -40,40 +40,41 @@ describe('PlayersService', () => {
       fitness: 50,
       technical: 60,
     } as Partial<Player>;
-    (repo.create as jest.Mock).mockReturnValue(data);
-    (repo.save as jest.Mock).mockResolvedValue({ id: '1', ...data });
+    const created = { ...data, tenantId: 't1' } as Player;
+    (repo.create as jest.Mock).mockReturnValue(created);
+    (repo.save as jest.Mock).mockResolvedValue({ ...created, id: '1' });
 
-    const result = await service.create(data);
-    expect(repo.create).toHaveBeenCalledWith(data);
-    expect(repo.save).toHaveBeenCalledWith(data);
-    expect(result).toEqual({ id: '1', ...data });
+    const result = await service.create(data, 't1');
+    expect(repo.create).toHaveBeenCalledWith({ ...data, tenantId: 't1' });
+    expect(repo.save).toHaveBeenCalledWith({ ...data, tenantId: 't1' });
+    expect(result).toEqual({ ...created, id: '1' });
   });
 
   it('removes a player if found', async () => {
     const player = { id: '1' } as Player;
     (repo.findOneByOrFail as jest.Mock).mockResolvedValue(player);
-    await service.remove('1');
+    await service.remove('1', 't1');
     expect(repo.remove).toHaveBeenCalledWith(player);
   });
 
   it('searches players by name', async () => {
     const players = [{ id: '1', name: 'John' }] as Player[];
     (repo.find as jest.Mock).mockResolvedValue(players);
-    const result = await service.searchByName('jo');
-    expect(repo.find).toHaveBeenCalledWith({ where: { name: expect.anything() } });
+    const result = await service.searchByName('jo', 't1');
+    expect(repo.find).toHaveBeenCalledWith({ where: { name: expect.anything(), tenantId: 't1' } });
     expect(result).toEqual(players);
   });
 
   it('searches players by position', async () => {
     const players = [{ id: '1', position: 'Forward' }] as Player[];
     (repo.find as jest.Mock).mockResolvedValue(players);
-    const result = await service.searchByPosition('for');
-    expect(repo.find).toHaveBeenCalledWith({ where: { position: expect.anything() } });
+    const result = await service.searchByPosition('for', 't1');
+    expect(repo.find).toHaveBeenCalledWith({ where: { position: expect.anything(), tenantId: 't1' } });
     expect(result).toEqual(players);
   });
 
   it('throws EntityNotFoundError when removing missing player', async () => {
     (repo.findOneByOrFail as jest.Mock).mockRejectedValue(new EntityNotFoundError(Player, 'test'));
-    await expect(service.remove('nope')).rejects.toBeInstanceOf(EntityNotFoundError);
+    await expect(service.remove('nope', 't1')).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 });

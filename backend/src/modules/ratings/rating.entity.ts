@@ -1,12 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique } from 'typeorm';
+import { Entity, Column, ManyToOne, Unique } from 'typeorm';
+import { TenantEntity } from '../common/tenant.entity';
 import { Player } from '../players/player.entity';
 import { Match } from '../matches/match.entity';
 
 @Entity('rating')
 @Unique(['player', 'match'])
-export class Rating {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+export class Rating extends TenantEntity {
 
   @Column('int')
   score!: number;

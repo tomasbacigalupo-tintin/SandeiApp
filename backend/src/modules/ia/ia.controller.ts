@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { IaService } from './ia.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { KeycloakAuthGuard } from '../auth/keycloak-auth.guard';
 import { LineupRequestDto } from './dto/lineup-request.dto';
 import { LineupResponseDto } from './dto/lineup-response.dto';
 import { TacticsRequestDto } from './dto/tactics-request.dto';
@@ -23,7 +23,7 @@ import {
 export class IaController {
   constructor(private readonly iaService: IaService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post('suggest_lineup')
   @ApiOperation({ summary: 'Suggest lineup using AI' })
   @ApiBody({ type: LineupRequestDto })
@@ -32,7 +32,7 @@ export class IaController {
     return this.iaService.suggestLineup(body.players, body.formation);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post('suggest_tactics')
   @ApiOperation({ summary: 'Suggest tactics using AI' })
   @ApiBody({ type: TacticsRequestDto })
@@ -41,7 +41,7 @@ export class IaController {
     return this.iaService.suggestTactics(body.players, body.style);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post('predict_match')
   @ApiOperation({ summary: 'Predict match result with AI' })
   @ApiBody({ type: MatchPredictionRequestDto })
@@ -52,7 +52,7 @@ export class IaController {
     return this.iaService.predictMatch(body.homeTeam, body.awayTeam);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post('detect_errors')
   @ApiOperation({ summary: 'Detect lineup errors with AI' })
   @ApiBody({ type: ErrorDetectionRequestDto })
