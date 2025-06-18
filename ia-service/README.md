@@ -9,7 +9,8 @@ Copia `.env.example` a `.env` y completa los siguientes valores:
 * `OPENAI_API_KEY` – clave para autenticarte en la API de OpenAI.
 * `FASTAPI_HOST` – interfaz donde se iniciará Uvicorn (por defecto `0.0.0.0`).
 * `FASTAPI_PORT` – puerto de escucha (por defecto `8000`).
-* `ALLOWED_ORIGINS` – lista de orígenes permitidos (separados por comas) para CORS.
+* `ALLOWED_ORIGINS` – **debe ser una lista en formato JSON** (por ejemplo: `["http://localhost:5173","http://localhost:3000"]`).  
+  También se acepta texto plano separado por comas (`http://localhost:5173,http://localhost:3000`), pero se recomienda el formato JSON para máxima compatibilidad.
 * `API_TOKEN` – token Bearer requerido para llamar a los endpoints.
 
 Estas variables son requeridas tanto al ejecutar en local como con Docker.
