@@ -1,13 +1,18 @@
-import os
 from typing import List
+from pydantic import BaseSettings
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-_origins_env = os.getenv("ALLOWED_ORIGINS")
-if _origins_env:
-    ALLOWED_ORIGINS: List[str] = [o.strip() for o in _origins_env.split(',') if o.strip()]
-else:
-    ALLOWED_ORIGINS = [
+class Settings(BaseSettings):
+    backend_url: str = "http://backend:3000"
+    model_path: str = "models/sandei_model.pkl"
+    openai_api_key: str | None = None
+    allowed_origins: List[str] = [
         "http://localhost:5173",
         "http://localhost:3000",
     ]
+    api_token: str | None = None
+
+    class Config:
+        env_prefix = ""
+        case_sensitive = True
+
+settings = Settings()

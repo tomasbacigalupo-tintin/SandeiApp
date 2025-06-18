@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def ensure_openai_api_key() -> None:
-    if not settings.OPENAI_API_KEY:
+    if not settings.openai_api_key:
         logger.error("OpenAI API key not configured")
         raise HTTPException(status_code=500, detail="OpenAI not available")
 
