@@ -30,6 +30,7 @@ describe('AuthController validation', () => {
   it('returns 400 when login body is invalid', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
+      .set('x-tenant-id', '00000000-0000-0000-0000-000000000000')
       .send({ email: 'invalid' })
       .expect(HttpStatus.BAD_REQUEST);
   });
@@ -37,6 +38,7 @@ describe('AuthController validation', () => {
   it('returns 400 when register body is missing fields', () => {
     return request(app.getHttpServer())
       .post('/auth/register')
+      .set('x-tenant-id', '00000000-0000-0000-0000-000000000000')
       .send({ email: 'user@test.com' })
       .expect(HttpStatus.BAD_REQUEST);
   });
