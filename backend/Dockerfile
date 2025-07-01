@@ -24,6 +24,8 @@ RUN npm ci --omit=dev --legacy-peer-deps
 
 # Paso los artefactos compilados
 COPY --from=builder /app/dist ./dist
+# Opcional: Copiar .env si lo necesitás en producción
+# COPY .env .env
 
 EXPOSE 3000
 CMD ["node", "dist/main.js"]

@@ -32,7 +32,7 @@ function PlayerCard({ player, onEdit, onDelete }: PlayerCardProps) {
 
   const statsContent = useMemo(
     () =>
-      player.stats ? (
+      player.stats && typeof player.stats === 'object' ? (
         <pre aria-label={`Estadísticas de ${player.name}`} className="whitespace-pre-wrap break-all">
           {JSON.stringify(player.stats, null, 2)}
         </pre>

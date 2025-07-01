@@ -106,7 +106,7 @@ function TacticsBoard() {
                     name="x"
                     type="number"
                     defaultValue={p.x.toFixed(1)}
-                    step="1"
+                    step="any"
                     className="border px-1 w-16 text-sm"
                     aria-label="X coordinate"
                   />
@@ -114,7 +114,7 @@ function TacticsBoard() {
                     name="y"
                     type="number"
                     defaultValue={p.y.toFixed(1)}
-                    step="1"
+                    step="any"
                     className="border px-1 w-16 text-sm"
                     aria-label="Y coordinate"
                   />

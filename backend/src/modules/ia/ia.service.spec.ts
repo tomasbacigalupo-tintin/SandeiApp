@@ -25,10 +25,13 @@ describe('IaService', () => {
       .mockReturnValue(of({ data } as AxiosResponse));
 
     const result = await service.suggestLineup(['a', 'b'], '4-4-2');
-    expect(httpService.post).toHaveBeenCalledWith('/ia/suggest_lineup', {
-      players: ['a', 'b'],
-      formation: '4-4-2',
-    });
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8000/ia/suggest_lineup',
+      {
+        players: ['a', 'b'],
+        formation: '4-4-2',
+      },
+    );
     expect(result).toEqual(data);
   });
 
@@ -39,10 +42,13 @@ describe('IaService', () => {
       .mockReturnValue(of({ data } as AxiosResponse));
 
     const result = await service.suggestTactics(['a'], undefined);
-    expect(httpService.post).toHaveBeenCalledWith('/ia/suggest_tactics', {
-      players: ['a'],
-      style: undefined,
-    });
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8000/ia/suggest_tactics',
+      {
+        players: ['a'],
+        style: undefined,
+      },
+    );
     expect(result).toEqual(data);
   });
 
@@ -53,10 +59,13 @@ describe('IaService', () => {
       .mockReturnValue(of({ data } as AxiosResponse));
 
     const result = await service.predictMatch(['h'], ['a']);
-    expect(httpService.post).toHaveBeenCalledWith('/ia/predict_match', {
-      home_team: ['h'],
-      away_team: ['a'],
-    });
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8000/ia/predict_match',
+      {
+        home_team: ['h'],
+        away_team: ['a'],
+      },
+    );
     expect(result).toEqual(data);
   });
 
@@ -67,10 +76,13 @@ describe('IaService', () => {
       .mockReturnValue(of({ data } as AxiosResponse));
 
     const result = await service.detectErrors(['a', 'b'], undefined);
-    expect(httpService.post).toHaveBeenCalledWith('/ia/detect_errors', {
-      lineup: ['a', 'b'],
-      formation: undefined,
-    });
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8000/ia/detect_errors',
+      {
+        lineup: ['a', 'b'],
+        formation: undefined,
+      },
+    );
     expect(result).toEqual(data);
   });
 

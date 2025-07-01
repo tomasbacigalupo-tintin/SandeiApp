@@ -16,16 +16,13 @@ interface PlayerWizardProps {
 }
 
 function parseStats(json: string): PlayerStats {
-  try {
-    const obj = JSON.parse(json) as unknown;
-    if (typeof obj !== 'object' || obj === null) return {};
-    return Object.entries(obj).reduce<PlayerStats>((acc, [k, v]) => {
-      if (typeof v === 'number') acc[k] = v;
-      return acc;
-    }, {});
-  } catch {
-    return {};
-  }
+  // Lanzar error si el JSON es inválido
+  const obj = JSON.parse(json) as unknown;
+  if (typeof obj !== 'object' || obj === null) return {};
+  return Object.entries(obj).reduce<PlayerStats>((acc, [k, v]) => {
+    if (typeof v === 'number') acc[k] = v;
+    return acc;
+  }, {});
 }
 
 export default function PlayerWizard({
