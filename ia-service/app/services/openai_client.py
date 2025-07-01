@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 import httpx
-from ..config import OPENAI_API_KEY
+from ..config import settings
 
 async def fetch_chat_completion(
     messages: List[dict],
@@ -9,8 +9,10 @@ async def fetch_chat_completion(
     max_retries: int = 3,
     backoff: float = 1.0,
 ) -> str:
+    if not settings.openai_api_key:
+        raise RuntimeError("OpenAI API key not configured")
     url = "https://api.openai.com/v1/chat/completions"
-    headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
+    headers = {"Authorization": f"Bearer {settings.openai_api_key}"}
     payload = {"model": "gpt-3.5-turbo", "messages": messages}
     for attempt in range(max_retries):
         try:

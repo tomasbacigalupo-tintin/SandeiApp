@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import BottomNav from './BottomNav';
 
 beforeAll(() => {
-  window.matchMedia = () => ({ matches: false } as any);
+  window.matchMedia = () => ({ matches: false } as unknown as MediaQueryList);
 });
 
 describe('BottomNav', () => {

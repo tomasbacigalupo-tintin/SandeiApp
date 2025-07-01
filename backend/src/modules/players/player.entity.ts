@@ -1,9 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { TenantEntity } from '../common/tenant.entity';
 
 @Entity('players')
-export class Player {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+export class Player extends TenantEntity {
 
   @Column()
   name!: string;

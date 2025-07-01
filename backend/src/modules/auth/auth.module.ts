@@ -7,6 +7,8 @@ import { AuthController } from './auth.controller';
 import { User } from './user.entity';
 import { JwtStrategy } from './jwt.strategy';
 import { env } from '../../config/env';
+import { KeycloakModule } from './keycloak.module';
+import { KeycloakAuthGuard } from './keycloak-auth.guard';
 
 @Module({
   imports: [
@@ -16,9 +18,10 @@ import { env } from '../../config/env';
       secret: env.jwtSecret,
       signOptions: { expiresIn: '1h' },
     }),
+    KeycloakModule,
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, KeycloakAuthGuard],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, KeycloakAuthGuard, KeycloakModule],
 })
 export class AuthModule {}

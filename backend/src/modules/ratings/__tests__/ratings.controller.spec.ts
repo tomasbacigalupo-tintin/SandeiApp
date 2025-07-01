@@ -18,7 +18,10 @@ describe('RatingsController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(require('../../auth/keycloak-auth.guard').KeycloakAuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<RatingsController>(RatingsController);
     service = module.get<RatingsService>(RatingsService);

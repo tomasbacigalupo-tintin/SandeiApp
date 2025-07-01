@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { FormationsService } from "./formations.service";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { KeycloakAuthGuard } from "../auth/keycloak-auth.guard";
 import { CreateFormationDto } from "./dto/create-formation.dto";
 import { UpdateFormationDto } from "./dto/update-formation.dto";
 import {
@@ -29,7 +29,7 @@ import {
 export class FormationsController {
   constructor(private readonly formationsService: FormationsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Get()
   @ApiOperation({ summary: 'List formations' })
   @ApiResponse({ status: 200 })
@@ -37,7 +37,7 @@ export class FormationsController {
     return this.formationsService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Get(':id')
   @ApiOperation({ summary: 'Get formation by ID' })
   @ApiParam({ name: 'id', type: 'string' })
@@ -48,7 +48,7 @@ export class FormationsController {
     return formation;
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post()
   // Create a new tactical formation
   @ApiOperation({ summary: 'Create formation' })
@@ -58,7 +58,7 @@ export class FormationsController {
     return this.formationsService.create(body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Put(':id')
   @ApiOperation({ summary: 'Update formation' })
   @ApiParam({ name: 'id', type: 'string' })
@@ -73,7 +73,7 @@ export class FormationsController {
     return formation;
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete formation' })
   @ApiParam({ name: 'id', type: 'string' })

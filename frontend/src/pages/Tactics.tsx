@@ -4,7 +4,7 @@ import Spinner from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import FormationCard from '@/components/FormationCard';
 import TacticsBoard from '@/components/TacticsBoard';
-import type { Formation } from '@/types/formation';
+import type { Formation, CreateFormationInput } from '@/types/formation';
 
 const FormationWizard = React.lazy(() => import('@/components/FormationWizard'));
 
@@ -17,7 +17,7 @@ export default function Tactics() {
   const closeWizard = useCallback(() => setWizardOpen(false), []);
 
   const handleComplete = useCallback(
-    async (data: any) => {
+    async (data: CreateFormationInput) => {
       await createFormation.mutateAsync(data);
       closeWizard();
     },

@@ -26,7 +26,10 @@ describe('PlayersController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(require('../../auth/keycloak-auth.guard').KeycloakAuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<PlayersController>(PlayersController);
     service = module.get<PlayersService>(PlayersService);
@@ -34,26 +37,26 @@ describe('PlayersController', () => {
 
   it('throws EntityNotFoundError when player not found', async () => {
     (service.findOne as jest.Mock).mockRejectedValue(new EntityNotFoundError(Player, 'test'));
-    await expect(controller.findOne('x')).rejects.toBeInstanceOf(EntityNotFoundError);
+    await expect(controller.findOne('x', { tenantId: 't1' } as any)).rejects.toBeInstanceOf(EntityNotFoundError);
   });
 
   it('calls service to create a player', () => {
-    controller.create({ name: 'test', stats: {}, fitness: 10, technical: 20 } as any);
+    controller.create({ name: 'test', stats: {}, fitness: 10, technical: 20 } as any, { tenantId: 't1' } as any);
     expect(service.create).toHaveBeenCalled();
   });
 
   it('searches players', () => {
-    controller.search('john');
-    expect(service.searchByName).toHaveBeenCalledWith('john');
+    controller.search('john', { tenantId: 't1' } as any);
+    expect(service.searchByName).toHaveBeenCalledWith('john', 't1');
   });
 
   it('searches players by position', () => {
-    controller.searchByPosition('forward');
-    expect(service.searchByPosition).toHaveBeenCalledWith('forward');
+    controller.searchByPosition('forward', { tenantId: 't1' } as any);
+    expect(service.searchByPosition).toHaveBeenCalledWith('forward', 't1');
   });
 
   it('gets average rating', () => {
-    controller.getAverageRating('id');
-    expect(service.getAverageRating).toHaveBeenCalledWith('id');
+    controller.getAverageRating('id', { tenantId: 't1' } as any);
+    expect(service.getAverageRating).toHaveBeenCalledWith('id', 't1');
   });
 });

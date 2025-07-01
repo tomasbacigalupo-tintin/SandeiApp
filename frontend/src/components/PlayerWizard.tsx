@@ -18,7 +18,7 @@ interface PlayerWizardProps {
 function parseStats(json: string): PlayerStats {
   // Lanzar error si el JSON es inválido
   const obj = JSON.parse(json) as unknown;
-  if (typeof obj !== 'object' || obj === null) return {};
+  if (typeof obj !== 'object' || obj === null) throw new Error('Invalid JSON');
   return Object.entries(obj).reduce<PlayerStats>((acc, [k, v]) => {
     if (typeof v === 'number') acc[k] = v;
     return acc;

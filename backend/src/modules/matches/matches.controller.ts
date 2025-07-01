@@ -8,47 +8,61 @@ import {
   Body,
   ParseUUIDPipe,
   UseGuards,
+  Req,
 } from "@nestjs/common";
 import { MatchesService } from "./matches.service";
 import { CreateMatchDto } from "./dto/create-match.dto";
 import { UpdateMatchDto } from "./dto/update-match.dto";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { Request } from 'express';
+import { KeycloakAuthGuard } from "../auth/keycloak-auth.guard";
 
 @Controller("matches")
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Get()
-  findAll() {
-    return this.matchesService.findAll();
+  findAll(@Req() req: Request) {
+    const tenantId = (req as any).tenantId as string;
+    return this.matchesService.findAll(tenantId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Get(":id")
-  async findOne(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    return this.matchesService.findById(id);
+  async findOne(
+    @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
+    @Req() req: Request,
+  ) {
+    const tenantId = (req as any).tenantId as string;
+    return this.matchesService.findById(id, tenantId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Post()
-  create(@Body() body: CreateMatchDto) {
-    return this.matchesService.create(body);
+  create(@Body() body: CreateMatchDto, @Req() req: Request) {
+    const tenantId = (req as any).tenantId as string;
+    return this.matchesService.create(body, tenantId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Put(":id")
   async update(
     @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
     @Body() body: UpdateMatchDto,
+    @Req() req: Request,
   ) {
-    return this.matchesService.update(id, body);
+    const tenantId = (req as any).tenantId as string;
+    return this.matchesService.update(id, tenantId, body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(KeycloakAuthGuard)
   @Delete(":id")
-  async remove(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
-    await this.matchesService.remove(id);
+  async remove(
+    @Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
+    @Req() req: Request,
+  ) {
+    const tenantId = (req as any).tenantId as string;
+    await this.matchesService.remove(id, tenantId);
     return { success: true };
   }
 }
