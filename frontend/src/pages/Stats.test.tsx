@@ -8,19 +8,19 @@ vi.mock('@/hooks/useStats', () => ({ useStats: () => ({ data: [], isLoading: fal
 vi.mock('@/components/ui/spinner', () => ({ default: () => <div /> }));
 
 vi.mock('recharts', () => ({
-  BarChart: (p: any) => <div {...p} />,
+  BarChart: (p: Record<string, unknown>) => <div {...p} />,
   CartesianGrid: () => <div />,
   XAxis: () => <div />,
   YAxis: () => <div />,
   Tooltip: () => <div />,
   Legend: () => <div />,
   Bar: () => <div />,
-  RadarChart: (p: any) => <div {...p} />,
+  RadarChart: (p: Record<string, unknown>) => <div {...p} />,
   PolarGrid: () => <div />,
   PolarAngleAxis: () => <div />,
   PolarRadiusAxis: () => <div />,
   Radar: () => <div />,
-  LineChart: (p: any) => <div {...p} />,
+  LineChart: (p: Record<string, unknown>) => <div {...p} />,
   Line: () => <div />,
 }));
 

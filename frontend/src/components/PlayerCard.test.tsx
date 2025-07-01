@@ -2,8 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PlayerCard from './PlayerCard';
 import { vi } from 'vitest';
+import { Player } from '@/types/player';
 
-const player = { id: '1', name: 'John', stats: null } as any;
+const player: Player = { id: '1', name: 'John' };
 
 describe('PlayerCard', () => {
   it('calls edit and delete handlers', () => {

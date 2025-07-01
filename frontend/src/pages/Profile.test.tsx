@@ -3,7 +3,10 @@ import '@testing-library/jest-dom';
 import Profile from './Profile';
 import { vi } from 'vitest';
 
-vi.mock('@/components/ui/input', () => ({ Input: (p: any) => <input {...p} /> }));
+import type { InputHTMLAttributes } from 'react';
+vi.mock('@/components/ui/input', () => ({
+  Input: (p: InputHTMLAttributes<HTMLInputElement>) => <input {...p} />,
+}));
 
 describe('Profile page', () => {
   it('renders profile heading', () => {
