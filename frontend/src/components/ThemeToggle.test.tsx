@@ -4,7 +4,7 @@ import ThemeToggle from './ThemeToggle';
 
 describe('ThemeToggle', () => {
   it('toggles theme', () => {
-    window.matchMedia = () => ({ matches: false } as any);
+    window.matchMedia = () => ({ matches: false } as unknown as MediaQueryList);
     render(<ThemeToggle />);
     const btn = screen.getByRole('button');
     expect(btn).toHaveAttribute('aria-label', 'Activar modo oscuro');

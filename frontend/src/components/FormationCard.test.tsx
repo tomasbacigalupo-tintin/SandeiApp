@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FormationCard from './FormationCard';
+import { Formation } from '@/types/formation';
 
-const formation = { id: '1', name: '4-4-2', description: 'desc' } as any;
+const formation: Formation = { id: '1', name: '4-4-2', description: 'desc' };
 
 describe('FormationCard', () => {
   it('shows formation info', () => {
