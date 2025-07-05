@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError } from 'typeorm';
 import { Player } from '../player.entity';
