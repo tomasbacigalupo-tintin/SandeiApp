@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/services/api';
+
+const API_URL = import.meta.env.VITE_API_URL;
 import type { Formation, CreateFormationInput } from '@/types/formation';
 import { toast } from 'sonner';
 
 const fetchFormations = async (): Promise<Formation[]> => {
-  const res = await api.get('/formations');
+  const res = await api.get(`${API_URL}/api/formations`);
   return res.data;
 };
 
@@ -19,7 +21,7 @@ export const useCreateFormation = () => {
   const queryClient = useQueryClient();
   return useMutation<Formation, Error, CreateFormationInput>({
     mutationFn: async (data: CreateFormationInput) => {
-      const res = await api.post('/formations', data);
+      const res = await api.post(`${API_URL}/api/formations`, data);
       return res.data;
     },
     onSuccess: () => {

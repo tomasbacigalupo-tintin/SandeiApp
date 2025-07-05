@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/services/api';
+
+const API_URL = import.meta.env.VITE_API_URL;
 import { toast } from 'sonner';
 import type { Player, CreatePlayerInput } from '@/types/player';
 
 const fetchPlayers = async (): Promise<Player[]> => {
-  const res = await api.get('/players');
+  const res = await api.get(`${API_URL}/api/players`);
   return res.data;
 };
 
@@ -19,7 +21,7 @@ export const useCreatePlayer = () => {
   const queryClient = useQueryClient();
   return useMutation<Player, Error, CreatePlayerInput>({
     mutationFn: async (playerData: CreatePlayerInput) => {
-      const res = await api.post('/players', playerData);
+      const res = await api.post(`${API_URL}/api/players`, playerData);
       return res.data;
     },
     onSuccess: () => {
@@ -47,7 +49,7 @@ export const useUpdatePlayer = () => {
       id: string;
       data: Partial<CreatePlayerInput>;
     }) => {
-      const res = await api.put(`/players/${id}`, data);
+      const res = await api.put(`${API_URL}/api/players/${id}`, data);
       return res.data;
     },
     onSuccess: () => {
@@ -64,7 +66,7 @@ export const useDeletePlayer = () => {
   const queryClient = useQueryClient();
   return useMutation<void, Error, string>({
     mutationFn: async (id: string) => {
-      await api.delete(`/players/${id}`);
+      await api.delete(`${API_URL}/api/players/${id}`);
     },
     onSuccess: () => {
       toast.success('Jugador eliminado');
