@@ -1,6 +1,4 @@
-import api from './api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL } from './api';
 import type { StatItem } from '@/types/stats';
 
 export async function getStats(range: 'month' | 'season'): Promise<StatItem[]> {

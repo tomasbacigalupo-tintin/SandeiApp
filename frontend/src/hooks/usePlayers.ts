@@ -1,7 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/services/api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL } from '@/services/api';
 import { toast } from 'sonner';
 import type { Player, CreatePlayerInput } from '@/types/player';
 

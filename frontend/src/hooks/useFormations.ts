@@ -1,7 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '@/services/api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL } from '@/services/api';
 import type { Formation, CreateFormationInput } from '@/types/formation';
 import { toast } from 'sonner';
 
