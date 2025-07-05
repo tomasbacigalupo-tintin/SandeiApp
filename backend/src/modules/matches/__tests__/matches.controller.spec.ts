@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 process.env.RABBITMQ_URL = 'amqp://localhost';
 process.env.DATABASE_URL = 'dummy';
 process.env.JWT_SECRET = 'secret';
