@@ -68,11 +68,13 @@ services:
     build: ../backend
     env_file:
       - ../backend/.env
+    environment:
+      - DATABASE_URL=postgresql://postgres:secret_password@postgres:5432/sandeidb
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - "3000:3000"
+      - "3100:3000"
     networks:
       - backend-net
     healthcheck:
@@ -100,7 +102,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "5173:5173"
+      - "5173:80"
     networks:
       - backend-net
 
