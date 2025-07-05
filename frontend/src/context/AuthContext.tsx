@@ -6,9 +6,7 @@ import {
   useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api, { setAuthToken } from '@/services/api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL, setAuthToken } from '@/services/api';
 
 interface AuthContextType {
   token: string | null;

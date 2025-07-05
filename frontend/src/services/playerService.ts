@@ -1,6 +1,4 @@
-import api from './api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL } from './api';
 import type { CreatePlayerInput, Player } from '../types/player';
 
 export async function createPlayer(data: CreatePlayerInput): Promise<Player> {

@@ -1,6 +1,4 @@
-import api from './api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import api, { API_URL } from './api';
 
 export async function login(email: string, password: string) {
   const res = await api.post(`${API_URL}/api/auth/login`, { email, password });

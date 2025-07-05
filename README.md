@@ -24,7 +24,10 @@ Servicios adicionales como MongoDB, Redis y RabbitMQ se utilizan para tareas int
 
 ## Instalación y ejecución local
 1. Clona este repositorio.
-2. Copia cada archivo `.env.example` a `.env` en la raíz, `backend/`, `frontend/` e `ia-service/` y completa los valores necesarios.
+2. Copia cada archivo `.env.example` a `.env` en la raíz, `backend/`, `frontend/` e `ia-service/` y completa los valores necesarios. En particular, asegúrate de que `frontend/.env` defina `VITE_API_URL` apuntando al backend, por ejemplo:
+   ```ini
+   VITE_API_URL=http://localhost:3100
+   ```
 3. Levanta todo con Docker Compose:
 ```bash
 ./run_local.sh
@@ -47,6 +50,15 @@ cd ../ia-service && pip install -r requirements.txt && uvicorn app.main:app --re
 - El frontend estará disponible en [http://localhost:5173](http://localhost:5173).
 - Registra usuarios y carga jugadores desde la interfaz.
 - Consulta el módulo de IA para obtener tácticas y predicciones de partido.
+
+### Verificación rápida
+Una vez configurado el entorno, levanta los contenedores:
+
+```bash
+docker-compose -f infra/docker-compose.yml up --build -d
+```
+
+Luego abre la aplicación y prueba registrarte o iniciar sesión. Las peticiones deberían dirigirse a `http://localhost:3100` sin mostrar rutas `undefined/api/...`.
 
 ## Testing y CI
 - Backend: `npm run test`
