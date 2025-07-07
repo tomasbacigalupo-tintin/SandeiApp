@@ -1,0 +1,7 @@
+/* ===== PLAYERS PAGE STYLES ===== */
+
+.players-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+}
