@@ -1,0 +1,5 @@
+/* Import global fonts and styles */
+@import "@fontsource/inter/latin.css";
+@import "@fontsource/poppins/latin.css";
+
+@import "./styles/globals.css";
