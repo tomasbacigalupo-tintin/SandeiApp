@@ -18,6 +18,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useStats } from '@/hooks/useStats';
 import Spinner from '@/components/ui/spinner';
+import './Stats.css';
 import type { StatItem } from '@/types/stats';
 
 export default function Stats() {

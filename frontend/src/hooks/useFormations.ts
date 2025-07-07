@@ -9,12 +9,24 @@ const fetchFormations = async (): Promise<Formation[]> => {
 };
 
 export const useFormations = () => {
-  return useQuery<Formation[]>({
-    queryKey: ['formations'],
-    queryFn: fetchFormations,
-  });
+  // MOCK: Devuelve formaciones de ejemplo
+  return {
+    data: [
+      { id: '1', name: '4-3-3', description: 'Ofensiva' },
+      { id: '2', name: '4-4-2', description: 'Clásica' },
+    ],
+    isLoading: false,
+    error: null,
+  };
 };
 
+<<<<<<< HEAD
+export const useCreateFormation = () => ({
+  mutateAsync: async () => {},
+  isLoading: false,
+  error: null,
+});
+=======
 export const useCreateFormation = () => {
   const queryClient = useQueryClient();
   return useMutation<Formation, Error, CreateFormationInput>({
@@ -31,3 +43,4 @@ export const useCreateFormation = () => {
     },
   });
 };
+>>>>>>> 4d6d44ccf4fe5e57a7dd184a4c8d6d3a5f9df5eb

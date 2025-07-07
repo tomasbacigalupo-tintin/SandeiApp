@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import FormationCard from '@/components/FormationCard';
 import TacticsBoard from '@/components/TacticsBoard';
 import type { Formation, CreateFormationInput } from '@/types/formation';
+import './Tactics.css';
 
 const FormationWizard = React.lazy(() => import('@/components/FormationWizard'));
 

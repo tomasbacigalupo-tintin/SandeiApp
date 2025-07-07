@@ -52,3 +52,25 @@ export default tseslint.config({
   },
 })
 ```
+
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
+
+// MOCK: Siempre autenticado
+export function useAuth() {
+  return {
+    token: 'mock-token',
+    isAuthenticated: true,
+    login: async () => {},
+    logout: () => {},
+  };
+}
+
+// ...código original comentado...
+// export function useAuth() {
+//   const ctx = useContext(AuthContext);
+//   if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
+//   return ctx;
+// }
+
+VITE_API_URL=http://localhost:3000

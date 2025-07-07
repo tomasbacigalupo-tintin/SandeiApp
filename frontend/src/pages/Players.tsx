@@ -11,6 +11,7 @@ import PlayerWizard, { type PlayerWizardData } from '@/components/PlayerWizard';
 import PlayerCard from '@/components/PlayerCard';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import './Players.css';
 
 export default function Players() {
   const {
