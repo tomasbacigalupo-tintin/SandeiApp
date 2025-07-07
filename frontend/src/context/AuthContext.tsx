@@ -6,7 +6,7 @@ import {
   useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api, { setAuthToken } from '@/services/api';
+import api, { API_URL, setAuthToken } from '@/services/api';
 
 interface AuthContextType {
   token: string | null;
@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   const login = useCallback(async (email: string, password: string) => {
-    const res = await api.post('/auth/login', { email, password });
+    const res = await api.post(`${API_URL}/api/auth/login`, { email, password });
     setToken(res.data.token);
     setAuthToken(res.data.token);
   }, []);
