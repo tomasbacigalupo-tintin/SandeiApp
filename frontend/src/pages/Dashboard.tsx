@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import PlayerQuickInfo from '@/components/PlayerQuickInfo';
 import { Button } from '@/components/ui/button';
 import Onboarding from '@/components/Onboarding';
+import './Dashboard.css';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -69,62 +70,33 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      <motion.div
-        className="p-6 space-y-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <header>
-          <h1 className="text-2xl font-bold">Bienvenido al Dashboard</h1>
-        </header>
-
-        {/* Estadísticas */}
-        <section className="flex gap-4 overflow-x-auto pb-4">
-          <article className="min-w-[15rem] bg-white rounded shadow p-4">
-            <h2 className="font-bold mb-2">Próximos partidos</h2>
-            {matchesLoading ? (
-              <Skeleton className="h-4 w-24" />
-            ) : upcomingMatches.length ? (
-              <ul className="space-y-1">
-                {upcomingMatches.map(m => (
-                  <li key={m.id}>{m.formattedDate}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-600">Sin partidos</p>
-            )}
-          </article>
-
-          <article className="min-w-[15rem] bg-white rounded shadow p-4">
-            <h2 className="font-bold mb-2">Promedio de rendimiento</h2>
-            {playersLoading ? (
-              <Skeleton className="h-8 w-12" />
-            ) : (
-              <p className="text-2xl font-semibold">{averageScore}</p>
-            )}
-          </article>
-        </section>
-
-        {/* Navegación rápida */}
-        <nav className="flex gap-4">
-          <Link
-            to="/tactics"
-            className="flex-1 bg-blue-700 text-white text-center py-3 rounded text-lg"
-          >
-            Crear formación
-          </Link>
-          <Link
-            to="/players"
-            className="flex-1 bg-green-700 text-white text-center py-3 rounded text-lg"
-          >
-            Analizar rendimiento
-          </Link>
-        </nav>
-
-        {/* Lista de jugadores */}
-        <section>
-          <h2 className="text-xl font-bold mb-2">Jugadores</h2>
+    <div className="dashboard-container">
+      <h1>Bienvenido al Dashboard</h1>
+      <div className="dashboard-grid">
+        <div>
+          <h2>Próximos partidos</h2>
+          {matchesLoading ? (
+            <Skeleton className="h-4 w-24" />
+          ) : upcomingMatches.length ? (
+            <ul className="space-y-1">
+              {upcomingMatches.map(m => (
+                <li key={m.id}>{m.formattedDate}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-600">Sin partidos</p>
+          )}
+        </div>
+        <div>
+          <h2>Promedio de rendimiento</h2>
+          {playersLoading ? (
+            <Skeleton className="h-8 w-12" />
+          ) : (
+            <p className="text-2xl font-semibold">{averageScore}</p>
+          )}
+        </div>
+        <div>
+          <h2>Jugadores</h2>
           {playersLoading ? (
             <div className="flex gap-2 overflow-x-auto pb-2">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -144,15 +116,30 @@ export default function Dashboard() {
               ))}
             </div>
           )}
-        </section>
-
-        {/* Botón de cerrar sesión */}
-        <div className="flex justify-end">
-          <Button variant="destructive" onClick={handleLogout}>
-            Cerrar sesión
-          </Button>
         </div>
-      </motion.div>
+      </div>
+      {/* Navegación rápida */}
+      <nav className="flex gap-4">
+        <Link
+          to="/tactics"
+          className="flex-1 bg-blue-700 text-white text-center py-3 rounded text-lg"
+        >
+          Crear formación
+        </Link>
+        <Link
+          to="/players"
+          className="flex-1 bg-green-700 text-white text-center py-3 rounded text-lg"
+        >
+          Analizar rendimiento
+        </Link>
+      </nav>
+
+      {/* Botón de cerrar sesión */}
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={handleLogout}>
+          Cerrar sesión
+        </Button>
+      </div>
 
       {/* Modal accesible */}
       {selectedPlayer && (
@@ -182,6 +169,6 @@ export default function Dashboard() {
       )}
 
       <Onboarding />
-    </>
+    </div>
   );
 }

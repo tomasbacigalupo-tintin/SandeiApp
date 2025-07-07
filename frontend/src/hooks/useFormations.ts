@@ -9,25 +9,19 @@ const fetchFormations = async (): Promise<Formation[]> => {
 };
 
 export const useFormations = () => {
-  return useQuery<Formation[]>({
-    queryKey: ['formations'],
-    queryFn: fetchFormations,
-  });
+  // MOCK: Devuelve formaciones de ejemplo
+  return {
+    data: [
+      { id: '1', name: '4-3-3', description: 'Ofensiva' },
+      { id: '2', name: '4-4-2', description: 'Clásica' },
+    ],
+    isLoading: false,
+    error: null,
+  };
 };
 
-export const useCreateFormation = () => {
-  const queryClient = useQueryClient();
-  return useMutation<Formation, Error, CreateFormationInput>({
-    mutationFn: async (data: CreateFormationInput) => {
-      const res = await api.post('/formations', data);
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success('Formaci\u00f3n creada');
-      queryClient.invalidateQueries({ queryKey: ['formations'] });
-    },
-    onError: () => {
-      // handled globally
-    },
-  });
-};
+export const useCreateFormation = () => ({
+  mutateAsync: async () => {},
+  isLoading: false,
+  error: null,
+});

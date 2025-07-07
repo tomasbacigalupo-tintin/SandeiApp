@@ -9,70 +9,31 @@ const fetchPlayers = async (): Promise<Player[]> => {
 };
 
 export const usePlayers = () => {
-  return useQuery<Player[]>({
-    queryKey: ['players'],
-    queryFn: fetchPlayers,
-  });
+  // MOCK: Devuelve jugadores de ejemplo
+  return {
+    data: [
+      { id: '1', name: 'Lionel Messi', stats: { goals: 10, assists: 5 } },
+      { id: '2', name: 'Cristiano Ronaldo', stats: { goals: 8, assists: 3 } },
+    ],
+    isLoading: false,
+    error: null,
+  };
 };
 
-export const useCreatePlayer = () => {
-  const queryClient = useQueryClient();
-  return useMutation<Player, Error, CreatePlayerInput>({
-    mutationFn: async (playerData: CreatePlayerInput) => {
-      const res = await api.post('/players', playerData);
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success('Jugador creado correctamente');
-      if (navigator.vibrate) navigator.vibrate(50);
-      queryClient.invalidateQueries({ queryKey: ['players'] });
-    },
-    onError: () => {
-      // handled globally
-    },
-  });
-};
+export const useCreatePlayer = () => ({
+  mutateAsync: async () => {},
+  isLoading: false,
+  error: null,
+});
 
-export const useUpdatePlayer = () => {
-  const queryClient = useQueryClient();
-  return useMutation<
-    Player,
-    Error,
-    { id: string; data: Partial<CreatePlayerInput> }
-  >({
-    mutationFn: async ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: Partial<CreatePlayerInput>;
-    }) => {
-      const res = await api.put(`/players/${id}`, data);
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success('Jugador actualizado');
-      queryClient.invalidateQueries({ queryKey: ['players'] });
-    },
-    onError: () => {
-      // handled globally
-    },
-  });
-};
+export const useDeletePlayer = () => ({
+  mutateAsync: async () => {},
+  isLoading: false,
+  error: null,
+});
 
-export const useDeletePlayer = () => {
-  const queryClient = useQueryClient();
-  return useMutation<void, Error, string>({
-    mutationFn: async (id: string) => {
-      await api.delete(`/players/${id}`);
-    },
-    onSuccess: () => {
-      toast.success('Jugador eliminado');
-      if (navigator.vibrate) navigator.vibrate(50);
-      queryClient.invalidateQueries({ queryKey: ['players'] });
-    },
-    onError: () => {
-      // handled globally
-    },
-  });
-};
+export const useUpdatePlayer = () => ({
+  mutateAsync: async () => {},
+  isLoading: false,
+  error: null,
+});

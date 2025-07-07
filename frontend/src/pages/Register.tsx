@@ -5,6 +5,7 @@ import Spinner from '@/components/ui/spinner';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createDemoData } from '@/services/demo';
+import './Register.css';
 
 export default function Register() {
   const [step, setStep] = useState(1);
