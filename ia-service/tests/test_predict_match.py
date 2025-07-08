@@ -21,14 +21,14 @@ class DummyAsyncClient:
 # Inyectamos DummyAsyncClient en lugar de httpx.AsyncClient
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.routers.ia_router import predict_match
+from app.routers.ia import predict_match
 from app.schemas import MatchPredictionRequest
 from app.config import settings
 
 
 def test_predict_match(monkeypatch):
     # Simulamos que la API key está configurada
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr(settings, 'openai_api_key', 'test-key')
 
     payload = MatchPredictionRequest(home_team=['A'], away_team=['B'])
 

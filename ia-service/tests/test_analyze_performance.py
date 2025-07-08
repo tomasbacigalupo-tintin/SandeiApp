@@ -1,7 +1,7 @@
 import asyncio
 from app.schemas import PerformanceRequest
 from app.config import settings
-from app.routers.ia_router import analyze_performance
+from app.routers.ia import analyze_performance
 
 
 class DummyAsyncClient:
@@ -10,13 +10,16 @@ class DummyAsyncClient:
 
 
 class DummyResponse:
-    async def json(self):
+    def raise_for_status(self):
+        pass
+
+    def json(self):
         return {"analysis": "ok"}
 
 
 def test_analyze_performance(monkeypatch):
     # Simulamos que la API key está configurada
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr(settings, 'openai_api_key', 'test-key')
 
     payload = PerformanceRequest(ratings=[{"player": "John", "score": 7}])
 
