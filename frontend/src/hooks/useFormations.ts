@@ -8,25 +8,12 @@ const fetchFormations = async (): Promise<Formation[]> => {
   return res.data;
 };
 
-export const useFormations = () => {
-  // MOCK: Devuelve formaciones de ejemplo
-  return {
-    data: [
-      { id: '1', name: '4-3-3', description: 'Ofensiva' },
-      { id: '2', name: '4-4-2', description: 'Clásica' },
-    ],
-    isLoading: false,
-    error: null,
-  };
-};
+export const useFormations = () =>
+  useQuery<Formation[]>({
+    queryKey: ['formations'],
+    queryFn: fetchFormations,
+  });
 
-<<<<<<< HEAD
-export const useCreateFormation = () => ({
-  mutateAsync: async () => {},
-  isLoading: false,
-  error: null,
-});
-=======
 export const useCreateFormation = () => {
   const queryClient = useQueryClient();
   return useMutation<Formation, Error, CreateFormationInput>({
@@ -43,4 +30,41 @@ export const useCreateFormation = () => {
     },
   });
 };
->>>>>>> 4d6d44ccf4fe5e57a7dd184a4c8d6d3a5f9df5eb
+
+export const useUpdateFormation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    Formation,
+    Error,
+    { id: string; data: Partial<CreateFormationInput> }
+  >({
+    mutationFn: async ({ id, data }) => {
+      const res = await api.put(`${API_URL}/api/formations/${id}`, data);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success('Formaci\u00f3n actualizada');
+      queryClient.invalidateQueries({ queryKey: ['formations'] });
+    },
+    onError: () => {
+      // handled globally
+    },
+  });
+};
+
+export const useDeleteFormation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, string>({
+    mutationFn: async (id: string) => {
+      await api.delete(`${API_URL}/api/formations/${id}`);
+    },
+    onSuccess: () => {
+      toast.success('Formaci\u00f3n eliminada');
+      queryClient.invalidateQueries({ queryKey: ['formations'] });
+    },
+    onError: () => {
+      // handled globally
+    },
+  });
+};
+

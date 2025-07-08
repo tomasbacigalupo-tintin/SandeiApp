@@ -1,6 +1,5 @@
 import { useAuth } from '@/context/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { usePlayers } from '@/hooks/usePlayers';
 import { useMatches } from '@/hooks/useMatches';
 import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
