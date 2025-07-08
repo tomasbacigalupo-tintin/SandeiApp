@@ -24,7 +24,7 @@ Servicios adicionales como MongoDB, Redis y RabbitMQ se utilizan para tareas int
 
 ## Instalación y ejecución local
 1. Clona este repositorio.
-2. Copia cada archivo `.env.example` a `.env` en la raíz, `backend/`, `frontend/` e `ia-service/` y completa los valores necesarios. En particular, asegúrate de que `frontend/.env` defina `VITE_API_URL` apuntando al backend, por ejemplo:
+2. Copia el archivo `.env.example` de la raíz a `.env` y repite lo mismo en `backend/`, `frontend/` e `ia-service/`. Completa luego los valores necesarios. En particular, verifica que `frontend/.env` defina `VITE_API_URL` apuntando al backend, por ejemplo:
    ```ini
    VITE_API_URL=http://localhost:3100
    ```
