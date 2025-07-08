@@ -8,37 +8,12 @@ const fetchPlayers = async (): Promise<Player[]> => {
   return res.data;
 };
 
-export const usePlayers = () => {
-  // MOCK: Devuelve jugadores de ejemplo
-  return {
-    data: [
-      { id: '1', name: 'Lionel Messi', stats: { goals: 10, assists: 5 } },
-      { id: '2', name: 'Cristiano Ronaldo', stats: { goals: 8, assists: 3 } },
-    ],
-    isLoading: false,
-    error: null,
-  };
-};
+export const usePlayers = () =>
+  useQuery<Player[]>({
+    queryKey: ['players'],
+    queryFn: fetchPlayers,
+  });
 
-<<<<<<< HEAD
-export const useCreatePlayer = () => ({
-  mutateAsync: async () => {},
-  isLoading: false,
-  error: null,
-});
-
-export const useDeletePlayer = () => ({
-  mutateAsync: async () => {},
-  isLoading: false,
-  error: null,
-});
-
-export const useUpdatePlayer = () => ({
-  mutateAsync: async () => {},
-  isLoading: false,
-  error: null,
-});
-=======
 export const useCreatePlayer = () => {
   const queryClient = useQueryClient();
   return useMutation<Player, Error, CreatePlayerInput>({
@@ -100,4 +75,3 @@ export const useDeletePlayer = () => {
     },
   });
 };
->>>>>>> 4d6d44ccf4fe5e57a7dd184a4c8d6d3a5f9df5eb
