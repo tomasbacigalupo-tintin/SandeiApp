@@ -4,7 +4,18 @@ type ToastOptions = {
   variant?: 'success' | 'destructive' | 'default';
 };
 
-export const toast = (options: ToastOptions) => {
-  console.log(options);
+import { toast as sonner } from 'sonner';
+
+export const toast = ({ title, description, variant = 'default' }: ToastOptions) => {
+  const message = title ?? '';
+  if (variant === 'success') {
+    sonner.success(message, { description });
+    return;
+  }
+  if (variant === 'destructive') {
+    sonner.error(message, { description });
+    return;
+  }
+  sonner(message, { description });
 };
 export const useToast = () => ({ toast });

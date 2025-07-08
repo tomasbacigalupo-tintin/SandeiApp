@@ -1,4 +1,5 @@
 import { useState, useEffect, ComponentType } from 'react';
+import { toast } from 'sonner';
 import type { Step, Props as JoyrideProps, CallBackProps } from 'react-joyride';
 
 // Dynamic import of Joyride to avoid SSR issues
@@ -30,7 +31,9 @@ export default function Onboarding() {
         setLoaded(true);
       })
       .catch((err) => {
-        console.error('Error loading Joyride:', err);
+        toast.error('Error loading Joyride', {
+          description: (err as Error).message,
+        });
       });
 
     const done = localStorage.getItem('tourDone');

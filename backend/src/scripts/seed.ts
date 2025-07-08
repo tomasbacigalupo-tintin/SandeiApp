@@ -43,7 +43,7 @@ async function seed() {
 
 seed()
   .then(() => {
-    console.log('Datos de ejemplo cargados.');
+    // Datos de ejemplo cargados
   })
   .catch(async (err) => {
     console.error('Error al cargar datos:', err);
