@@ -1,4 +1,5 @@
 import { StrictMode } from 'react';
+import { toast } from 'sonner';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -22,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').catch(() => {
-      console.warn('Service worker registration failed');
+      toast.error('Service worker registration failed');
     });
   });
 }
