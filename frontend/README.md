@@ -1,76 +1,33 @@
-# React + TypeScript + Vite
+# Sandei Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder contains the React + Vite application. The project is built with TypeScript and TailwindCSS.
 
-Currently, two official plugins are available:
+## Requirements
+- Node.js 20+
+- A `.env` file specifying the backend URL. Copy `.env.example` and adjust `VITE_API_URL` to point to your API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Development
+Install dependencies and start the development server:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at [http://localhost:5173](http://localhost:5173) by default.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Production build
+Create an optimized build in the `dist/` folder:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
 ```
 
-import { useContext } from 'react';
-import { AuthContext } from './AuthContext';
+You can preview the production build locally with:
 
-// MOCK: Siempre autenticado
-export function useAuth() {
-  return {
-    token: 'mock-token',
-    isAuthenticated: true,
-    login: async () => {},
-    logout: () => {},
-  };
-}
+```bash
+npm run preview
+```
 
-// ...código original comentado...
-// export function useAuth() {
-//   const ctx = useContext(AuthContext);
-//   if (!ctx) throw new Error('useAuth must be used within an AuthProvider');
-//   return ctx;
-// }
+The provided `Dockerfile` also builds the app and serves it with Nginx when deployed in containers.
 
-VITE_API_URL=http://localhost:3000
