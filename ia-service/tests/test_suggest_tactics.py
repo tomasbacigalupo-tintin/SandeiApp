@@ -21,14 +21,14 @@ class DummyAsyncClient:
 # Inyectamos el stub como httpx
 sys.modules['httpx'] = types.SimpleNamespace(AsyncClient=DummyAsyncClient)
 
-from app.routers.ia_router import suggest_tactics
+from app.routers.ia import suggest_tactics
 from app.schemas import TacticsRequest
 from app.config import settings
 
 
 def test_suggest_tactics(monkeypatch):
     # Simulamos que la API key está configurada
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', 'test-key')
+    monkeypatch.setattr(settings, 'openai_api_key', 'test-key')
 
     payload = TacticsRequest(players=["John"], style=None)
 

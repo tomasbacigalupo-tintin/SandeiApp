@@ -2,7 +2,7 @@ import asyncio
 import pytest
 from fastapi import HTTPException
 from app.config import settings
-from app.routers.ia_router import (
+from app.routers.ia import (
     analyze_performance,
     predict_match,
     detect_errors,
@@ -13,8 +13,8 @@ from app.schemas import (
     PerformanceRequest,
     MatchPredictionRequest,
     ErrorDetectionRequest,
-    LineupSuggestionRequest,
-    TacticSuggestionRequest,
+    LineupRequest,
+    TacticsRequest,
 )
 
 
@@ -24,13 +24,16 @@ class DummyAsyncClient:
 
 
 class DummyResponse:
-    async def json(self):
+    def raise_for_status(self):
+        pass
+
+    def json(self):
         return {"result": "dummy"}
 
 
 def test_analyze_performance_no_key(monkeypatch):
     # Simulamos que la API key no está configurada
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', None)
+    monkeypatch.setattr(settings, 'openai_api_key', None)
     payload = PerformanceRequest(ratings=[{"player": "John", "score": 7}])
 
     with pytest.raises(HTTPException):
@@ -39,15 +42,15 @@ def test_analyze_performance_no_key(monkeypatch):
 
 
 def test_predict_match_no_key(monkeypatch):
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', None)
-    payload = MatchPredictionRequest(lineups=[["A", "B"]])
+    monkeypatch.setattr(settings, 'openai_api_key', None)
+    payload = MatchPredictionRequest(home_team=["A"], away_team=["B"])
 
     with pytest.raises(HTTPException):
         asyncio.run(predict_match(payload, DummyAsyncClient()))
 
 
 def test_detect_errors_no_key(monkeypatch):
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', None)
+    monkeypatch.setattr(settings, 'openai_api_key', None)
     payload = ErrorDetectionRequest(lineup=["A", "B"], formation=None)
 
     with pytest.raises(HTTPException):
@@ -55,16 +58,16 @@ def test_detect_errors_no_key(monkeypatch):
 
 
 def test_suggest_lineup_no_key(monkeypatch):
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', None)
-    payload = LineupSuggestionRequest(players=["A", "B"], formation="4-4-2")
+    monkeypatch.setattr(settings, 'openai_api_key', None)
+    payload = LineupRequest(players=["A", "B"], formation="4-4-2")
 
     with pytest.raises(HTTPException):
         asyncio.run(suggest_lineup(payload, DummyAsyncClient()))
 
 
 def test_suggest_tactics_no_key(monkeypatch):
-    monkeypatch.setattr(settings, 'OPENAI_API_KEY', None)
-    payload = TacticSuggestionRequest(players=["A", "B"], formation="4-4-2")
+    monkeypatch.setattr(settings, 'openai_api_key', None)
+    payload = TacticsRequest(players=["A", "B"], style=None)
 
     with pytest.raises(HTTPException):
         asyncio.run(suggest_tactics(payload, DummyAsyncClient()))
