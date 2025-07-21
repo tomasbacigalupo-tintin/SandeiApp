@@ -27,7 +27,7 @@ describe('Login integration', () => {
     );
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByLabelText('Contraseña'), { target: { value: '123456' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Ingresar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar Sesión' }));
 
     await waitFor(() => expect(loginMock).toHaveBeenCalledWith('test@example.com', '123456'));
     expect(navigateMock).toHaveBeenCalledWith('/dashboard');
@@ -44,7 +44,7 @@ describe('Login integration', () => {
     );
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByLabelText('Contraseña'), { target: { value: '123456' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Ingresar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar Sesión' }));
 
     await waitFor(() => expect(loginMock).toHaveBeenCalled());
     expect(navigateMock).not.toHaveBeenCalled();
