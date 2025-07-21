@@ -4,11 +4,9 @@ import { vi } from 'vitest';
 import { usePlayers } from './usePlayers';
 import api from '@/services/api';
 
-vi.mock('@/services/api', () => ({
-  default: { get: vi.fn() },
-}));
+vi.mock('@/services/api');
 
-const mockedApi = api as unknown as { get: ReturnType<typeof vi.fn> };
+const mockedApi = vi.mocked(api);
 
 const wrapper = ({ children }: { children: React.ReactNode }) => {
   const client = new QueryClient({
@@ -25,6 +23,7 @@ describe('usePlayers', () => {
   it('fetch de jugadores exitoso', async () => {
     mockedApi.get.mockResolvedValueOnce({ data: [{ id: '1', name: 'John' }] });
     const { result } = renderHook(() => usePlayers(), { wrapper });
+    await waitFor(() => expect(mockedApi.get).toHaveBeenCalled());
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual([{ id: '1', name: 'John' }]);
   });
