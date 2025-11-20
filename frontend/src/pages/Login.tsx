@@ -71,112 +71,127 @@ export default function Login() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900">
-      <div className="min-h-screen flex">
-        {/* Panel izquierdo - Información */}
-        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-primary-600 dark:from-primary/80 dark:to-primary-700" />
-          <div className="relative z-10 flex flex-col justify-center px-12 py-24 text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-5xl font-bold font-display mb-6">
-                SandeiApp
-              </h1>
-              <p className="text-xl mb-12 text-blue-100">
-                La plataforma definitiva para la gestión profesional de equipos deportivos
-              </p>
-            </motion.div>
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-16 top-0 h-72 w-72 rounded-full bg-blue-500/30 blur-3xl" />
+        <div className="absolute -right-20 bottom-10 h-96 w-96 rounded-full bg-cyan-400/30 blur-3xl" />
+        <div className="absolute left-24 top-24 h-40 w-40 rounded-full bg-indigo-600/30 blur-3xl" />
+        <div className="absolute inset-6 rounded-[32px] border border-white/5 bg-gradient-to-br from-white/5 via-white/0 to-white/5" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.15),transparent_35%),radial-gradient(circle_at_80%_30%,rgba(56,189,248,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(167,139,250,0.12),transparent_30%)]" />
+      </div>
 
-            <div className="space-y-6">
+      <div className="relative z-10 flex min-h-screen flex-col lg:flex-row">
+        {/* Panel izquierdo - Información */}
+        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center gap-10 px-12 py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-3xl border border-white/10 bg-white/5 p-10 shadow-[0_20px_80px_rgba(0,0,0,0.25)] backdrop-blur-2xl"
+          >
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-200/60">Plataforma Elite</p>
+                <h1 className="mt-3 text-5xl font-bold leading-tight text-white drop-shadow-[0_10px_40px_rgba(14,165,233,0.35)]">
+                  SandeiApp
+                </h1>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 shadow-inner">
+                Glass Premium
+              </div>
+            </div>
+            <p className="text-lg text-slate-200/80">
+              La plataforma definitiva para la gestión profesional de equipos deportivos con análisis de datos y paneles inteligentes listos para competir.
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 gap-4">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center space-x-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
+                  className="group flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/10"
                 >
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                    <feature.icon className="h-6 w-6" />
+                  <div className="rounded-xl bg-white/10 p-2 text-sky-100 shadow-[0_10px_30px_rgba(59,130,246,0.35)]">
+                    <feature.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{feature.title}</h3>
-                    <p className="text-blue-100 text-sm">{feature.description}</p>
+                    <h3 className="font-semibold text-slate-50">{feature.title}</h3>
+                    <p className="text-sm text-slate-200/70">{feature.description}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-12 p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20"
-            >
-              <p className="text-sm text-blue-100 mb-2">✨ Nuevo en la plataforma</p>
-              <p className="text-white font-medium">
-                "SandeiApp ha revolucionado la forma en que gestionamos nuestro equipo. 
-                Los análisis con IA nos han ayudado a mejorar un 40% nuestro rendimiento."
-              </p>
-              <p className="text-blue-200 text-sm mt-2">- Coach Profesional</p>
-            </motion.div>
-          </div>
+            <div className="mt-8 grid grid-cols-3 gap-4">
+              {[{ label: 'IA Activa', value: 'En tiempo real' }, { label: 'Equipos', value: '120+' }, { label: 'Rendimiento', value: '+40%' }].map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-white/10 bg-white/10 p-4 text-center backdrop-blur-xl"
+                >
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-200/70">{item.label}</p>
+                  <p className="mt-2 text-xl font-semibold text-white">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-          {/* Patrón decorativo */}
-          <div className="absolute bottom-0 right-0 w-96 h-96 opacity-10">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <defs>
-                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 via-white/5 to-white/10 p-5 backdrop-blur-xl"
+          >
+            <div className="rounded-xl bg-white/10 p-3 text-sky-200">
+              <Shield className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-sm text-slate-100">Seguridad reforzada</p>
+              <p className="text-xs text-slate-200/70">Encriptación avanzada y accesos protegidos</p>
+            </div>
+          </motion.div>
         </div>
 
         {/* Panel derecho - Formulario */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-6">
+        <div className="flex w-full items-center justify-center px-6 py-10 lg:w-1/2">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="w-full max-w-md"
           >
-            <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm dark:bg-slate-800/80">
+            <Card className="border border-white/10 bg-white/10 shadow-[0_30px_120px_rgba(0,0,0,0.35)] backdrop-blur-3xl">
               <CardHeader className="text-center pb-2">
                 <motion.div
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-primary-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
+                  className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 shadow-[0_15px_45px_rgba(59,130,246,0.45)]"
                 >
                   <Shield className="h-8 w-8 text-white" />
                 </motion.div>
-                <CardTitle className="text-2xl font-bold">Iniciar Sesión</CardTitle>
-                <p className="text-muted-foreground mt-2">
-                  Accede a tu cuenta profesional
+                <CardTitle className="text-2xl font-bold text-white">Acceso Glass Premium</CardTitle>
+                <p className="mt-2 text-sm text-slate-200/70">
+                  Accede a tu cuenta profesional con el estilo Glass Premium
                 </p>
               </CardHeader>
 
               <CardContent className="space-y-6">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
-                    <label htmlFor="email" className="form-label">
+                    <label htmlFor="email" className="form-label text-slate-100">
                       Email
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
                       <Input
                         id="email"
                         type="email"
                         placeholder="tu@email.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10 form-input"
+                        className="form-input rounded-xl border-white/10 bg-white/5 pl-10 text-white placeholder:text-slate-400 focus:border-sky-300"
                         required
                         disabled={loading}
                       />
@@ -184,25 +199,25 @@ export default function Login() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="password" className="form-label">
+                    <label htmlFor="password" className="form-label text-slate-100">
                       Contraseña
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
                       <Input
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10 pr-10 form-input"
+                        className="form-input rounded-xl border-white/10 bg-white/5 pl-10 pr-12 text-white placeholder:text-slate-400 focus:border-sky-300"
                         required
                         disabled={loading}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 transition-colors hover:text-white"
                         disabled={loading}
                       >
                         {showPassword ? (
@@ -214,20 +229,20 @@ export default function Login() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between text-slate-200/80">
                     <div className="flex items-center space-x-2">
                       <input
                         id="remember"
                         type="checkbox"
-                        className="rounded border-gray-300 text-primary focus:ring-primary"
+                        className="rounded border-white/20 bg-white/5 text-sky-300 focus:ring-sky-300"
                       />
-                      <label htmlFor="remember" className="text-sm text-muted-foreground">
+                      <label htmlFor="remember" className="text-sm">
                         Recordarme
                       </label>
                     </div>
                     <Link
                       to="/forgot-password"
-                      className="text-sm text-primary hover:text-primary/80 transition-colors"
+                      className="text-sm text-sky-200 transition-colors hover:text-white"
                     >
                       ¿Olvidaste tu contraseña?
                     </Link>
@@ -235,7 +250,7 @@ export default function Login() {
 
                   <Button
                     type="submit"
-                    className="w-full btn-primary btn-lg"
+                    className="w-full btn-primary btn-lg shadow-[0_12px_35px_rgba(56,189,248,0.35)]"
                     disabled={loading || !email || !password}
                   >
                     {loading ? (
@@ -254,18 +269,18 @@ export default function Login() {
 
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-border" />
+                    <div className="w-full border-t border-white/10" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
+                    <span className="bg-transparent px-2 text-slate-200/70">
                       O continúa con
                     </span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="btn-outline">
-                    <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24">
+                  <Button variant="outline" className="btn-outline rounded-xl border-white/20 bg-white/5 text-white">
+                    <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                       <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                       <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -273,20 +288,20 @@ export default function Login() {
                     </svg>
                     Google
                   </Button>
-                  <Button variant="outline" className="btn-outline">
-                    <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                  <Button variant="outline" className="btn-outline rounded-xl border-white/20 bg-white/5 text-white">
+                    <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
                     Facebook
                   </Button>
                 </div>
 
-                <div className="text-center">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-2xl border border-white/5 bg-white/5 p-4 text-center text-sm text-slate-200/80">
+                  <p>
                     ¿No tienes una cuenta?{' '}
                     <Link
                       to="/register"
-                      className="text-primary hover:text-primary/80 font-medium transition-colors"
+                      className="font-medium text-sky-200 transition-colors hover:text-white"
                     >
                       Crear cuenta
                     </Link>
@@ -299,15 +314,15 @@ export default function Login() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-8 text-center"
+              className="mt-8 text-center text-xs text-slate-300"
             >
-              <p className="text-xs text-muted-foreground">
-                Al iniciar sesión, aceptas nuestros{' '}
-                <Link to="/terms" className="text-primary hover:text-primary/80">
+              <p>
+                Al acceder, aceptas nuestros{' '}
+                <Link to="/terms" className="text-sky-200 transition-colors hover:text-white">
                   Términos de Servicio
                 </Link>{' '}
                 y{' '}
-                <Link to="/privacy" className="text-primary hover:text-primary/80">
+                <Link to="/privacy" className="text-sky-200 transition-colors hover:text-white">
                   Política de Privacidad
                 </Link>
               </p>
